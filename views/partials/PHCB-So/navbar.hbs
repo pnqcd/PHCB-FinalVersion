@@ -25,7 +25,7 @@
             </div>
           </a>
         </li>
-        <li class="nav-item dropdown pe-3 d-flex align-items-center">
+        {{!-- <li class="nav-item dropdown pe-3 d-flex align-items-center">
           <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-bell cursor-pointer"></i>
           </a>
@@ -85,11 +85,18 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> --}}
         <li class="nav-item d-flex align-items-center">
-          <a href="/PHCB-So/profile" class="nav-link text-body font-weight-bold px-0">
-            <i class="fa fa-user me-sm-1"></i>
-            <span class="d-sm-inline d-none">Như Quỳnh</span>
+          <a href="/PHCB-So/profile" class="nav-link text-body font-weight-bold px-0 d-flex align-items-center">
+            {{!-- <i class="fa fa-user me-sm-1"></i> --}}
+            <div class="avatar avatar-online pe-2" style="width: 40px; height: 40px;">
+              <img
+                src="{{#if user.imagePath}}{{user.imagePath}}{{else}}/PHCB-So/assets/img/avatars/0.jpeg{{/if}}"
+                alt
+                class="w-px-40 h-auto rounded-circle"
+              />
+            </div>
+            <span class="d-sm-inline d-none">{{user.fullName}}</span>
           </a>
         </li>
       </ul>
