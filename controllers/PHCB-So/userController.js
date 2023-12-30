@@ -23,7 +23,7 @@ controller.show = async (req, res) => {
   res.locals.districts = result.rows;
 
 
-  res.render("manage-account");
+  res.render("PHCB-So/manage-account", {layout: "PHCB-So/layout"});
 };
 
 controller.addUser = async (req, res) => {
@@ -47,7 +47,7 @@ controller.addUser = async (req, res) => {
         wardUnit,
         districtUnit
       });
-      res.redirect("/tai-khoan");
+      res.redirect("/PHCB-So/tai-khoan");
     } catch (error) {
       res.send("Can't add user");
       console.error(error);

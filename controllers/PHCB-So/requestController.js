@@ -32,7 +32,7 @@ controller.show = async (req, res) => {
             ngayKetThuc: moment(row.ngayKetThuc).format('MM/DD/YYYY')
         }));
 
-        res.render("request");
+        res.render("PHCB-So/request", {layout: "PHCB-So/layout"});
     } catch (error) {
         console.log("Error: ", error);
     }
@@ -177,7 +177,7 @@ controller.approveAds = async (req, res) => {
             // res.send("Lỗi phê duyệt");
         } else {
             // res.send("Đã phê duyệt yêu cầu cấp phép bảng QC");
-            res.redirect("/yeu-cau");
+            res.redirect("/PHCB-So/yeu-cau");
         }
     });
 

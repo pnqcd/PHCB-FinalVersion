@@ -89,7 +89,7 @@ controller.addWard = async (req, res) => {
       zipCode, 
       population
     });
-    res.redirect("/danh-sach");
+    res.redirect("/PHCB-So/danh-sach");
   } catch (error) {
     res.send("Không thể thêm phường");
     console.error(error);
@@ -143,7 +143,7 @@ controller.addPlace = async (req, res) => {
       hinhAnh:result.secure_url||'',
       hinhAnhId:result.public_id||'',
     });
-    res.redirect("/danh-sach/#place-list");
+    res.redirect("/PHCB-So/danh-sach/#place-list");
   } catch (error) {
     if (result.public_id) {
       await cloudinary.uploader.destroy(result.public_id);
@@ -232,7 +232,7 @@ controller.addAds = async (req, res) => {
       adQuantity, 
       expireDay, 
     });
-    res.redirect("/danh-sach/#ads-list");
+    res.redirect("/PHCB-So/danh-sach/#ads-list");
   } catch (error) {
     res.send("Không thể thêm bảng QC");
     console.error(error);
@@ -293,7 +293,7 @@ controller.addAdstype = async (req, res) => {
     await models.Adstype.create({
       name: adstypeName
     });
-    res.redirect("/danh-sach/#type-list");
+    res.redirect("/PHCB-So/danh-sach/#type-list");
   } catch (error) {
     res.send("Không thể thêm loại hình QC");
     console.error(error);
@@ -333,7 +333,7 @@ controller.addReporttype = async (req, res) => {
     await models.Reporttype.create({
       name: reporttypeName
     });
-    res.redirect("/danh-sach/#type-list");
+    res.redirect("/PHCB-So/danh-sach/#type-list");
   } catch (error) {
     res.send("Không thể thêm hình thức báo cáo");
     console.error(error);

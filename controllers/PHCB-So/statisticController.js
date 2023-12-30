@@ -24,7 +24,7 @@ controller.show = async (req, res) => {
     });
     res.locals.reports = reports;
 
-    res.render("statistic");
+    res.render("PHCB-So/statistic", {layout: "PHCB-So/layout"});
 };
 
 controller.getAllReports = async (req, res) => {

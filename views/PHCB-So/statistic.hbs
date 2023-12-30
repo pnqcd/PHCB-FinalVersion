@@ -1,6 +1,6 @@
-{{>sidebar curPage="Thống kê"}}
+{{> PHCB-So/sidebar curPage="Thống kê"}}
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    {{>navbar curPage="Thống kê"}}
+    {{> PHCB-So/navbar curPage="Thống kê"}}
 
     <div class="container-fluid py-4">
         <div class="card-body mb-4">
@@ -75,7 +75,7 @@
                                         <td style="cursor: pointer; max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
                                             <div class="d-flex px-2">
                                                 <div>
-                                                    <img src="{{#if imagepath1}}{{imagepath1}}{{else}}/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                                                    <img src="{{#if imagepath1}}{{imagepath1}}{{else}}/PHCB-So/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
                                                 </div>
                                                 <div class="my-auto">
                                                     <h6 class="mb-0 text-sm">{{typeofreport}}</h6>
@@ -97,6 +97,6 @@
                 </div>
             </div>
         </div>
-        {{>footer}}
+        {{> PHCB-So/footer}}
     </div>
 </main>

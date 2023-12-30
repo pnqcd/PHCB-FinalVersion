@@ -14,7 +14,7 @@ controller.showIndex = (req, res) => {
 controller.showLogin = (req, res) => {
     let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
 
-    if (req.isAuthenticated()) {
+    if (req.user) {
         return res.redirect(reqUrl);
     }
 
@@ -53,11 +53,11 @@ controller.logout = (req, res, next) => {
 
 // route middleware to ensure user is logged in 
 controller.isLoggedIn = async (req, res, next) => {
-    if (req.isAuthenticated()) {
-        res.locals.user = req.user;
-        return next();
+    if (req.user) {
+        next();
+    } else {
+        res.redirect(`/login?reqUrl=${req.originalUrl}`);
     }
-    res.redirect(`/login?reqUrl=${req.originalUrl}`);
 }
 
 module.exports = controller
