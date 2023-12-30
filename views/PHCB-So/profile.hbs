@@ -35,42 +35,43 @@
         </div>
         <hr class="my-0" />
         <div class="card-body">
-          <form id="formAccountSettings" method="POST" onsubmit="return false">
+          <form action="" id="formAccountSettings" onsubmit="settingAccount(event)">
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="username" class="form-label">Tên đăng nhập</label>
                 <input class="form-control" type="text" id="username" name="username" value="{{user.username}}" placeholder="admin" autofocus />
               </div>
               <div class="mb-3 col-md-6">
-                <label for="lastName" class="form-label">Họ tên</label>
+                <label for="fullName" class="form-label">Họ tên</label>
                 <input class="form-control" type="text" name="fullName" id="fullName" value="{{user.fullName}}" placeholder="Nguyễn Văn A" />
               </div>
               <div class="mb-3 col-md-6">
                 <label for="email" class="form-label">E-mail</label>
                 <input class="form-control" type="text" id="email" name="email" value="{{user.email}}"
-                  placeholder="" />
+                  placeholder="admin@gmail.com" />
               </div>
               <div class="mb-3 col-md-6">
-                <label class="form-label" for="phoneNumber">Số điện thoại</label>
+                <label class="form-label" for="mobile">Số điện thoại</label>
                 <div class="input-group input-group-merge">
-                  <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                  <input type="text" id="mobile" name="mobile" class="form-control"
                     value="{{user.mobile}}" placeholder="202 555 0111" />
                 </div>
               </div>
               <div class="mb-3 col-md-6">
-                <label for="email" class="form-label">Ngày sinh</label>
+                <label for="dob" class="form-label">Ngày sinh</label>
                 <input class="form-control" type="text" id="dob" name="dob" value="{{user.dob}}"
                   placeholder="28/07/2003"/>
               </div>
               <div class="mb-3 col-md-6">
-                <label for="dob" class="form-label">Khu vực quản lý</label>
-                <input class="form-control" type="text" id="dob" name="dob" 
+                <label for="unit" class="form-label">Khu vực quản lý</label>
+                <input class="form-control" type="text" id="unit" name="unit" 
                   value="{{#if isWard}}{{wardUnit}}, {{districtUnit}}{{else}}{{#if isDistrict}}{{districtUnit}}{{else}} Sở VHTT {{/if}}{{/if}}"
                   placeholder="Phường Bến Nghé, Quận 1" disabled/>
               </div>
 
             </div>
             <div class="mt-2">
+              <input type="hidden" name="id" id="idUser" value="{{user.id}}" />
               <button type="submit" class="btn btn-primary me-2">Lưu thay đổi</button>
               <button type="reset" class="btn btn-outline-secondary">Hủy</button>
             </div>

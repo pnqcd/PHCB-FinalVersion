@@ -538,6 +538,23 @@ async function deleteAccount(id) {
   location.reload();
 }
 
+async function settingAccount(e) {
+  e.preventDefault();
+
+  const formData = new FormData(document.getElementById("formAccountSettings"));
+  const data = Object.fromEntries(formData.entries());
+
+  let res = await fetch('/PHCB-So/profile', {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  location.reload();
+}
+
 function openCustomDown(elm) {
   if (elm.parentElement.querySelector('.customDown').style.display === "none")
       elm.parentElement.querySelector('.customDown').style.display = "block";
