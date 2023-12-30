@@ -1,0 +1,268 @@
+{{>sidebar curPage="Quản lý tài khoản"}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    {{>navbar curPage="Quản lý tài khoản"}}
+    <!-- Add Account Modal -->
+    <div class="modal fade" id="addAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form action="/tai-khoan" id="addAccountForm" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="wardModalTitle">
+                            Thêm Tài Khoản
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="col mb-3">
+                                <label for="username" class="form-label">Tên đăng nhập</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="admin" oninput="checkUsernameExisted(event)"
+                                    required data-autofocus/>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="fullName" class="form-label">Họ tên</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Nguyễn Văn A" />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-3">
+                                <label for="chucVu" class="form-label">Chức vụ</label>
+                                <select name="chucVu" id="chucVu" class="form-control select-form-control" onchange="disableWardInput()">
+                                    <option value="Cán bộ phường" selected="selected">Cán bộ phường</option>
+                                    <option value="Cán bộ quận">Cán bộ quận</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-0">
+                                <label for="districtUnit" class="form-label">Quận</label>
+                                <select name="districtUnit" id="districtUnit" class="form-control select-form-control" onchange="fetchWardsByDistrict(this.value)">
+                                    {{#each districts}}
+                                    <option value="{{districtName}}">{{districtName}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col mb-0">
+                                <label for="wardUnit" class="form-label">Phường</label>
+                                <select name="wardUnit" id="wardUnit" class="form-control select-form-control">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="password" id="defaultPassword" value="admin" />
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtn">
+                            Đóng
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 class="text-white text-capitalize ps-3">Danh sách tài khoản cán bộ</h6>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-success float-end me-6" style="min-width: 145px;" data-bs-toggle="modal" data-bs-target="#addAccountModal"
+                                        onclick="autoSelectWards()">
+                                        <i class="tf-icons fa fa-plus"></i> Thêm tài khoản
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Họ tên</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên đăng nhập</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Chức vụ</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Đơn vị</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tuỳ chọn</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {{#each users}}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="{{#if imagePath}}{{imagePath}}{{else}}/assets/img/avatars/0.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="ward">
+                                                </div>
+
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{fullName}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="text-sm text-secondary mb-0">{{username}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-sm text-secondary">
+                                                Cán bộ 
+                                                {{#if isWard}}
+                                                    Phường
+                                                {{else}} 
+                                                    {{#if isDistrict}} 
+                                                        Quận
+                                                    {{else}} Sở
+                                                    {{/if}}
+                                                {{/if}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-sm text-secondary">
+                                                {{#if isDepartment}} Sở VHTT
+                                                {{else}}
+                                                    {{#if wardUnit}}{{wardUnit}}, {{districtUnit}}
+                                                    {{else}} {{districtUnit}}
+                                                    {{/if}}
+                                                {{/if}}
+                                            </span>
+                                        </td>
+                                        {{!-- <td class="align-middle" id="custom-phuong-1">
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"  onclick="openCustomDown(this)" data-toggle="tooltip" data-original-title="Edit user">
+                                                <i class="fa fa-ellipsis-v px-2" aria-hidden="true"></i>
+                                            </a>
+                                            <ul class="customDown" style="display: none;" aria-labelledby="dropdownMenuButton">
+                                                <li class="mb-2 view-detail" onclick="openViewDetail(this)">
+                                                    <a class="customDown-item border-radius-md" href="javascript:;">
+                                                    <div class="d-flex py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="font-weight-bold">Xem chi tiết</span>
+                                                        </h6>
+                                                        </div>
+                                                    </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="mb-2 edit-detail" onlick="openEditDetail(this)">
+                                                    <a class="customDown-item border-radius-md" href="javascript:;">
+                                                    <div class="d-flex py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="font-weight-bold">Chỉnh sửa</span>
+                                                        </h6>
+                                                        </div>
+                                                    </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="delete-detail" onlick="openDeleteDetail(this)">
+                                                    <a class="customDown-item border-radius-md" href="javascript:;">
+                                                    <div class="d-flex py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="font-weight-bold">Xoá</span>
+                                                        </h6>
+                                                        </div>
+                                                    </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="modal detail-ward fade" id="staticBackdrop" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div>
+                                                                <h5 class="modal-title" id="staticBackdropLabel">Xem chi tiết</h5>
+                                                            </div>
+                                                            <button class="btn-close toast-btn" type="button" onclick="closeViewDetail(this)"
+                                                                data-bs-dismiss="modal" aria-label="Close"
+                                                                data-target="infoToast" style="margin-bottom: 0;">
+                                                                <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
+                                                            </button>
+
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h6>Thông Tin Chung</h6>
+                                                                        <div class="card">
+                                                                            <div class="card-body">
+                                                                                <div
+                                                                                    class="d-flex flex-column justify-content-center">
+                                                                                    <h6
+                                                                                        class="text-sm font-weight-normal mb-1">
+                                                                                        <span class="font-weight-bold">Phường 4, Quận 5</span>
+                                                                                    </h6>
+                                                                                    <h6
+                                                                                        class="text-sm font-weight-normal mb-1">
+                                                                                        <span
+                                                                                            class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
+                                                                                    </h6>
+                                                                                    <h6
+                                                                                        class="text-sm font-weight-normal mb-1">
+                                                                                        <span
+                                                                                            class="font-weight-bold">Mã vùng: </span>72711
+                                                                                    </h6>
+                                                                                    <h6
+                                                                                        class="text-sm font-weight-normal mb-1">
+                                                                                        <span
+                                                                                            class="font-weight-bold">Dân số:
+                                                                                        </span>
+                                                                                        9.455
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                        
+                                                                </div>
+                                                                <div class="row mt-3">
+                                                                    <div class="col-12">
+                                                                        <div class="card text-white">
+                                                                            <img src="/assets/img/wards/city.jpeg"
+                                                                                class="card-img" alt="..."
+                                                                                style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                                                                            <div class="card-img-overlay">
+                                                                                <h5 class="card-title text-white">
+                                                                                    Phường 4, Quận 5
+                                                                                </h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td> --}}
+                                        <td class="align-middle text-center">
+                                            <i role="button" class="fa fa-trash text-danger delete-btn account-delete-btn" data-id={{id}}></i>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{>footer}}
+    </div>
+</main>

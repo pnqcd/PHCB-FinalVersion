@@ -1,0 +1,499 @@
+{{>sidebar curPage="Yêu cầu"}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    {{>navbar curPage="Yêu cầu"}}
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Yêu cầu chỉnh sửa điểm đặt</h6>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <!-- Detail Request Edit Place Modal -->
+                            <div class="modal fade" id="requestEditPlaceModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <form action="" id="requestEditPlaceForm" onsubmit="requestEditPlace(event)">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Yêu cầu chỉnh sửa điểm đặt 
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                        <div class="modal-body">
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="diaChiRequestEdit" class="form-label">Địa chỉ</label>
+                                                    <input type="text" id="diaChiRequestEdit" name="diaChiRequest" class="form-control" readonly />
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="khuVucRequestEdit" class="form-label">Khu vực</label>
+                                                    <input type="text" id="khuVucRequestEdit" name="khuVucRequest" class="form-control" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="loaiVtAdsRequestEdit" class="form-label">Loại vị trí</label>
+                                                    <input type="text" id="loaiVtRequestEdit" name="loaiVtRequest" class="form-control" readonly />
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="hinhThucAdsRequestEdit" class="form-label">Hình thức</label>
+                                                    <input type="text" id="hinhThucRequestEdit" name="hinhThucRequest" class="form-control" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-0">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="quyHoachRequestEdit" name="isQuyHoach" value="1" />
+                                                        <label class="form-check-label badge bg-label-primary" for="quyHoachRequestEdit">Quy Hoạch</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="liDoRequestEditPlace" class="form-label">Lí do chỉnh sửa</label>
+                                                    <input type="text" id="liDoRequestEditPlace" name="liDoRequest" class="form-control" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="handlePlaceEditRequest" class="form-label">Xử lý yêu cầu</label>
+                                                    <select id="handlePlaceEditRequest" name="handlePlaceEditRequest" class="form-control select-form-control">
+                                                        <option value="Phê duyệt">Phê duyệt</option>
+                                                        <option value="Không phê duyệt" selected="selected">Không phê duyệt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-0">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" onchange="showOriginPlaceDetail(this, event)">
+                                                        <label class="form-check-label text-md" for="flexSwitchCheck">Xem thông tin gốc</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" name="id" id="idPlaceEditRequest" value="" />
+                                            <input type="hidden" name="placeId" id="placeIdPlaceEditRequest" value="" />
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+                                                Đóng
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" >
+                                                Chỉnh sửa
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Khu vực</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loại vị trí</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hình thức</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Quy hoạch</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {{#each editPlaceRequests}}
+                                    <tr>
+                                        <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
+                                            data-bs-toggle="modal" data-bs-target="#requestEditPlaceModal" onclick="showRequestEditPlaceModal(this)" 
+                                            data-id="{{id}}" data-place-id="{{placeId}}" data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" 
+                                            data-loai-vt = "{{loaiVT}}" data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-li-do-chinh-sua="{{liDoChinhSua}}">
+                                            <div class="d-flex px-2">
+                                                <div>
+                                                    <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/assets/img/places/place.png{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{diaChi}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="text-xs text-secondary mb-0">{{khuVuc}}</span>
+                                        </td>
+                                        <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="text-xs text-secondary">{{loaiVT}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <div class="d-flex align-items-center">
+                                                <span class="me-2 text-xs text-secondary">{{hinhThuc}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <i class="fa {{#if_eq quyHoach "ĐÃ QUY HOẠCH"}} fa-check-circle text-success {{else}} fa-times-circle text-danger {{/if_eq}}" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Yêu cầu chỉnh sửa bảng quảng cáo</h6>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <!-- Detail Request Edit Ads Modal -->
+                            <div class="modal fade" id="requestEditAdsModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <form action="" id="requestEditAdsForm" onsubmit="requestEditAds(event)">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Yêu cầu chỉnh sửa bảng quảng cáo
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                        <div class="modal-body">
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="adNameRequestEdit" class="form-label">Tên bảng QC</label>
+                                                    <input type="text" id="adNameRequestEdit" name="adNameRequest" class="form-control" readonly />
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="adSizeRequestEdit" class="form-label">Kích thước</label>
+                                                    <input type="text" id="adSizeRequestEdit" name="adSizeRequest" class="form-control" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="diaChiAdsRequestEdit" class="form-label">Địa chỉ</label>
+                                                    <input type="text" id="diaChiAdsRequestEdit" name="diaChiAdsRequest" class="form-control" readonly />
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="khuVucAdsRequestEdit" class="form-label">Địa chỉ</label>
+                                                    <input type="text" id="khuVucAdsRequestEdit" name="khuVucAdsRequest" class="form-control" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="adQuantityRequestEdit" class="form-label">Số lượng</label>
+                                                    <input type="text" id="adQuantityRequestEdit" name="adQuantityRequest" class="form-control" readonly/>
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="expireDayRequestEdit" class="form-label">Ngày hết hạn</label>
+                                                    <input type="text" id="expireDayRequestEdit" name="expireDayRequest" class="form-control" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="liDoRequestEditAds" class="form-label">Lí do chỉnh sửa</label>
+                                                    <input type="text" id="liDoRequestEditAds" name="liDoRequest" class="form-control" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-3">
+                                                    <label for="handleAdsEditRequest" class="form-label">Xử lý yêu cầu</label>
+                                                    <select id="handleAdsEditRequest" name="handleAdsEditRequest" class="form-control select-form-control">
+                                                        <option value="Phê duyệt">Phê duyệt</option>
+                                                        <option value="Không phê duyệt" selected="selected">Không phê duyệt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-0">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck2" onchange="showOriginAdsDetail(this, event)">
+                                                        <label class="form-check-label text-md" for="flexSwitchCheck2">Xem thông tin gốc</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" name="id" id="idAdsEditRequest" value="" />
+                                            <input type="hidden" name="placeId" id="placeIdAdsEditRequest" value="" />
+                                            <input type="hidden" name="originId" id="originIdAdsEditRequest" value="" />
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+                                                Đóng
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" >
+                                                Chỉnh sửa
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên bảng</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Địa chỉ</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Kích thước</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Số lượng</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Ngày hết hạn</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {{#each editAdsRequests}}
+                                    <tr>
+                                        <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
+                                            data-bs-toggle="modal" data-bs-target="#requestEditAdsModal" onclick="showRequestEditAdsModal(this)" 
+                                            data-id="{{id}}" data-origin-id="{{originId}}" data-place-id="{{placeId}}" data-ad-name="{{adName}}" 
+                                            data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-ad-size = "{{adSize}}"
+                                            data-ad-quantity="{{adQuantity}}" data-expire-day="{{expireDay}}" data-li-do-chinh-sua="{{liDoChinhSua}}">
+                                            <div class="d-flex px-2">
+                                                <div>
+                                                    <img src="{{#if imagePath}}{{imagePath}}{{else}}/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{adName}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="text-xs text-secondary mb-0">{{diaChi}}, {{khuVuc}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-xs text-secondary">{{adSize}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="me-2 text-xs text-secondary">{{adQuantity}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-xs text-secondary">{{expireDay}}</span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Yêu cầu cấp phép bảng quảng cáo</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <!-- Detail Request License Ads Modal -->
+                            <div class="modal fade" id="requestLicenseAdsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <form action="/yeu-cau/approve-ads" id="requestLicenseAdsForm" method="POST">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="col-6 px-2">
+                                                    <h5 class="modal-title">Yêu cầu cấp phép bảng quảng cáo</h5>
+                                                </div>
+                                                <div class="col-1 px-4">
+                                                    <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+                                                    data-target="infoToast" style="margin-bottom: 0;"><i class="fa fa-times-circle text-dark  fs-4"
+                                                        aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container py-3">
+                                                    <h6>Phần 1: Thông tin chung</h6>
+                                                    <div class="card p-2">
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="congTy">Tên công ty:</label>
+                                                                    <input type="text" class="form-control" id="congTy" name="congTy" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="diaChiCongTy">Địa chỉ: </label>
+                                                                    <input type="text" class="form-control " id="diaChiCongTy" name="diaChiCongTy" readonly/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                            <div class="input">
+                                                                <label class="form-label" for="dienThoaiCT">Số điện thoại: </label>
+                                                                <input type="text" class="form-control " id="dienThoaiCT" name="dienThoai" readonly />
+                                                            </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="emailCT">Email: </label>
+                                                                    <input type="text" class="form-control " id="emailCT" name="email" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container py-3">
+                                                    <h6>Phần 2: Thông tin điểm đặt</h6>
+                                                    <div class="card p-2">
+                                                        <div class="row  mb-3">
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="diaChiQC">Địa chỉ điểm đặt</label>
+                                                                    <input type="text" id="diaChiQC" name="diaChi" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container py-3">
+                                                    <h6>Phần 3: Thông tin bảng quảng cáo</h6>
+                                                    <div class="card p-2">
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label for="noiDungQC" class="form-label">Nội dung QC</label>
+                                                                    <input type="text" id="noiDungQC" name="noiDungQC" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="tenBangQuangCao">Tên bảng quảng cáo:</label>
+                                                                    <input type="text" class="form-control" name="tenBangQuangCao" id="tenBangQuangCao" readonly/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="kichThuocQC">Kích thước: </label>
+                                                                    <input type="text" class="form-control" name="kichThuoc" id="kichThuocQC" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="soLuongQC">Số lượng:</label>
+                                                                    <input type="text" class="form-control" name="soLuong" id="soLuongQC" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="ngayBatDau">Ngày bắt đầu hợp đồng:</label>
+                                                                    <input type="text" class="form-control" name="ngayBatDau" id="ngayBatDau" readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input">
+                                                                    <label class="form-label" for="ngayKetThuc">Ngày kết thúc hợp đồng:</label>
+                                                                    <input type="text" class="form-control" name="ngayKetThuc" id="ngayKetThuc" readonly/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container pt-3">
+                                                    <div class="card bg-dark">
+                                                        <div class="profile-pic">
+                                                            <div class="image-container" id="hinhAnhBQC">
+                                                                <img src="/assets/img/ads/ads.jpeg" id="output" width="100%" height="250px"
+                                                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
+                                                                {{!-- <label class="btn btn-primary" for="file"
+                                                                    style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                                                    <span class="glyphicon glyphicon-camera"></span>
+                                                                    <span>Đổi hình ảnh</span>
+                                                                </label>
+                                                                <input id="file" type="file" style="display: none;" onchange="loadFile(event)" /> --}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="justify-content: center;">
+                                                <input type="hidden" name="id" id="idAdsLicenseRequest" value="" />
+                                                <input type="hidden" name="placeId" id="placeIdAdsLicenseRequest" value="" />
+                                                <input type="hidden" name="licenseState" id="licenseState" value="" />
+                                                <button type="button" class="btn btn-outline-secondary btn-phe-duyet" onclick="notAproveAds(event)">
+                                                    KHÔNG PHÊ DUYỆT
+                                                </button>
+                                                <button type="submit" class="btn btn-primary btn-phe-duyet">PHÊ DUYỆT</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Công ty</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên bảng QC</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nội dung QC</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {{#each adsLicenseRequests}}
+                                    <tr>
+                                        <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
+                                            data-bs-toggle="modal" data-bs-target="#requestLicenseAdsModal" onclick="showRequestLicenseAdsModal(this)" 
+                                            data-id="{{id}}" data-place-id="{{placeId}}" data-cong-ty="{{congTy}}" data-dia-chi-cong-ty="{{diaChiCongTy}}" data-dien-thoai="{{dienThoai}}" 
+                                            data-email="{{email}}" data-dia-chi="{{diaChi}}" data-noi-dung = "{{noiDungQC}}" data-ten-bang-quang-cao="{{tenBangQuangCao}}" data-tinh-trang="{{tinhTrang}}"
+                                            data-kich-thuoc="{{kichThuoc}}" data-so-luong="{{soLuong}}" data-ngay-bat-dau="{{ngayBatDau}}" data-ngay-ket-thuc="{{ngayKetThuc}}" data-hinh-anh="{{hinhAnh}}">
+                                            <div class="d-flex px-2">
+                                                <div>
+                                                    <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{diaChi}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="text-xs text-secondary mb-0">{{congTy}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs text-secondary">{{tenBangQuangCao}}</span>
+                                        </td>
+                                        <td style="cursor: pointer; max-width: 200px; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="me-2 text-xs text-secondary">{{noiDungQC}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-xs text-secondary font-weight-bold 
+                                                        {{#if_eq tinhTrang "Đã phê duyệt"}} text-success 
+                                                            {{else}}
+                                                            {{#if_eq tinhTrang "Chờ phê duyệt"}} text-warning
+                                                                {{else}} text-danger 
+                                                            {{/if_eq}}
+                                                        {{/if_eq}}">{{tinhTrang}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{>footer}}
+    </div>
+</main>

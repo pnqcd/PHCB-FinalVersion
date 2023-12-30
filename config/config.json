@@ -1,0 +1,41 @@
+{
+  "development": {
+    "username": "yoaqtxvl",
+    "password": "PPr7gzt67BbTzFagQlqq_MzwzfpzX2Hr",
+    "database": "yoaqtxvl",
+    "host": "rain.db.elephantsql.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+    "username": "yoaqtxvl",
+    "password": "PPr7gzt67BbTzFagQlqq_MzwzfpzX2Hr",
+    "database": "yoaqtxvl",
+    "host": "rain.db.elephantsql.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "username": "yoaqtxvl",
+    "password": "PPr7gzt67BbTzFagQlqq_MzwzfpzX2Hr",
+    "database": "yoaqtxvl",
+    "host": "rain.db.elephantsql.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}

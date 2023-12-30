@@ -1,0 +1,102 @@
+{{>sidebar curPage="Thống kê"}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    {{>navbar curPage="Thống kê"}}
+
+    <div class="container-fluid py-4">
+        <div class="card-body mb-4">
+            <div class="row">
+                <div class="col-lg-2">
+                    <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" style="cursor:default">
+                        TP Hồ Chí Minh
+                    </button>
+                </div>
+                <div class="col-lg-2">
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-secondary bg-gradient-info dropdown-toggle w-100 mb-0"
+                            type="button"
+                            id="quanButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            Quận
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="quanButton">
+                            {{#each districts}}
+                                <button class="dropdown-item" onclick="statisticByDistrict(this)">{{districtName}}</button>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Thống kê báo cáo Phường, Quận</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <canvas id="reportChart" data-location-reports="{{locationReports}}"
+                                    data-ads-report="{{adsReports}}"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Cách thức xử lý báo cáo</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0" id="reportsTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hình thức báo cáo</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nội dung báo cáo</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cách thức xử lý</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {{#each reports}}
+                                    <tr>
+                                        <td style="cursor: pointer; max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                                            <div class="d-flex px-2">
+                                                <div>
+                                                    <img src="{{#if imagepath1}}{{imagepath1}}{{else}}/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{typeofreport}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="max-width: ; overflow: hidden; text-overflow: ellipsis;">
+                                            <span class="text-xs text-secondary font-weight-bold  mb-0"><p>{{reportcontent}}</p></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-sm text-secondary font-weight-bold ">{{#if handlemethod}}{{handlemethod}}{{else}}Chưa xử lý{{/if}}</span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{>footer}}
+    </div>
+</main>
