@@ -3,7 +3,6 @@ const router = express.Router()
 const controller = require('../controllers/authController')
 
 router.get("/", controller.isLoggedIn, controller.showIndex);
-// router.get("/PHCB-So/danh-sach", controller.isLoggedIn, controller.showIndex);
 
 router.get("/login", controller.showLogin);
 router.get("/logout", controller.logout);

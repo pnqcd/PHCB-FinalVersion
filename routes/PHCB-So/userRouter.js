@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../../controllers/PHCB-So/userController");
 
-router.get("/", controller.show);
+router.get("/", controller.isLoggedIn, controller.show);
 router.post("/", controller.addUser);
 // router.put("/", controller.editUser);
 router.delete("/:id", controller.deleteUser);

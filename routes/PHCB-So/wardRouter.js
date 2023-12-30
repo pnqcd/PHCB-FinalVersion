@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require("../../controllers/PHCB-So/wardController");
 const upload = require("../../middlewares/multer");
 
-router.get("/", controller.show);
+router.get("/", controller.isLoggedIn, controller.show);
 
 router.post("/wards", controller.addWard);
 router.put("/wards", controller.editWard);

@@ -359,7 +359,7 @@ async function notAproveAds(e) {
   const formData = new FormData(document.getElementById("requestLicenseAdsForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/yeu-cau/not-approve-ads', {
+  let res = await fetch('/PHCB-So/yeu-cau/not-approve-ads', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -385,7 +385,7 @@ async function editWard(e) {
   const formData = new FormData(document.getElementById("editWardForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/danh-sach/wards', {
+  let res = await fetch('/PHCB-So/danh-sach/wards', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -402,7 +402,7 @@ async function editPlace(e) {
   const formData = new FormData(document.getElementById("editPlaceForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/danh-sach/places', {
+  let res = await fetch('/PHCB-So/danh-sach/places', {
     method: "PUT",
     body:formData,
   });
@@ -416,7 +416,7 @@ async function editAds(e) {
   const formData = new FormData(document.getElementById("editAdsForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/danh-sach/ads', {
+  let res = await fetch('/PHCB-So/danh-sach/ads', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -433,7 +433,7 @@ async function editAdstype(e) {
   const formData = new FormData(document.getElementById("editAdstypeForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/danh-sach/adstype', {
+  let res = await fetch('/PHCB-So/danh-sach/adstype', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -450,7 +450,7 @@ async function editReporttype(e) {
   const formData = new FormData(document.getElementById("editReporttypeForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/danh-sach/reporttype', {
+  let res = await fetch('/PHCB-So/danh-sach/reporttype', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -467,7 +467,7 @@ async function editUser(e) {
   const formData = new FormData(document.getElementById("editUserForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/users', {
+  let res = await fetch('/PHCB-So/users', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -479,7 +479,7 @@ async function editUser(e) {
 }
 
 async function deleteUser(id) {
-  let res = await fetch(`/users/${id}`, {
+  let res = await fetch(`/PHCB-So/users/${id}`, {
     method: "DELETE",
   });
 
@@ -487,7 +487,7 @@ async function deleteUser(id) {
 }
 
 async function deleteWard(id) {
-  let res = await fetch(`/danh-sach/wards/${id}`, {
+  let res = await fetch(`/PHCB-So/danh-sach/wards/${id}`, {
     method: "DELETE",
   });
 
@@ -495,7 +495,7 @@ async function deleteWard(id) {
 }
 
 async function deletePlace(id,hinhAnhId) {
-  let res = await fetch(`/danh-sach/places/${id}`, {
+  let res = await fetch(`/PHCB-So/danh-sach/places/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -507,7 +507,7 @@ async function deletePlace(id,hinhAnhId) {
 }
 
 async function deleteAds(id) {
-  let res = await fetch(`/danh-sach/ads/${id}`, {
+  let res = await fetch(`/PHCB-So/danh-sach/ads/${id}`, {
     method: "DELETE",
   });
 
@@ -515,7 +515,7 @@ async function deleteAds(id) {
 }
 
 async function deleteAdstype(id) {
-  let res = await fetch(`/danh-sach/adstype/${id}`, {
+  let res = await fetch(`/PHCB-So/danh-sach/adstype/${id}`, {
     method: "DELETE",
   });
 
@@ -523,7 +523,7 @@ async function deleteAdstype(id) {
 }
 
 async function deleteReporttype(id) {
-  let res = await fetch(`/danh-sach/reporttype/${id}`, {
+  let res = await fetch(`/PHCB-So/danh-sach/reporttype/${id}`, {
     method: "DELETE",
   });
 
@@ -531,7 +531,7 @@ async function deleteReporttype(id) {
 }
 
 async function deleteAccount(id) {
-  let res = await fetch(`/tai-khoan/${id}`, {
+  let res = await fetch(`/PHCB-So/tai-khoan/${id}`, {
     method: "DELETE",
   });
 
@@ -634,7 +634,7 @@ function checkUsernameExisted(event) {
   let usernameElm = document.querySelector("#username");
   let username = usernameElm.value;
 
-  fetch('/tai-khoan/checkUsernameWhenAddAccount?username=' + encodeURIComponent(username))
+  fetch('/PHCB-So/tai-khoan/checkUsernameWhenAddAccount?username=' + encodeURIComponent(username))
     .then(response => response.json())
     .then(data => {
       if (data.exists) {
@@ -652,7 +652,7 @@ function showOriginPlaceDetail(elm, event) {
 
   if (elm.checked == true) { // show origin details
     let placeId = document.querySelector("#placeIdPlaceEditRequest").value;
-    fetch('/yeu-cau/showOriginPlaceDetail?placeId=' + encodeURIComponent(placeId))
+    fetch('/PHCB-So/yeu-cau/showOriginPlaceDetail?placeId=' + encodeURIComponent(placeId))
       .then(response => response.json())
       .then(data => {
         document.querySelector("#diaChiRequestEdit").value = data.originPlace[0].diaChi;
@@ -664,7 +664,7 @@ function showOriginPlaceDetail(elm, event) {
       .catch(error => console.error(error));
   } else { // show requested details
     let id = document.querySelector("#idPlaceEditRequest").value;
-    fetch('/yeu-cau/showOriginPlaceDetail?requestId=' + encodeURIComponent(id))
+    fetch('/PHCB-So/yeu-cau/showOriginPlaceDetail?requestId=' + encodeURIComponent(id))
       .then(response => response.json())
       .then(data => {
         document.querySelector("#diaChiRequestEdit").value = data.requestPlace[0].diaChi;
@@ -683,7 +683,7 @@ function showOriginAdsDetail(elm, event) {
 
   if (elm.checked == true) { // show origin details
     let placeId = document.querySelector("#originIdAdsEditRequest").value;
-    fetch('/yeu-cau/showOriginAdsDetail?adsId=' + encodeURIComponent(placeId))
+    fetch('/PHCB-So/yeu-cau/showOriginAdsDetail?adsId=' + encodeURIComponent(placeId))
       .then(response => response.json())
       .then(data => {
         document.querySelector("#adNameRequestEdit").value = data.originAds[0].adName;
@@ -696,7 +696,7 @@ function showOriginAdsDetail(elm, event) {
       .catch(error => console.error(error));
   } else { // show requested details
     let id = document.querySelector("#idAdsEditRequest").value;
-    fetch('/yeu-cau/showOriginAdsDetail?requestId=' + encodeURIComponent(id))
+    fetch('/PHCB-So/yeu-cau/showOriginAdsDetail?requestId=' + encodeURIComponent(id))
       .then(response => response.json())
       .then(data => {
         document.querySelector("#adNameRequestEdit").value = data.requestAds[0].adName;
@@ -730,7 +730,7 @@ async function requestEditAds(e) {
   const formData = new FormData(document.getElementById("requestEditAdsForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/yeu-cau/request-edit-ads', {
+  let res = await fetch('/PHCB-So/yeu-cau/request-edit-ads', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -747,7 +747,7 @@ async function requestEditPlace(e) {
   const formData = new FormData(document.getElementById("requestEditPlaceForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/yeu-cau/request-edit-place', {
+  let res = await fetch('/PHCB-So/yeu-cau/request-edit-place', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -759,7 +759,7 @@ async function requestEditPlace(e) {
 }
 
 function fetchWardsByDistrict(district) {
-  fetch('/tai-khoan/wardsByDistrict?district=' + district)
+  fetch('/PHCB-So/tai-khoan/wardsByDistrict?district=' + district)
     .then(response => response.json())
     .then(data => {
       const wardUnit = document.getElementById('wardUnit');
@@ -786,7 +786,7 @@ function autoSelectWards() {
 // gọi nhiều lần sẽ bị lỗi Too Many Requests
 async function fetchAllReportsFromDatabase() {
   try {
-    const response = await fetch('/thong-ke/all-reports');
+    const response = await fetch('/PHCB-So/thong-ke/all-reports');
     const data = await response.json();
     // console.log(data);
     return data;
@@ -863,7 +863,7 @@ async function getNumberReport(ward, district) {
   return { countLoc, countAds };
   // let address = ward + ', ' + district;
   // try {
-  //   const response = await fetch('/thong-ke/all-reports?address=' + address);
+  //   const response = await fetch('/PHCB-So/thong-ke/all-reports?address=' + address);
   //   const data = await response.json();
   //   return data.length;
   // } catch (error) {
@@ -891,7 +891,7 @@ async function displayHandleMethod(district) {
       <td style="cursor: pointer; max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
         <div class="d-flex px-2">
           <div>
-            <img src="${report.imagepath1 ? report.imagepath1 : '/assets/img/ads/ads.jpeg'}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+            <img src="${report.imagepath1 ? report.imagepath1 : '/PHCB-So/assets/img/ads/ads.jpeg'}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
           </div>
           <div class="my-auto">
             <h6 class="mb-0 text-sm">${report.typeofreport}</h6>
@@ -920,7 +920,7 @@ function statisticByDistrict(elm) {
 
   displayHandleMethod(district);
 
-  fetch('/tai-khoan/wardsByDistrict?district=' + district)
+  fetch('/PHCB-So/tai-khoan/wardsByDistrict?district=' + district)
     .then(response => response.json())
     .then(data => {
       // let wardList = document.getElementById('wardList');

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../../controllers/PHCB-So/requestController");
 
-router.get("/", controller.show);
+router.get("/", controller.isLoggedIn, controller.show);
 
 router.put("/request-edit-ads", controller.requestEditAds);
 router.get("/showOriginAdsDetail", controller.showOriginAdsDetail);
