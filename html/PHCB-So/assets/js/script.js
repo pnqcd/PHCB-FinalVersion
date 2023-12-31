@@ -663,6 +663,20 @@ function checkUsernameExisted(event) {
     .catch(error => console.error(error));
 }
 
+function checkPasswordMatch(event) {
+  // event.preventDefault();
+
+  let password = document.querySelector("#newPassword");
+  let confirmPassword = document.querySelector("#confirmPassword");
+
+  if (confirmPassword.value != password.value) {
+    confirmPassword.setCustomValidity('Mật khẩu không khớp!');
+    confirmPassword.reportValidity();
+  } else {
+    confirmPassword.setCustomValidity('');
+  }
+}
+
 // Show origin place details if checked 
 function showOriginPlaceDetail(elm, event) {
   event.preventDefault();

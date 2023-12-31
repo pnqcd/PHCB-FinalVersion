@@ -19,9 +19,17 @@ controller.show = async (req, res) => {
     order: [["createdAt", "DESC"]],
   });
 
-  const result = await pool.query(`SELECT DISTINCT "districtName" FROM "Wards"`);
-  res.locals.districts = result.rows;
-
+  let client = await pool.connect();
+  try {
+    const result = await client.query(`SELECT DISTINCT "districtName" FROM "Wards"`);
+    res.locals.districts = result.rows;
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).send("Internal Server Error");
+  } finally {
+    client.release();
+    // client.end();
+  }
 
   res.render("PHCB-So/manage-account", {layout: "PHCB-So/layout"});
 };
