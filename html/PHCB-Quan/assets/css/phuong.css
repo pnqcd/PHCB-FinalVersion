@@ -1,0 +1,67 @@
+.input {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.input-label {
+    
+	color: #8597a3;
+	position: absolute;
+	top: 1rem;
+	transition: .25s ease;
+}
+
+.input-field {
+	border: 0;
+	z-index: 1;
+	background-color: transparent;
+	border: 1px solid #eee; 
+    border-radius: 5px;
+	font: inherit;
+	font-size: 1rem;
+	padding: 0rem 0;
+	&:focus, &:valid {
+		outline: 0;
+		border-color: #6658d3;
+		&+.input-label {
+			color: #6658d3;
+			transform: translateY(-1.5rem);
+		}
+	}
+}
+ .input-reason{
+	height: 10rem;
+ }
+
+.card-info {
+	padding: 1rem 1rem;
+	text-align: center;
+	font-size: .875rem;
+	color: #8597a3;
+	a {
+		display: block;
+		color: #6658d3;
+		text-decoration: none;
+	}
+}
+
+.action{
+    margin-top:2rem;
+    margin-bottom:2rem;
+}
+
+.card-body {
+  overflow: hidden;
+}
+
+.card-body>span {
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+

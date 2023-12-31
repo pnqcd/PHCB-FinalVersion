@@ -8,6 +8,7 @@ const { pool } = require("./database/database");
 const session = require('express-session');
 const flash = require('express-flash');
 const passport = require('passport');
+require('dotenv').config();
 
 Handlebars.registerHelper('if_eq', function (a, b, options) {
     if (a == b) {
@@ -15,6 +16,18 @@ Handlebars.registerHelper('if_eq', function (a, b, options) {
     } else {
         return options.inverse(this);
     }
+});
+// quan
+Handlebars.registerHelper('getUniqueValues', function (array, property, options) {
+    const uniqueValues = [...new Set(array.map(item => item[property]))];
+    return uniqueValues.map(value => options.fn(value));
+  });
+// quan
+Handlebars.registerHelper('unlessCond', function (v1, v2, options) {
+    if (v1 !== v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 });
 
 const initializePassport = require('./passportConfig')
@@ -89,6 +102,17 @@ app.use('/PHCB-So/change-password', require('./routes/PHCB-So/passwordRouter'));
 //     failureRedirect: "/",
 //     failureFlash: true
 // }))
+
+// PHCB Quan
+app.get('/PHCB-Quan', (req, res) => res.redirect('/PHCB-Quan/danh-sach'));
+app.use('/PHCB-Quan/danh-sach', require('./routes/PHCB-Quan/manageListRouter'));
+app.use('/PHCB-Quan/yeu-cau', require('./routes/PHCB-Quan/requestRouter'));
+app.use('/PHCB-Quan/bao-cao', require('./routes/PHCB-Quan/reportRouter'));
+app.use('/PHCB-Quan/diem-dat-bang-quang-cao', require('./routes/PHCB-Quan/adsAddressRouter'));
+app.use('/PHCB-Quan/bang-quang-cao', require('./routes/PHCB-Quan/adsManageRouter'));
+app.use('/PHCB-Quan/profile',require('./routes/PHCB-Quan/profileRouter'));
+app.use('/PHCB-Quan/change-password',require('./routes/PHCB-Quan/changePasswordRouter'));
+
 
 app.listen(port, function(err) {
     if (typeof(err) == "undefined") {

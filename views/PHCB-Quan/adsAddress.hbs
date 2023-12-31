@@ -1,0 +1,631 @@
+{{!-- modal view place detail --}}
+<div class="modal fade" id="viewPlaceDetailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Chi Tiết Điểm Đặt Bảng Quảng Cáo
+        </h5>
+        <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+          data-target="infoToast" style="margin-bottom: 0;"><i class="fa fa-times-circle text-dark  fs-4"
+            aria-hidden="true"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="card mb-3">
+            <div class="card-body" style="text-align: left;">
+              <div class="d-flex flex-column justify-content-center detail-card">
+                <h6 id="diaChiVaKhuVucDT" class="text-info mb-3"
+                  style="text-align: left;word-wrap: break-word; white-space: normal;"></h6>
+                <h6 class="text-sm font-weight-normal mb-1">
+                  <span class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
+                </h6>
+                <h6 class="text-sm font-weight-normal mb-1">
+                  <span class="font-weight-bold">Loại vị trí: </span>
+                  <span class="span-content" id="loaiVTDT"></span>
+                </h6>
+                <h6 class="text-sm font-weight-normal mb-1">
+                  <span class="font-weight-bold">Hình thức: </span>
+                  <span class="span-content" id="hinhThucDT"></span>
+                </h6>
+                <h6 class="text-sm font-weight-normal mb-1">
+                  <span class="font-weight-bold">Tình trạng: </span>
+                  <span class="span-content" id="tinhTrangDT"></span>
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="card bg-dark text-white">
+            <img id="hinhAnhPlace" class="card-img" alt="..."
+              style="height: 200px ;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover;">
+          </div>
+        </div>
+        <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" id="idPlaceDT" value="" />
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addPlaceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="/PHCB-Quan/diem-dat-bang-quang-cao/editplace" id="addPlaceForm" method="POST" enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Chỉnh Sửa Điểm Đặt Bảng Quảng Cáo
+          </h5>
+          {{!-- <button class="btn-close toast-btn" type="button" onclick="closeViewDetail(this)"
+            data-bs-dismiss="modal" aria-label="Close" data-target="infoToast" style="margin-bottom: 0;">
+            <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
+          </button> --}}
+          <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+            data-target="infoToast" style="margin-bottom: 0;"><i class="fa fa-times-circle text-dark  fs-4"
+              aria-hidden="true"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="diaChiEdit" class="form-label">Địa Chỉ</label>
+              <input type="text" id="diaChiEdit" name="diaChi" class="form-control" placeholder="Chợ An Đông"
+                required />
+            </div>
+            <div class="col mb-3">
+              <label for="khuVucEdit" class="form-label">Khu Vực</label>
+              <input type="text" id="khuVucEdit" name="khuVuc" class="form-control" placeholder="Phường 9, Quận 5"
+                required />
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="loaiVTEdit" class="form-label">Loại Vị Trí</label>
+              <input type="text" id="loaiVTEdit" name="loaiVT" class="form-control" placeholder="Chợ" />
+            </div>
+            <div class="col mb-3">
+              <label for="hinhThucEdit" class="form-label">Hình Thức</label>
+              <select name="hinhThuc" id="hinhThucEdit" class="form-control select-form-control">
+                {{#each adstypes}}
+                <option value="{{name}}" selected="selected">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="container pt-3 pb-3">
+            <div class="card bg-dark">
+              <div class="profile-pic">
+                <div class="image-container">
+                  <img id="imageEditPlace" class="imageDisplay" width="100%" height="250px"
+                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:px;" />
+                  <label class="btn btn-primary" for="placefile"
+                    style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); object-fit:cover">
+                    <span class="glyphicon glyphicon-camera"></span>
+                    <span>Đổi hình ảnh</span>
+                  </label>
+                  <input id="placefile" name="ImageUrl" type="file" style="display: none;"
+                    onchange="loadImg(event, '#imageEditPlace')" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-0">
+              <div class="form-check form-check-inline" style="padding-left:0">
+                <input class="form-check-input" type="checkbox" id="quyHoachEdit" name="isQuyHoach" value="1" />
+                <label class="form-check-label badge bg-label-primary" for="quyHoachEdit">Quy
+                  Hoạch</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <label for="liDoChinhSua" class="form-label">Lí Do Chỉnh Sửa</label>
+            <input type="text" id="liDoChinhSua" name="liDoChinhSua" class="form-control"
+              placeholder="Sai thông tin / Chỉnh sửa hình ảnh" />
+          </div>
+
+
+          <div class="row g-2">
+            <div class="row mb-3 mt-3">
+              <h6><span>Thời điểm chỉnh sửa: </span>
+                <script>
+                  document.write(new Date().getDate());
+                  document.write('/');
+                  document.write(new Date().getMonth());
+                  document.write('/');
+                  document.write(new Date().getFullYear());
+                </script>
+              </h6>
+            </div>
+          </div>
+          <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="id" id="idPlace" value="" />
+          <input type="hidden" name="hinhAnh" id="hinhAnhA" value="" />
+          <input type="hidden" name="hinhAnhId" id="hinhAnhB" value="" />
+
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+            Đóng
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Gửi Yêu Cầu
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{> PHCB-Quan/sidebar curPage="Điểm đặt bảng quảng cáo"}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  {{> PHCB-Quan/navbar curPage="Điểm đặt bảng quảng cáo"}}
+  <!-- End Navbar -->
+  <div class="container-fluid py-4">
+    <div class="card-body mb-4">
+      <div class="row">
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"
+            onclick="disableButton()"><span class="icon" id="lockIcon">&#128274;</span>TP Hồ Chí Minh</button>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"><span
+              class="icon" id="lockIcon">&#128274;</span>{{user.districtUnit}}</i></button>
+        </div>
+        <div class="col-lg-2">
+          <li class="nav-item dropdown align-items-center" style="display: inline;">
+            <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn bg-gradient-info w-100 mb-0 toast-btn" type="button" data-target="infoToast">Phường <i
+                  class="fa-solid fa-chevron-down ps-1"></i></button>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+              <select class="form-control form-select" id="phuongDropdown" multiple>
+                <option value="all">Tất cả Phường</option>
+                {{#getUniqueValues places 'khuVuc'}}
+                <option value="{{this}}">{{this}}</option>
+                {{/getUniqueValues}}
+              </select>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div
+              class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+              <h6 class="text-white text-capitalize ps-3">Danh sách điểm đặt bẳng quảng cáo</h6>
+              <div class="row">
+                <div class="col-6">
+                  <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                          class="fa-solid fa-sort"></i></button>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('diaChi', 'tablePlace')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('khuVuc', 'tablePlace')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Khu vực
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('loaiVT', 'tablePlace')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Loại Vị Trí
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('hinhThuc', 'tablePlace')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" id="filteredContent">
+              <table id="tablePlace" class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Khu vực</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loại vị trí
+                    </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hình thức</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Quyhoạch
+                    </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tuỳ chọn
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each places}}
+                  <tr data-phuong="{{khuVuc}}" data-diaChi="{{diaChi}}" data-khuVuc="{{khuVuc}}"
+                    data-loaiVT="{{loaiVT}}" data-hinhThuc="{{hinhThuc}}">
+
+
+                    <td style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#viewPlaceDetailModal"
+                      onclick="openViewPlaceDetail(this)" data-id="{{id}}" data-dia-chi="{{diaChi}}"
+                      data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}" data-hinh-thuc="{{hinhThuc}}"
+                      data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}">
+                      <div class="d-flex px-2">
+                        <div>
+                          <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Quan/assets/img/places/place.png{{/if}}"
+                            class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                        </div>
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm">{{diaChi}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary mb-0">{{khuVuc}}</span>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary">{{loaiVT}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center">
+                        <span class="me-2 text-xs text-secondary">{{hinhThuc}}</span>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i class="fa {{#if_eq quyHoach 'ĐÃ QUY HOẠCH'}}fa-check-circle text-success {{else}}
+                        fa-times-circle text-danger {{/if_eq}}" aria-hidden="true"></i>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                        data-bs-target="#addPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
+                        data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
+                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editPlaceModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form action="" id="editPlaceForm" onsubmit="editPlace(event)" enctype="multipart/form-data">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                Chỉnh Sửa Điểm Đặt Bảng Quảng Cáo
+              </h5>
+              {{!-- <button class="btn-close toast-btn" type="button" onclick="closeViewDetail(this)"
+                data-bs-dismiss="modal" aria-label="Close" data-target="infoToast" style="margin-bottom: 0;">
+                <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
+              </button> --}}
+              <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal"
+                aria-label="Close" data-target="infoToast" style="margin-bottom: 0;"><i
+                  class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="row g-2">
+                <div class="col mb-3">
+                  <label for="diaChiEditContinue" class="form-label">Địa Chỉ</label>
+                  <input type="text" id="diaChiEditContinue" name="diaChi" class="form-control"
+                    placeholder="Chợ An Đông" required />
+                </div>
+                <div class="col mb-3">
+                  <label for="khuVucEditContinue" class="form-label">Khu Vực</label>
+                  <input type="text" id="khuVucEditContinue" name="khuVuc" class="form-control"
+                    placeholder="Phường 9, Quận 5" required />
+                </div>
+              </div>
+              <div class="row g-2">
+                <div class="col mb-3">
+                  <label for="loaiVTEditContinue" class="form-label">Loại Vị Trí</label>
+                  <input type="text" id="loaiVTEditContinue" name="loaiVT" class="form-control" placeholder="Chợ" />
+                </div>
+                <div class="col mb-3">
+                  <label for="hinhThucEditContinue" class="form-label">Hình Thức</label>
+                  <select name="hinhThuc" id="hinhThucEditContinue" class="form-control select-form-control">
+                    {{#each adstypes}}
+                    <option value="{{name}}" selected="selected">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="container pt-3 pb-3">
+                <div class="card bg-dark">
+                  <div class="profile-pic">
+                    <div class="image-container">
+                      <img id="imageEditPlaceContinue" class="imageDisplay" width="100%" height="250px"
+                        style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:px;" />
+                      <label class="btn btn-primary" for="placefilecontinue"
+                        style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); object-fit:cover">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Đổi hình ảnh</span>
+                      </label>
+                      <input id="placefilecontinue" name="ImageUrl" type="file" style="display: none;"
+                        onchange="loadImg(event, '#imageEditPlaceContinue')" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col mb-0">
+                  <div class="form-check form-check-inline" style="padding-left:0">
+                    <input class="form-check-input" type="checkbox" id="quyHoachEditContinue" name="isQuyHoach"
+                      value="1" />
+                    <label class="form-check-label badge bg-label-primary" for="quyHoachEdit">Quy
+                      Hoạch</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-2 mb-3">
+                <label for="liDoChinhSua" class="form-label">Lí Do Chỉnh Sửa</label>
+                <input type="text" id="liDoChinhSua" name="liDoChinhSua" class="form-control"
+                  placeholder="Sai thông tin / Chỉnh sửa hình ảnh" />
+              </div>
+              <div class="row g-2">
+                <div class="row mb-3 mt-3">
+                  <h6><span>Thời điểm chỉnh sửa: </span>
+                    <script>
+                      document.write(new Date().getDate());
+                      document.write('/');
+                      document.write(new Date().getMonth());
+                      document.write('/');
+                      document.write(new Date().getFullYear());
+                    </script>
+                  </h6>
+                </div>
+              </div>
+              <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="id" id="idPlaceRequest" value="" />
+              <input type="hidden" name="hinhAnhId" id="hinhAnhBC" value="" />
+
+              {{!-- <input type="hidden" name="hinhAnhId" id="hinhAnhIdPlaceEdit" value="" /> --}}
+
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+                Đóng
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Gửi Yêu Cầu
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div
+              class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+              <h6 class="text-white text-capitalize ps-3">Danh sách Yêu cầu Chỉnh sửa điểm đặt bẳng quảng cáo</h6>
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn toast-btn btn-outline-white" type="button" data-target="infoToast"
+                    style="background-color: transparent; color:transparent; border:none ; outline: none; box-shadow: none;"
+                    disabled><i class="fa-solid fa-plus pe-1"></i>Add</button>
+                </div>
+                <div class="col-6">
+                  <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                          class="fa-solid fa-sort"></i></button>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('diaChi', 'tablePlaceEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('khuVuc', 'tablePlaceEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Khu vực
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('loaiVT', 'tablePlaceEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Loại Vị Trí
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('hinhThuc', 'tablePlaceEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" id="filteredContent">
+              <table id="tablePlaceEdit" class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Khu vực</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loại vị trí
+                    </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hình thức</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Quyhoạch
+                    </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tuỳ chọn
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each requesteditplaces}}
+                  <tr data-phuong="{{khuVuc}}" data-diaChi="{{diaChi}}" data-khuVuc="{{khuVuc}}"
+                    data-loaiVT="{{loaiVT}}" data-hinhThuc="{{hinhThuc}}">
+                    <td style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#viewPlaceDetailModal"
+                      onclick="openViewPlaceDetail(this)" data-id="{{id}}" data-dia-chi="{{diaChi}}"
+                      data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}" data-hinh-thuc="{{hinhThuc}}"
+                      data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}">
+                      <div class="d-flex px-2">
+                        <div>
+                          <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Quan/assets/img/places/place.png{{/if}}"
+                            class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                        </div>
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm">{{diaChi}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary mb-0">{{khuVuc}}</span>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary">{{loaiVT}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center">
+                        <span class="me-2 text-xs text-secondary">{{hinhThuc}}</span>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i class="fa {{#if_eq quyHoach 'ĐÃ QUY HOẠCH'}}fa-check-circle text-success {{else}}
+                        fa-times-circle text-danger {{/if_eq}}" aria-hidden="true"></i>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                        data-bs-target="#editPlaceModal" onclick="showContinueEditPlaceModal(this)" data-id="{{id}}"
+                        data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
+                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
+                      {{!-- view place detail modal --}}
+                      <div class="modal detail-place fade" id="staticBackdropInfo" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title fw-bold" id="staticBackdropLabelInfo">
+                                Điểm Đặt Bảng Quảng Cáo</h5>
+                              <div class="col-1 px-4">
+                                <button class="btn-close toast-btn" type="button" onclick="closeViewDetailPlace(this)"
+                                  data-bs-dismiss="modal" aria-label="Close" data-target="infoToast"
+                                  style="margin-bottom: 0;">
+                                  <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="modal-body">
+                              <div class="container-fluid">
+                                <div class="card mb-3">
+                                  <div class="card-body" style="text-align: left;">
+                                    <div class="d-flex flex-column justify-content-center detail-card">
+                                      <h6 class="text-info mb-3"
+                                        style="text-align: left;word-wrap: break-word; white-space: normal;"></h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Loại vị trí: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Hình thức: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Tình trạng: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="card bg-dark text-white">
+                                  <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Quan/assets/img/places/place.png{{/if}}"
+                                    class="card-img" alt="..."
+                                    style="height: 200px ;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover;">
+                                  <div class="card-img-overlay img-card">
+                                    <h5 class="card-title text-white">
+                                    </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer" style="justify-content: space-around;">
+                              <button type="button" class="btn btn-primary" data-bs-target="#exampleModalTogglechitiet"
+                                data-bs-toggle="modal" data-bs-dismiss="modal">Chi tiết</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> PHCB-Quan/footer}}
+  </div>
+</main>

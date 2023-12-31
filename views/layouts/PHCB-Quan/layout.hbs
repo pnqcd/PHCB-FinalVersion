@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x56" href="/PHCB-So/assets/img/logo-only.png">
+  <link rel="icon" type="image/png" href="/PHCB-So/assets/img/logo-only.png">
+  <title>
+    Phân Hệ Cán Bộ Quận
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/PHCB-Quan/assets/css/style.css" rel="stylesheet" />
+  <link id="pagestyle" href="/PHCB-Quan/assets/css/material-dashboard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/PHCB-Quan/assets/css/form_edit.css" />
+
+  <link rel="stylesheet" href="/PHCB-Quan/assets/vendor/libs/bs5dialog/bs5dialog.css" />
+
+  {{!--
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> --}}
+  <!-- Helpers -->
+  <script src="/PHCB-Quan/assets/vendor/js/helpers.js"></script>
+  <script src="/PHCB-Quan/assets/vendor/libs/bs5dialog/bs5dialog.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+</head>
+
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+  {{{body}}}
+  <!--   Core JS Files   -->
+  <script src="/PHCB-Quan/assets/js/popper.min.js"></script>
+  <script src="/PHCB-Quan/assets/js/bootstrap.min.js"></script>
+  <script src="/PHCB-Quan/assets/js/perfect-scrollbar.min.js"></script>
+  <script src="/PHCB-Quan/assets/js/smooth-scrollbar.min.js"></script>
+  <script src="/PHCB-Quan/assets/js/script.js"></script>
+
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.getElementById("searchInput");
+
+      searchInput.addEventListener("input", function () {
+        const searchText = searchInput.value.toLowerCase();
+        const tableRows = document.querySelectorAll("#filteredContent tbody tr");
+
+        tableRows.forEach((row) => {
+          const rowText = row.textContent.toLowerCase();
+          if (rowText.includes(searchText)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    var loadFile = function (event) {
+      
+      var image = document.querySelector('.imageDisplay');
+      image.src = URL.createObjectURL(event.target.files[0]);
+      console.log(event.target.files[0]);
+    };
+    
+  </script>
+
+
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/PHCB-Quan/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+
+
+
+  <!-- Add this before the closing body tag -->
+  {{!--
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
+  {{!--
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> --}}
+
+</body>
+
+</html>

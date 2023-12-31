@@ -1,0 +1,726 @@
+<div class="modal fade" id="editAdsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="/PHCB-Quan/bang-quang-cao/editads" id="editAdsForm" method="POST" enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Chỉnh Sửa Thông Tin Bảng Quảng Cáo
+          </h5>
+          <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+            data-target="infoToast" style="margin-bottom: 0;">
+            <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="adNameEdit" class="form-label">Tên bảng QC</label>
+              <input type="text" id="adNameEdit" name="adName" class="form-control" placeholder="Chợ An Đông"
+                required />
+            </div>
+            <div class="col mb-3">
+              <label for="adSizeEdit" class="form-label">Kích thước</label>
+              <input type="text" id="adSizeEdit" name="adSize" class="form-control" placeholder="Phường 9, Quận 5"
+                required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="diaChiAdsEdit" class="form-label">Địa chỉ</label>
+              <select id="diaChiAdsEdit" name="diaChiAds" class="form-control select-form-control">
+                {{#getUniqueValues places 'diaChi'}}
+                <option value="{{this}}" selected="selected">{{this}}</option>
+                {{/getUniqueValues}}
+              </select>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="adQuantityEdit" class="form-label">Số lượng</label>
+              <input type="text" id="adQuantityEdit" name="adQuantity" class="form-control" placeholder="Chợ" />
+            </div>
+            <div class="col mb-3">
+              <label for="expireDayEdit" class="form-label">Ngày hết hạn</label>
+              <input type="text" id="expireDayEdit" name="expireDay" class="form-control"
+                placeholder="Quảng cáo thương mại" oninput="checkValidDate(this, event)" />
+            </div>
+          </div>
+          <div class="container pt-3 pb-3">
+            <div class="card bg-dark">
+              <div class="profile-pic">
+                <div class="image-container">
+                  <img id ="imageEditAds" class="imageDisplay" width="100%" height="250px"
+                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
+                  <label class="btn btn-primary" for="adsfile"
+                    style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                    <span class="glyphicon glyphicon-camera"></span>
+                    <span>Đổi hình ảnh</span>
+                  </label>
+                  <input id="adsfile" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event, '#imageEditAds')" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <label for="liDoChinhSua" class="form-label">Lí Do Chỉnh Sửa</label>
+            <input type="text" id="liDoChinhSua" name="liDoChinhSua" class="form-control"
+              placeholder="Sai thông tin / Chỉnh sửa hình ảnh" />
+          </div>
+
+          <div class="row g-2">
+            <div class="row mb-3 mt-3">
+              <h6><span>Thời điểm chỉnh sửa: </span>
+                <script>
+                  document.write(new Date().getDate());
+                  document.write('/');
+                  document.write(new Date().getMonth());
+                  document.write('/');
+                  document.write(new Date().getFullYear());
+                </script>
+              </h6>
+            </div>
+          </div>
+          <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="id" id="idAds" value="" />
+          <input type="hidden" name="imagePath" id="imagePathA" value="" />
+          <input type="hidden" name="publicImageId" id="publicImageIdB" value="" />
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+            Đóng
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Gửi Yêu Cầu
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{> PHCB-Quan/sidebar curPage="Danh sách bảng quảng cáo"}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  {{> PHCB-Quan/navbar curPage="Danh sách bảng quảng cáo"}}
+  <!-- End Navbar -->
+  <div class="container-fluid py-4">
+    <div class="card-body mb-4">
+      <div class="row">
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"
+            onclick="disableButton()"><span class="icon" id="lockIcon">&#128274;</span>TP Hồ Chí Minh</button>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"><span
+              class="icon" id="lockIcon">&#128274;</span>{{user.districtUnit}}</i></button>
+        </div>
+        <div class="col-lg-2">
+          <li class="nav-item dropdown align-items-center" style="display: inline;">
+            <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn bg-gradient-info w-100 mb-0 toast-btn" type="button" data-target="infoToast">Phường <i
+                  class="fa-solid fa-chevron-down ps-1"></i></button>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+              <select class="form-control form-select" id="phuongDropdown" multiple>
+                <option value="all">Tất cả Phường</option>
+                {{#getUniqueValues places 'khuVuc'}}
+                <option value="{{this}}">{{this}}</option>
+                {{/getUniqueValues}}
+              </select>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div
+              class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+              <h6 class="text-white text-capitalize ps-3">Danh sách bảng quảng cáo</h6>
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn toast-btn btn-outline-white" type="button" data-target="infoToast"
+                    style="background-color: transparent; color:transparent; border:none ; outline: none; box-shadow: none;"
+                    disabled><i class="fa-solid fa-plus pe-1"></i>Add</button>
+                </div>
+                <div class="col-6">
+                  <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                          class="fa-solid fa-sort"></i></button>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adName', 'tableAds')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Tên bảng
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('diaChi', 'tableAds')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adSize', 'tableAds')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Kích thước
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adQuantity', 'tableAds')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-1-9"></i>Số lượng
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('formattedExpireDay', 'tableAds')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Ngày hết hạn
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" id="filteredContent">
+              <!-- Detail Ads Modal -->
+              <div class="modal detail-ads fade" id="viewAdsDetailModal" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <div>
+                        <h5 class="modal-title" id="staticBackdropLabel">Chi Tiết Bảng Quảng Cáo</h5>
+                      </div>
+                      <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+                        data-target="infoToast" style="margin-bottom: 0;">
+                        <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="card">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="d-flex flex-column justify-content-center detail-card">
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Địa chỉ: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Kích thước: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Số lượng: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Ngày hết hạn: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-12">
+                            <div class="card text-white">
+                              <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
+                                class="card-img" alt="..."
+                                style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <table id="tableAds" class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên bảng</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Địa chỉ</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">
+                      Kích thước</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Số
+                      lượng</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Ngày hết
+                      hạn</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tuỳ chọn
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each placedetails}}
+                  <tr data-phuong="{{Place.khuVuc}}" data-adName="{{adName}}" data-adQuantity="{{adQuantity}}"
+                    data-formattedExpireDay="{{formattedExpireDay}}" data-adSize="{{adSize}}"
+                    data-diaChi="{{Place.diaChi}}">
+                    <td data-bs-toggle="modal" data-bs-target="#viewAdsDetailModal"
+                      style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
+                      onclick="openViewAdsDetail(this, '{{adName}}', '{{Place.diaChi}}', '{{Place.khuVuc}}', '{{adSize}}', '{{adQuantity}}', '{{formattedExpireDay}}')">
+                      <div class="d-flex px-2">
+                        <div>
+                          <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
+                            class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                        </div>
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm">{{adName}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary mb-0">{{Place.diaChi}}, {{Place.khuVuc}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{adSize}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{adQuantity}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{formattedExpireDay}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                        data-bs-target="#editAdsModal" onclick="showEditAdsModal(this)" data-id="{{id}}"
+                        data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size="{{adSize}}"
+                        data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"
+                        data-origin="{{originId}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editAdsModalRequest" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form action="" id="editAdsFormRequest" onsubmit="editAds(event)" enctype="multipart/form-data">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                Chỉnh Sửa Thông Tin Bảng Quảng Cáo
+              </h5>
+              <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+                data-target="infoToast" style="margin-bottom: 0;">
+                <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row g-2">
+                <div class="col mb-3">
+                  <label for="adNameEditContinue" class="form-label">Tên bảng QC</label>
+                  <input type="text" id="adNameEditContinue" name="adName" class="form-control"
+                    placeholder="Chợ An Đông" required />
+                </div>
+                <div class="col mb-3">
+                  <label for="adSizeEditContinue" class="form-label">Kích thước</label>
+                  <input type="text" id="adSizeEditContinue" name="adSize" class="form-control"
+                    placeholder="Phường 9, Quận 5" required />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col mb-3">
+                  <label for="diaChiAdsEditContinue" class="form-label">Địa chỉ</label>
+                  <select id="diaChiAdsEditContinue" name="diaChiAds" class="form-control select-form-control">
+                    {{#getUniqueValues places 'diaChi'}}
+                    <option value="{{this}}" selected="selected">{{this}}</option>
+                    {{/getUniqueValues}}
+                  </select>
+                </div>
+              </div>
+              <div class="row g-2">
+                <div class="col mb-3">
+                  <label for="adQuantityEditContinue" class="form-label">Số lượng</label>
+                  <input type="text" id="adQuantityEditContinue" name="adQuantity" class="form-control"
+                    placeholder="Chợ" />
+                </div>
+                <div class="col mb-3">
+                  <label for="expireDayEditContinue" class="form-label">Ngày hết hạn</label>
+                  <input type="text" id="expireDayEditContinue" name="expireDay" class="form-control"
+                    placeholder="Quảng cáo thương mại" oninput="checkValidDate(this, event)" />
+                </div>
+              </div>
+
+              <div class="container pt-3 pb-3">
+                <div class="card bg-dark">
+                  <div class="profile-pic">
+                    <div class="image-container">
+                      <img id = "imageEditcontinue"class="imageDisplay" width="100%" height="250px"
+                        style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
+                      <label class="btn btn-primary" for="editAdsContinue"
+                        style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Đổi hình ảnh</span>
+                      </label>
+                      <input id="editAdsContinue" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event, '#imageEditcontinue')" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <label for="liDoChinhSuaContinue" class="form-label">Lí Do Chỉnh Sửa</label>
+                <input type="text" id="liDoChinhSuaContinue" name="liDoChinhSua" class="form-control"
+                  placeholder="Sai thông tin / Chỉnh sửa hình ảnh" />
+              </div>
+
+              <div class="row g-2">
+                <div class="row mb-3 mt-3">
+                  <h6><span>Thời điểm chỉnh sửa: </span>
+                    <script>
+                      document.write(new Date().getDate());
+                      document.write('/');
+                      document.write(new Date().getMonth());
+                      document.write('/');
+                      document.write(new Date().getFullYear());
+                    </script>
+                  </h6>
+                </div>
+              </div>
+              <div class="text-center badge bg-label-danger" id="errorMessage"></div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="id" id="idAdsRequest" value="" />
+              <input type="hidden" name="publicImageId" id="publicImageIdEditAds" value="" />
+
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
+                Đóng
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Gửi Yêu Cầu
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div
+              class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+              <h6 class="text-white text-capitalize ps-3">Danh sách yêu cầu chỉnh sửa bảng quảng cáo</h6>
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn toast-btn btn-outline-white" type="button" data-target="infoToast"
+                    style="background-color: transparent; color:transparent; border:none ; outline: none; box-shadow: none;"
+                    disabled><i class="fa-solid fa-plus pe-1"></i>Add</button>
+                </div>
+                <div class="col-6">
+                  <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                          class="fa-solid fa-sort"></i></button>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adName', 'tableAdsEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Tên bảng
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('diaChi', 'tableAdsEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adSize', 'tableAdsEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Kích thước
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('adQuantity', 'tableAdsEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-1-9"></i>Số lượng
+                          </button>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('formattedExpireDay', 'tableAdsEdit')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Ngày hết hạn
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" id="filteredContent">
+              <!-- Detail Ads Modal -->
+              <div class="modal detail-ads fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <div>
+                        <h5 class="modal-title" id="staticBackdropLabel">Chi Tiết Bảng Quảng Cáo</h5>
+                      </div>
+                      <button class="btn-close toast-btn" type="button" onclick="closeViewAdsDetail(this)"
+                        data-bs-dismiss="modal" aria-label="Close" data-target="infoToast" style="margin-bottom: 0;">
+                        <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="card">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="d-flex flex-column justify-content-center detail-card">
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Địa chỉ: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Kích thước: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Số lượng: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">Ngày hết hạn: </span>
+                                      <span class="span-content"></span>
+                                    </h6>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-12">
+                            <div class="card text-white">
+                              <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
+                                class="card-img" alt="..."
+                                width="100%" height="250px"
+                                style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <table id="tableAdsEdit" class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên bảng</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Địa chỉ</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">
+                      Kích thước</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Số
+                      lượng</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Ngày hết
+                      hạn</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">Tuỳ chọn
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each requesteditads}}
+                  <tr data-phuong="{{Place.khuVuc}}" data-adName="{{adName}}" data-adQuantity="{{adQuantity}}"
+                    data-formattedExpireDay="{{formattedExpireDay}}" data-adSize="{{adSize}}"
+                    data-diaChi="{{Place.diaChi}}">
+                    <td data-bs-toggle="modal" data-bs-target="#viewAdsDetailModalEdit"
+                      style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
+                      onclick="openViewAdsDetailEdit(this, '{{adName}}', '{{Place.diaChi}}', '{{Place.khuVuc}}', '{{adSize}}', '{{adQuantity}}', '{{formattedExpireDay}}', '{{imagePath}}')">
+                      <div class="d-flex px-2">
+                        <div>
+                          <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
+                            class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                        </div>
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm">{{adName}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+                      <span class="text-xs text-secondary mb-0">{{Place.diaChi}}, {{Place.khuVuc}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{adSize}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{adQuantity}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-xs text-secondary">{{formattedExpireDay}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                        data-bs-target="#editAdsModalRequest" onclick="showContinueEditAdsModal(this)" data-id="{{id}}"
+                        data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size="{{adSize}}"
+                        data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> PHCB-Quan/footer}}
+  </div>
+</main>
+
+<div class="modal detail-ads fade" id="viewAdsDetailModalEdit" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title" id="staticBackdropLabel">Chi Tiết Bảng Quảng Cáo</h5>
+        </div>
+        <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+          data-target="infoToast" style="margin-bottom: 0;">
+          <i class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column justify-content-center detail-card">
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        <span class="font-weight-bold"></span>
+                      </h6>
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        <span class="font-weight-bold">Địa chỉ: </span>
+                        <span class="span-content"></span>
+                      </h6>
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        <span class="font-weight-bold">Kích thước: </span>
+                        <span class="span-content"></span>
+                      </h6>
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        <span class="font-weight-bold">Số lượng: </span>
+                        <span class="span-content"></span>
+                      </h6>
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        <span class="font-weight-bold">Ngày hết hạn: </span>
+                        <span class="span-content"></span>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="card text-white">
+                <img class="card-img"
+                  alt="..."
+                  width="100%" height="250px"
+                  style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const handleImage = (e) => {
+    const file = event.target.files[0];
+  
+    setFileToBase(file);
+  }
+  const setFileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    console.log(reader);
+  }
+</script>

@@ -1,0 +1,288 @@
+{{> PHCB-Quan/sidebar curPage="Báo cáo"}}
+
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  {{> PHCB-Quan/navbar curPage="Báo cáo"}}
+  <!-- End Navbar -->
+  <div class="container-fluid py-4">
+    <div class="card-body mb-4">
+      <div class="row">
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"
+            onclick="disableButton()"><span class="icon" id="lockIcon">&#128274;</span>TP Hồ Chí Minh</button>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn bg-gradient-secondary w-100 mb-0 toast-btn" type="button" data-target="infoToast"><span
+              class="icon" id="lockIcon">&#128274;</span>{{user.districtUnit}}</i></button>
+        </div>
+        <div class="col-lg-2">
+          <li class="nav-item dropdown align-items-center" style="display: inline;">
+            <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn bg-gradient-info w-100 mb-0 toast-btn" type="button" data-target="infoToast">Phường <i
+                  class="fa-solid fa-chevron-down ps-1"></i></button>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+              <select class="form-control form-select" id="phuongDropdown" multiple>
+                <option value="all">Tất cả Phường</option>
+                {{#getUniqueValues reports 'reportkhuvuc'}}
+                <option value="{{this}}">{{this}}</option>
+                {{/getUniqueValues}}
+              </select>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div
+              class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+              <h6 class="text-white text-capitalize ps-3">Danh sách báo cáo</h6>
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn toast-btn btn-outline-white" type="button" data-target="infoToast"
+                    style="background-color: transparent; color:transparent; border:none ; outline: none; box-shadow: none;"
+                    disabled><i class="fa-solid fa-plus pe-1"></i>Add</button>
+                </div>
+                <div class="col-6">
+                  <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                          class="fa-solid fa-sort"></i></button>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('reportlocation', 'tableReport')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('reportername', 'tableReport')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
+                              class="fa-solid fa-arrow-up-a-z pe-1"></i>Tên người gửi
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-center" href="javascript:;"
+                          onclick="sortTable('typeofreport', 'tableReport')">
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
+                            data-target="infoToast"
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức báo cáo
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" id="filteredContent">
+              <table id="tableReport" class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Địa chỉ</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                      Người gửi</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                      Hình thức báo cáo</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7">
+                      Tình trạng</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tùy chọn</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each reports}}
+                  <tr data-phuong = "{{reportkhuvuc}}" data-reportlocation="{{reportlocation}}" data-reportername="{{reportername}}"
+                    data-typeofreport="{{typeofreport}}">
+                    <td>
+                      <div class="d-flex px-2">
+                        <div>
+                          <img src="\PHCB-Quan\assets\img\report\rpicon.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                        </div>
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm">{{reportlocation}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="text-xs">{{reportername}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center">
+                        <span class="me-2 text-xs">{{typeofreport}}</span>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span
+                        class="me-2 text-xs font-weight-bold {{#if handlemethod}}text-success{{else}}text-danger{{/if}}">
+                        {{#if handlemethod}}
+                        Đã xử lý
+                        {{else}}
+                        Đang xử lý
+                        {{/if}}</span>
+                    </td>
+                    <td class="align-middle text-center" style="white-space : normal; ">
+                      <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                        data-bs-target="#handleMethod" onclick="showHandleMethod(this)" data-id="{{id}}"
+                        data-reportername="{{reportername}}" data-typeofreport="{{typeofreport}}"
+                        data-reporterphonenumber="{{reporterphonenumber}}" data-reporteremail="{{reporteremail}}"
+                        data-reportcontent="{{{reportcontent}}}" data-handlemethod="{{handlemethod}}"
+                        data-reportlocation="{{reportlocation}}" data-imagepath1="{{imagepath1}} "
+                        data-imagepath2="{{imagepath2}}"></i>
+
+                      <i role="button" class="fa-solid fa-envelope text-info email-report-btn" data-id="{{id}}"
+                        data-reportername="{{reportername}}" data-typeofreport="{{typeofreport}}"
+                        data-reporterphonenumber="{{reporterphonenumber}}" data-reporteremail="{{reporteremail}}"
+                        data-reportcontent="{{{reportcontent}}}" data-handlemethod="{{handlemethod}}"
+                        data-reportlocation="{{reportlocation}}"></i>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> PHCB-Quan/footer}}
+  </div>
+</main>
+
+{{!-- modal edit report --}}
+<div class="modal fade" id="handleMethod" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <form action="" id="handleMethodForm" onsubmit="editReport(event)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="col-5 px-2">
+            <h5 class="modal-title">Báo Cáo</h5>
+          </div>
+          <div class="col-6 px-2 d-flex status">
+            <h6 class="modal-title text-danger">
+              <span class="font-weight-bold text-secondary">Tình
+                trạng:</span>
+              <span id="tinhTrangXL" class="me-2 font-weight-bold span-content"></span>
+            </h6>
+          </div>
+          <div class="col-1 px-4">
+            <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+              data-target="infoToast" style="margin-bottom: 0;"><i class="fa fa-times-circle text-danger  fs-4"
+                aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <h6 class="text-primary reportlocation"></h6>
+            <div class="row g-2">
+              <div class="col mb-3 me-2">
+                <h6>Phần 1: Thông Tin Báo Cáo</h6>
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Người báo cáo: </span>
+                      <span class="span-content" id="reportername"></span>
+                    </h6>
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Số điện thoại: </span>
+                      <span class="span-content" id="reporterphonenumber"></span>
+                    </h6>
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Email: </span>
+                      <span class="span-content" id="reporteremail"></span>
+                    </h6>
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Hình thức báo cáo: </span>
+                      <span class="span-content" id="typeofreport"></span>
+                    </h6>
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Nội dung báo cáo: </span>
+                      <span class="span-content" id="reportcontent" style="font-size:14px; font-wieght:bold; color:#344767;font-family: Roboto, Helvetica, Arial, sans-serif;"></span>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-3">
+                <h6>Phần 2: Xử lý báo cáo</h6>
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="col mb-3">
+                      <h6 class="text-sm font-weight-normal">
+                        <span class="font-weight-bold">Thời điểm xử lý: </span>
+                        <span>
+                          <script>
+                            var currentDate = new Date();
+                            var day = currentDate.getDate();
+                            var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
+                            var year = currentDate.getFullYear();
+                            document.write(day + '/' + month + '/' + year);
+                          </script>
+                        </span>
+                      </h6>
+                      <h6 class="text-sm font-weight-normal">
+                        <span class="font-weight-bold">Cách thức xử lý: </span>
+                        <input style = "height: 75px" type="text" id="handlemethod" name="handlemethodedit" class="mt-2 form-control"
+                         placeholder="" disabled />
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-3 mt-3" id="hinhAnhSlide">
+              <h6>Phần 3: Hình ảnh </h6>
+              <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="First slide"></li>
+                  <li data-bs-target="#carouselId" data-bs-slide-to="1" aria-label="Second slide">
+                  </li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                  <div class="carousel-item active">
+                    <img id="imagepath1" class="card-img slide-image w-100 d-block i" style = "border-radius:10px" alt="Không có ảnh">
+                  </div>
+                  <div class="carousel-item">
+                    <img id="imagepath2" class="card-img slide-image w-100 d-block" style = "border-radius:10px" alt="Không có ảnh">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: space-around;">
+          <input type="hidden" name="id" id="idReport" value="" />
+          <button id="xuly" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal"
+            disabled>Xử
+            lý</button>
+        </div>
+    </form>
+  </div>
+</div>

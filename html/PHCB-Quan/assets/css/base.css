@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+ul, li {
+    list-style-type: none !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+input {
+    border-radius: 0 !important;
+    outline: none !important;
+}
+button {
+    border: none !important;
+    outline: none !important;
+}
