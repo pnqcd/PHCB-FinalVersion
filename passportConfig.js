@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 // const pool = require("./database/database");
 const { Sequelize } = require('sequelize');
 const models = require("./models");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
 async function initialize(passport) {
     // const client = pool.connect();
@@ -71,11 +71,11 @@ async function initialize(passport) {
                     const isMatch = await bcrypt.compare(password, user.password);
         
                     if (isMatch) {
-                    console.log('Logged in!');
-                    return done(null, user);
+                        console.log('Logged in!');
+                        return done(null, user);
                     } else {
-                    console.log('Password is not correct');
-                    return done(null, false, { message: 'Password is not correct.' });
+                        console.log('Password is not correct');
+                        return done(null, false, { message: 'Password is not correct.' });
                     }
                 } else {
                     console.log('Email is not registered');
