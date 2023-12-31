@@ -25,14 +25,15 @@ controller.showLogin = (req, res) => {
 }
 
 controller.login = (req, res, next) => { 
+    let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
     passport.authenticate("local", (err, user, info) => {
         if (err) return next(err);
         if (!user) return res.redirect("/login");
 
         req.login(user, (err) => {
             if (err) return next(err);
-
-            return res.redirect("/");
+            
+            return res.redirect(reqUrl);
             // if (user.isWard) {
             //     return res.redirect("/PHCB-Phuong");
             // }

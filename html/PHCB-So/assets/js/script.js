@@ -556,7 +556,9 @@ async function settingAccount(e) {
 }
 
 async function changePassword(e) {
-  e.preventDefault();
+  // checkCurrentPassword();
+  // if (!this.checkValidity())
+    e.preventDefault();
 
   const formData = new FormData(document.getElementById("formChangePassword"));
   const data = Object.fromEntries(formData.entries());
