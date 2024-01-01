@@ -504,12 +504,8 @@ async function settingAccount(e) {
 
   let res = await fetch('/PHCB-Quan/profile', {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body:formData,
   });
-
   location.reload();
 }
 
