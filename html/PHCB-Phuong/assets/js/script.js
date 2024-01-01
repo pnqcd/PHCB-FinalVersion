@@ -462,4 +462,71 @@ function sendEmailReport(email,tenNguoiBaoCao,hinhThucBaoCao,phone,cachThucXuLy,
   .catch();
 }
 
+async function settingAccount(e) {
+  e.preventDefault();
 
+  const formData = new FormData(document.getElementById("formAccountSettings"));
+  console.log(formData);
+  let res = await fetch('/PHCB-Phuong/profile', {
+    method: "PUT",
+    body:formData,
+  });
+
+  location.reload();
+}
+
+async function changePassword(e) {
+
+    e.preventDefault();
+
+  const formData = new FormData(document.getElementById("formChangePassword"));
+  const data = Object.fromEntries(formData.entries());
+
+  let res = await fetch('/PHCB-Phuong/changePassword', {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  location.reload();
+}
+
+function checkCurrentPassword(event) {
+  event.preventDefault();
+
+  let passwordElm = document.querySelector("#oldPassword");
+  let password = passwordElm.value;
+
+  let idElm = document.querySelector("#idUser");
+  let id = idElm.value;
+
+  fetch(`/PHCB-Phuong/changePassword/checkCurrentPassword?id=${id}&password=${password}`)
+    .then(response => response.json())
+    .then(data => {
+      if (!data.exists) {
+        passwordElm.setCustomValidity('Mật khẩu hiện tại không đúng');
+        // passwordElm.reportValidity();
+      } else {
+        passwordElm.setCustomValidity('');
+      }
+    })
+    .catch(error => console.error(error));
+}
+
+function checkPasswordMatch(event) {
+  // event.preventDefault();
+  event.preventDefault();
+
+  let password = document.querySelector("#newPassword");
+  let confirmPassword = document.querySelector("#confirmPassword");
+
+  if (confirmPassword.value != password.value) {
+    confirmPassword.setCustomValidity('Mật khẩu không khớp!');
+    confirmPassword.reportValidity();
+    // confirmPassword.reportValidity();
+  } else {
+    confirmPassword.setCustomValidity('');
+  }
+}

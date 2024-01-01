@@ -512,6 +512,7 @@ async function settingAccount(e) {
 
   location.reload();
 }
+
 function checkUsernameExisted(event) {
   event.preventDefault();
 
@@ -561,7 +562,6 @@ function checkCurrentPassword(event) {
     .then(data => {
       if (!data.exists) {
         passwordElm.setCustomValidity('Mật khẩu hiện tại không đúng');
-        // passwordElm.reportValidity();
       } else {
         passwordElm.setCustomValidity('');
       }
@@ -570,7 +570,7 @@ function checkCurrentPassword(event) {
 }
 
 function checkPasswordMatch(event) {
-  // event.preventDefault();
+
   event.preventDefault();
 
   let password = document.querySelector("#newPassword");
@@ -579,7 +579,7 @@ function checkPasswordMatch(event) {
   if (confirmPassword.value != password.value) {
     confirmPassword.setCustomValidity('Mật khẩu không khớp!');
     confirmPassword.reportValidity();
-    // confirmPassword.reportValidity();
+
   } else {
     confirmPassword.setCustomValidity('');
   }
