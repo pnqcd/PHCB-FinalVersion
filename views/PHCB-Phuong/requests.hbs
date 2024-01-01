@@ -1,0 +1,770 @@
+{{> PHCB-Phuong/sidebar curPage="Yêu cầu"}}
+ <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        {{> PHCB-Phuong/navbar curPage="Yêu cầu"}}
+        <!-- End Navbar -->
+        <!--chinh sua yeu cau-->
+                <div class="modal fade" id="editRequestModal" data-bs-backdrop="static"
+                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelfixads"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <form action="" id ="editRequestForm" onsubmit="editRequest(event)" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-6 px-2"><h5 class="modal-title text-primary" id="staticBackdropLabel">CHỈNH SỬA YÊU CẦU QUẢNG CÁO </h5></div>    
+                                <div class="col-1 px-4">
+                                <button class="btn-close toast-btn" type="button"
+                                    data-bs-dismiss="modal" aria-label="Close"
+                                    data-target="infoToast" style="margin-bottom: 0;"><i
+                                        class="fa fa-times-circle text-danger  fs-4"
+                                        aria-hidden="true"></i></button>
+                                </div>
+                            </div>                                                   
+                           <div class="modal-body">
+                
+                            <div class="container py-3">
+                              
+                              <h5>Phần 1: Thông tin chung</h5>
+                              <div class="card">
+                                
+                                  
+                                  <div class="row  mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label" for="congTYEdit">Tên công ty:</label>
+                                        <input type="text" class="form-control" id="congTYEditRequest" name="congTy" 
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label" for="diaChiCongTyEdit">Địa chỉ: </label>
+                                        <input type="text" class="form-control " id="diaChiCongTyEditRequest" name="diaChiCongTy"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label" for="dienThoaiEdit">Số điện thoại: </label>
+                                        <input type="text" class="form-control " id="dienThoaiEditRequest" name="dienThoai"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Email: </label>
+                                        <input type="text" class="form-control " id="emailEditRequest" name="email" required />
+                                        
+                                      </div>
+                                    </div>
+                                    </div>
+                                    
+                                
+                                
+                            </div>
+                          </div>
+                          <div class="container py-3">
+                              
+                            <h5>Phần 2: Thông tin điểm đặt</h5>
+                            <div class="card">
+                              
+                                
+                                <div class="row  mb-3">
+                                    <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Địa chỉ điểm đặt</label>
+                                        <select id="diaChiEditRequest" name="diaChiRequest" class="form-control select-form-control">
+                                        {{#each places}}
+                                        <option value="{{diaChi}}" selected="selected">{{diaChi}}</option>
+                                        {{/each}}
+                                        </select>
+                                      
+                                      
+                                    </div>
+                                  </div>
+                                    
+                                  {{!-- <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Địa chỉ điểm đặt</label>
+                                      <input type="text" class="form-control " id="diaChiEditRequest" name="diaChi"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Vị trí: </label>
+                                      <input type="text" class="form-control " name="khuVuc" id="khuVucEditRequest"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Loại vị trí:</label>
+                                      <input type="text" class="form-control " id="loaiVTEditRequest" name="loaiVT"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Tọa độ</label>
+                                      <input type="text" class="form-control " id="longitudeEditRequest" name="longitude" required />
+                                      
+                                    </div>
+                                  </div> --}}
+                                  </div>
+                                  
+                              
+                              
+                          </div>
+                        </div>
+                        <div class="container py-3">
+                              
+                            <h5>Phần 3: Thông tin bảng quảng cáo</h5>
+                            <div class="card">
+                              
+                                
+                                <div class="row  mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Tên bảng quảng cáo:</label>
+                                      <input type="text" class="form-control " name="tenBangQuangCao" id="tenBangQuangCaoEditRequest"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Loại bảng quảng cáo: </label>
+                                      <select name="noiDungQC" id="noiDungQCEditRequest" class="form-control select-form-control">
+                                        {{#each adstypes}}
+                                        <option value="{{name}}" selected="selected">{{name}}</option>
+                                        {{/each}}
+                                        </select>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Kích thước: </label>
+                                      <input type="text" class="form-control " name="kichThuoc" id="kichThuocEditRequest"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Số lượng:</label>
+                                      <input type="text" class="form-control " name="soLuong" id="soLuongEditRequest" required />
+                                      
+                                    </div>
+                                  </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Ngày bắt đầu hợp đồng:</label>
+                                        <input type="text" class="form-control " placeholder="MM/DD/YYYY" name="ngayBatDau" id="ngayBatDauEditRequest" oninput="checkValidDate(this, event)"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Ngày kết thúc hợp đồng:</label>
+                                        <input type="text" class="form-control " placeholder="MM/DD/YYYY" name="ngayKetThuc" id="ngayKetThucEditRequest" oninput="checkValidDate(this, event)" required />
+                                        
+                                      </div>
+                                    </div>
+                                    </div>
+                              
+                              
+                          </div>
+                        </div>
+                        <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="editRequestImg" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="requestAdsImg" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="requestAdsImg" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event,'#editRequestImg')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                           </div> 
+                           <div class="modal-footer"
+                           style="justify-content: space-around;">
+                           <input type="hidden" name="id" id="idRequest" value="" />
+                           <input type="hidden" name="hinhAnhId" id="hinhAnhIdRequest" value="" />
+                           <button type="submit" class="btn btn-primary">CHỈNH SỬA</button>
+                          
+                       </div>
+                            
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <!--end chinh sua-->
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div
+                                class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-1 d-flex justify-content-between align-items-center">
+                                <h6 class="text-white text-capitalize ps-3">Danh sách yêu cầu</h6>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn bg-gradient-success toast-btn btn-outline-white" type="button"
+                                            data-target="infoToast" data-bs-toggle="modal" data-bs-target="#addRequest"><i class="fa-solid fa-plus pe-1"></i>Add</button>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                                            <a href="javascript:;" class="nav-link text-body p-0 text-center"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn bg-gradient-success mb-0 me-4 toast-btn btn-outline-white"
+                                                    type="button" data-target="infoToast"><i
+                                                        class="fa-solid fa-sort"></i></button>
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end px-1 py-1"
+                                                aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('diaChi', 'tableRequest')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('congTy', 'tableRequest')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Công ty
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('noiDungQC', 'tableRequest')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('tinhTrang', 'tableRequest')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-z-a  pe-1"></i>Tình trạng
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---add-->
+                        <div class="modal fade" id="addRequest" data-bs-backdrop="static"
+                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeladd"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <form action="requests/request" id="addRequestForm" method="POST" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-6 px-2"><h5 class="modal-title text-primary" id="staticBackdropLabel">TẠO YÊU CẦU QUẢNG CÁO </h5></div>    
+                                <div class="col-1 px-4">
+                                <button class="btn-close toast-btn" type="button"
+                                    data-bs-dismiss="modal" aria-label="Close"
+                                    data-target="infoToast" style="margin-bottom: 0;"><i
+                                        class="fa fa-times-circle text-danger  fs-4"
+                                        aria-hidden="true"></i></button>
+                                </div>
+                            </div>                                                   
+                           <div class="modal-body">
+                
+                            <div class="container py-3">
+                              
+                              <h5>Phần 1: Thông tin chung</h5>
+                              <div class="card">
+                                
+                                  
+                                  <div class="row  mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Tên công ty:</label>
+                                        <input type="text" class="form-control " value="" id="congTy" name="congTy"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Địa chỉ: </label>
+                                        <input type="text" class="form-control " value="" id="diaChiCongTy" name="diaChiCongTy"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Số điện thoại: </label>
+                                        <input type="text" class="form-control " value="" id="dienThoai" name="dienThoai"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Email: </label>
+                                        <input type="text" class="form-control " value="" id="email" name="email" required />
+                                        
+                                      </div>
+                                    </div>
+                                    </div>
+                                    
+                                
+                                
+                            </div>
+                          </div>
+                          <div class="container py-3">
+                              
+                            <h5>Phần 2: Thông tin điểm đặt</h5>
+                            <div class="card">
+                              
+                                
+                                <div class="row  mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Địa chỉ điểm đặt</label>
+                                      <select id="diaChiEditRequest" name="diaChiRequest" class="form-control select-form-control">
+                                        {{#each places}}
+                                        <option value="{{diaChi}}" selected="selected">{{diaChi}}</option>
+                                        {{/each}}
+                                        </select>
+                                      
+                                      
+                                    </div>
+                                  </div>
+                                  {{!-- <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Vị trí: </label>
+                                      <input type="text" class="form-control " value="" id="khuVuc" name="khuVuc"
+                                        required />
+                                      
+                                    </div>
+                                  </div> --}}
+                                </div>
+                                {{!-- <div class="row mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Loại vị trí:</label>
+                                      <input type="text" class="form-control " value="" id="loaiVT" name="loaiVT"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Tọa độ</label>
+                                      <input type="text" class="form-control " value="" id="longitude" name="longitude"required />
+                                      
+                                    </div>
+                                  </div>
+                                  </div> --}}
+                                  
+                              
+                              
+                          </div>
+                        </div>
+                        <div class="container py-3">
+                              
+                            <h5>Phần 3: Thông tin bảng quảng cáo</h5>
+                            <div class="card">
+                              
+                                
+                                <div class="row  mb-3">
+                                  
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Loại bảng quảng cáo: </label>
+                                      <input type="text" class="form-control " value="" id="tenBangQuangCao" name="tenBangQuangCao"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Hình thức:</label>
+                                        <select name="noiDungQC" id="noiDungQC" class="form-control select-form-control">
+                                {{#each adstypes}}
+                                <option value="{{name}}" selected="selected">{{name}}</option>
+                                {{/each}}
+                              </select>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Kích thước: </label>
+                                      <input type="text" class="form-control " value="" id="kichThuoc" name="kichThuoc"
+                                        required />
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="input">
+                                        <label class="form-label">Số lượng:</label>
+                                      <input type="text" class="form-control " value="" id="soLuong" name="soLuong" required />
+                                      
+                                    </div>
+                                  </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Ngày bắt đầu hợp đồng:</label>
+                                        <input type="text" class="form-control " value="" id="ngayBatDau" name="ngayBatDau" placeholder="MM/DD/YYYY"
+                                          required />
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="input">
+                                        <label class="form-label">Ngày kết thúc hợp đồng:</label>
+                                        <input type="text" class="form-control " value="" id="ngayKetThuc" name="ngayKetThuc" placeholder="MM/DD/YYYY" required />
+                                        
+                                      </div>
+                                    </div>
+                                    </div>
+                              
+                              
+                          </div>
+                        </div>
+                        <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="addRequestImg" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="addImgRequest" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="addImgRequest" type="file" name="ImageUrl" style="display: none;" onchange="loadImg(event,'#addRequestImg')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                           </div> 
+                           <div class="modal-footer"
+                           style="justify-content: space-around;">
+                           <button type="submit" class="btn btn-info"
+                           data-bs-dismiss="modal">GỬI YÊU CẦU</button>
+                          
+                       </div>
+                            
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <!--end modal-->
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive-lg p-0">
+                                <!-- modal -->
+                                                <div class="modal detail-request fade" id="chiTietYeuCau" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <div class="col-5 px-2"><h5 class="modal-title text-primary" id="staticBackdropLabel">YÊU
+                                                                        CẦU QUẢNG CÁO </h5></div>    
+                                                                <div class="col-6 px-2 d-flex">
+                                                                    <h5 class="modal-title"><span class="font-weight-bold text-secondary">Tình trạng: </span><span class="tinhTrangRequest"></span> </h5>
+                                                                    
+                                                                </div>
+                                                                <div class="col-1 px-4">
+                                                                <button class="btn-close toast-btn" type="button" onclick="closeViewRequestDetail(this)"
+                                                                    data-bs-dismiss="modal" aria-label="Close"
+                                                                    data-target="infoToast" style="margin-bottom: 0;"><i
+                                                                        class="fa fa-times-circle text-danger  fs-4"
+                                                                        aria-hidden="true"></i></button>
+                                                                </div>
+                                                            </div>                                                   
+                                                            <div class="modal-body">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+                                                                        <div class="col-6 ">
+                                                                            <h6>Phần 1: Thông Tin Chung</h6>
+                                                                            <div class="card h-75">
+                                                                                <div class="card-body">
+                                                                                    <div
+                                                                                        class="d-flex flex-column justify-content-center detail-card-part-1">
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Tên
+                                                                                                công ty: </span> 
+                                                                                                <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Địa
+                                                                                                chỉ: </span> 
+                                                                                                <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Điện
+                                                                                                thoại: </span>
+                                                                                                <span class="span-content"></span>
+                                                                                           
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Email:
+                                                                                            </span>
+                                                                                            <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <h6>Phần 2: Thông Tin Điểm Đặt </h6>
+                                                                            <div class="card h-75">
+                                                                                <div class="card-body">
+                                                                                    <div
+                                                                                        class="d-flex flex-column justify-content-center detail-card-part-2">
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Địa
+                                                                                                chỉ điểm đặt: </span>
+                                                                                            <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Vị
+                                                                                                trí: </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Loại
+                                                                                                vị trí: </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Tọa
+                                                                                                độ: </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-6">
+                                                                            <h6>Phần 3: Thông Tin Bảng Quảng Cáo</h6>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <div
+                                                                                        class="d-flex flex-column justify-content-center detail-card-part-3">
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Hình
+                                                                                                thức quảng cáo: </span>
+                                                                                            <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Loại
+                                                                                                bảng quảng cáo: </span>
+                                                                                            <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Kích
+                                                                                                thước: </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Số
+                                                                                                lượng: </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Ngày
+                                                                                                bắt đầu hợp đồng:
+                                                                                            </span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                        <h6
+                                                                                            class="text-sm font-weight-normal mb-1">
+                                                                                            <span
+                                                                                                class="font-weight-bold">Ngày
+                                                                                                kết thúc hợp
+                                                                                                đồng:</span> <span class="span-content"></span>
+                                                                                        </h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-6">
+                            <h6>Phần 4: Hình ảnh</h6>
+                            <div class="card bg-dark text-white">
+                              <img id="hinhAnhRequest" class="card-img" alt="Không có ảnh"
+                                style="height: 198px; box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;  object-fit: cover;">
+                            </div>
+                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer"
+                                                                style="justify-content: space-around;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                <table id="tableRequest" class="table align-items-center justify-content-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Địa chỉ</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Công ty</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Hình thức
+                                                quảng cáo</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Tình trạng
+                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                                Tùy chọn
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each requests}}
+                                        <tr data-phuong="{{Place.khuVuc}}" data-diaChi="{{Place.diaChi}}" data-congTy="{{congTy}}"
+                    data-noiDungQC="{{noiDungQC}}" data-tinhTrang="{{tinhTrang}}">
+                                            <td onclick="openViewRequestDetail(this,'{{congTy}}','{{diaChiCongTy}}','{{dienThoai}}','{{email}}','{{Place.diaChi}}','{{Place.khuVuc}}','{{Place.loaiVT}}','{{Place.longitude}}','{{Place.latitude}}','{{tenBangQuangCao}}','{{noiDungQC}}','{{kichThuoc}}','{{soLuong}}','{{formattedNgayBatDau}}','{{formattedNgayKetThuc}}','{{tinhTrang}}','{{hinhAnh}}')">
+                                                <div class="d-flex px-2">
+                                                    <div>
+                                                        <img src="{{hinhAnh}}"
+                                                            class="avatar avatar-sm me-3 border-radius-lg"
+                                                            alt="spotify">
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h6 class="mb-0 text-sm">{{Place.diaChi}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{congTy}}</p>
+                                            </td>
+                                            <td>
+                                                <span class="text-xs font-weight-bold">{{noiDungQC}}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2 {{#if_eq tinhTrang "Chờ phê duyệt"}}text-warning{{/if_eq}} {{#if_eq tinhTrang "Đã phê duyệt"}}text-success{{/if_eq}} {{#if_eq tinhTrang "Không phê duyệt"}}text-danger{{/if_eq}} text-xs font-weight-bold">{{tinhTrang}}</span>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle" style="white-space : normal; ">
+                                                    
+                                                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
+                                                data-bs-target="#editRequestModal" onclick="showEditRequestModal(this)" data-id="{{id}}"
+                                                data-cong-ty="{{congTy}}" data-dia-chi-cong-ty="{{diaChiCongTy}}" data-dien-thoai="{{dienThoai}}" data-email="{{email}}"
+data-dia-chi="{{Place.diaChi}}" data-khu-vuc="{{Place.khuVuc}}"
+    data-loai-v-t="{{Place.loaiVT}}"
+    data-longitude="{{Place.longitude}}"
+    data-latitude="{{Place.latitude}}"
+    data-ten-bang-quang-cao="{{tenBangQuangCao}}"
+    data-noi-dung-q-c="{{noiDungQC}}"
+    data-kich-thuoc="{{kichThuoc}}"
+    data-so-luong="{{soLuong}}"
+    data-ngay-bat-dau="{{formattedNgayBatDau}}"
+    data-ngay-ket-thuc="{{formattedNgayKetThuc}}"
+     data-hinh-anh-id="{{hinhAnhId}}" data-hinh-anh="{{hinhAnh}}"></i>
+                                                <i role="button" class="fa fa-trash text-danger delete-btn delete-request-btn me-3" data-id={{id}} data-hinh-anh-id={{hinhAnhId}}></i>
+                                                <i role="button" class="bi bi-envelope-arrow-up-fill text-info email-request-btn" data-id="{{id}}"
+                                                data-cong-ty="{{congTy}}" data-dia-chi-cong-ty="{{diaChiCongTy}}" data-dien-thoai="{{dienThoai}}" data-email="{{email}}"
+data-dia-chi="{{Place.diaChi}}" data-khu-vuc="{{Place.khuVuc}}"
+    data-loai-v-t="{{Place.loaiVT}}"
+    data-longitude="{{Place.longitude}}"
+    data-latitude="{{Place.latitude}}"
+    data-ten-bang-quang-cao="{{tenBangQuangCao}}"
+    data-noi-dung-q-c="{{noiDungQC}}"
+    data-kich-thuoc="{{kichThuoc}}"
+    data-so-luong="{{soLuong}}"
+    data-ngay-bat-dau="{{formattedNgayBatDau}}"
+    data-ngay-ket-thuc="{{formattedNgayKetThuc}}"
+    data-tinh-trang="{{tinhTrang}}"
+    data-hinh-anh-id="{{hinhAnhId}}" data-hinh-anh="{{hinhAnh}}"></i>
+                                                
+                                                
+                                                
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      {{> PHCB-Phuong/footer}}
+      
+        
+    </main>

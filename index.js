@@ -113,6 +113,12 @@ app.use('/PHCB-Quan/bang-quang-cao', require('./routes/PHCB-Quan/adsManageRouter
 app.use('/PHCB-Quan/profile',require('./routes/PHCB-Quan/profileRouter'));
 app.use('/PHCB-Quan/change-password',require('./routes/PHCB-Quan/changePasswordRouter'));
 
+app.get('/PHCB-Phuong', (req, res) => res.redirect('/PHCB-Phuong/manageList'));
+app.use('/PHCB-Phuong/manageList',require('./routes/PHCB-Phuong/manageListRouter'));
+app.use('/PHCB-Phuong/reports',require('./routes/PHCB-Phuong/reportsRouter'));
+app.use('/PHCB-Phuong/requests',require('./routes/PHCB-Phuong/requestsRouter'));
+app.use('/PHCB-Phuong/profile',require('./routes/PHCB-Phuong/profileRouter'));
+app.use('/PHCB-Phuong/changePassword',require('./routes/PHCB-Phuong/changePasswordRouter'));
 
 app.listen(port, function(err) {
     if (typeof(err) == "undefined") {
