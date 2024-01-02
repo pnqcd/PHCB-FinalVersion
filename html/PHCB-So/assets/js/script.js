@@ -4,16 +4,17 @@ function loadMap() {
   if (map) {
     map.dispose();
   }
+
   var platform = new H.service.Platform({
     apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
   });
+  
   var defaultLayers = platform.createDefaultLayers(
       {
           lg: 'vi'
       }
   );
 
-  
   map = new H.Map(document.getElementById('chooseAddressOnMap'),
       defaultLayers.vector.normal.map, {
       center: { lat: 10.76316473604989, lng: 106.68238541539267 },
@@ -22,25 +23,25 @@ function loadMap() {
   });
 
   if (map) {
-  // add a resize listener to make sure that the map occupies the whole container
-  window.addEventListener('resize', () => map.getViewPort().resize());
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => map.getViewPort().resize());
 
-  var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-  // Create the default UI components
-  var ui = H.ui.UI.createDefault(map, defaultLayers);
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-  map.addEventListener('tap', function (evt) {
-      let { lat, lng } = map.screenToGeo(
-          evt.currentPointer.viewportX,
-          evt.currentPointer.viewportY,
-      );
-      let lngField = document.getElementById('longitude');
-      let latField = document.getElementById('latitude');
+    map.addEventListener('tap', function (evt) {
+        let { lat, lng } = map.screenToGeo(
+            evt.currentPointer.viewportX,
+            evt.currentPointer.viewportY,
+        );
+        let lngField = document.getElementById('longitude');
+        let latField = document.getElementById('latitude');
 
-      lngField.value = lng;
-      latField.value = lat;
-  });
+        lngField.value = lng;
+        latField.value = lat;
+    });
   }
 }
 

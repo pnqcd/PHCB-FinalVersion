@@ -151,7 +151,7 @@
     font-size: 0.875rem;
 }
 
-#chooseAddressOnMap, #testMap {
+#chooseAddressOnMap {
     height: 300px;
     width: 100%;
     border: 1px solid #cdced0;
