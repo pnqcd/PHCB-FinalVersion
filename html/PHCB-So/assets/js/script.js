@@ -41,6 +41,29 @@ function loadMap() {
 
         lngField.value = lng;
         latField.value = lat;
+
+        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+        fetch(url)
+          .then(function (response) {
+              return response.json();
+          })
+          .then(function (data) {
+              if (data.items && data.items.length > 0) {
+                  var address = data.items[0].address;
+                  let dcField = document.getElementById('diaChi');
+                  let kvField = document.getElementById('khuVuc');
+
+                  var addressParts = address.label.split(',');
+                  dcField.value = addressParts[0].trim();
+                  kvField.value = address.district + ", " + address.city;
+                  
+              } else {
+                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
+              }
+          })
+          .catch(function (error) {
+              console.error(error);
+          });
     });
   }
 }
