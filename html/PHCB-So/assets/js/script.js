@@ -1,5 +1,9 @@
 let map_loaded = false;
 var map;
+
+let mapedit_loaded = false;
+var mapedit;
+
 function loadMap() {
   if (map) {
     map.dispose();
@@ -50,12 +54,84 @@ function loadMap() {
           .then(function (data) {
               if (data.items && data.items.length > 0) {
                   var address = data.items[0].address;
+
                   let dcField = document.getElementById('diaChi');
                   let kvField = document.getElementById('khuVuc');
 
                   var addressParts = address.label.split(',');
-                  dcField.value = addressParts[0].trim();
-                  kvField.value = address.district + ", " + address.city;
+
+                  if (dcField) dcField.value = addressParts[0].trim();
+                  if (kvField) kvField.value = address.district + ", " + address.city;
+                  
+              } else {
+                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
+              }
+          })
+          .catch(function (error) {
+              console.error(error);
+          });
+    });
+  }
+}
+
+function loadMapEdit() {
+  if (mapedit) {
+    mapedit.dispose();
+  }
+
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+  
+  var defaultLayers = platform.createDefaultLayers(
+      {
+          lg: 'vi'
+      }
+  );
+
+  mapedit = new H.Map(document.getElementById('editAddressOnMap'),
+      defaultLayers.vector.normal.map, {
+      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+      zoom: 14.5,
+      pixelRatio: window.devicePixelRatio || 1
+  });
+
+  if (mapedit) {
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => mapedit.getViewPort().resize());
+
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(mapedit));
+
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(mapedit, defaultLayers);
+
+    mapedit.addEventListener('tap', function (evt) {
+        let { lat, lng } = mapedit.screenToGeo(
+            evt.currentPointer.viewportX,
+            evt.currentPointer.viewportY,
+        );
+        let lngEditField = document.getElementById('longitudeEdit');
+        let latEditField = document.getElementById('latitudeEdit');
+
+        lngEditField.value = lng;
+        latEditField.value = lat;
+
+        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+        fetch(url)
+          .then(function (response) {
+              return response.json();
+          })
+          .then(function (data) {
+              if (data.items && data.items.length > 0) {
+                  var address = data.items[0].address;
+
+                  let dcEditField = document.getElementById('diaChiEdit');
+                  let kvEditField = document.getElementById('khuVucEdit');
+
+                  var addressParts = address.label.split(',');
+
+                  if (dcEditField) dcEditField.value = addressParts[0].trim();
+                  if (kvEditField) kvEditField.value = address.district + ", " + address.city;
                   
               } else {
                   alert('Không tìm thấy địa chỉ cho tọa độ này.');
@@ -113,6 +189,10 @@ let editPlaceEle = document.querySelector("#editPlaceModal");
 if (editPlaceEle) {
   editPlaceEle.addEventListener("shown.bs.modal", () => {
     document.querySelector("#diaChiEdit").focus();
+    if (!mapedit_loaded) {
+      loadMapEdit();
+      mapedit_loaded = true;
+    }
   });
 }
 
@@ -345,7 +425,7 @@ function showEditWardModal(btn) {
 }
 
 function showEditPlaceModal(btn) {
-  console.log(btn.dataset);
+  // console.log(btn.dataset);
   document.querySelector("#idPlace").value = btn.dataset.id;
   document.querySelector("#diaChiEdit").value = btn.dataset.diaChi;
   document.querySelector("#khuVucEdit").value = btn.dataset.khuVuc;
