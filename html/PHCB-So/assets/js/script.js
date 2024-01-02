@@ -1042,9 +1042,10 @@ async function countReports() {
     for (let report of allReports) {
       let key = `${report.lat}-${report.lng}`;
       if (!isDup[key]) {
-        let { city, district } = await getCityAndDistrict(report.lat, report.lng);
+        // let { city, district } = await getCityAndDistrict(report.lat, report.lng);
         // console.log(district, city);
-        let name = `${district}-${city}`;
+        // let name = `${district}-${city}`;
+        let name = report.reportkhuvuc;
         dupName[key] = name;
 
         if (report.adbannerreportid)
@@ -1084,11 +1085,12 @@ async function getCityAndDistrict(lat, lng) {
   }
 }
 
-countReports();
+let reportChartElm = document.querySelector('#reportChart');
+if (reportChartElm) countReports();
 
 async function getNumberReport(ward, district) {
-  let countLoc = reportCountListLoc[`${ward}-${district}`];
-  let countAds = reportCountListAds[`${ward}-${district}`];
+  let countLoc = reportCountListLoc[`${ward}, ${district}`];
+  let countAds = reportCountListAds[`${ward}, ${district}`];
   if (!countLoc) countLoc = 0;
   if (!countAds) countAds = 0;
   // console.log(count);
@@ -1142,7 +1144,6 @@ async function displayHandleMethod(district) {
   });
 }
 
-let reportChartElm = document.querySelector('#reportChart');
 if (reportChartElm) statisticByDistrict(null);
 
 function statisticByDistrict(elm) {
