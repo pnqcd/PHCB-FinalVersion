@@ -1,3 +1,50 @@
+let map_loaded = false;
+var map;
+function loadMap() {
+  if (map) {
+    map.dispose();
+  }
+
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+  
+  var defaultLayers = platform.createDefaultLayers(
+      {
+          lg: 'vi'
+      }
+  );
+
+  map = new H.Map(document.getElementById('chooseAddressOnMap'),
+      defaultLayers.vector.normal.map, {
+      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+      zoom: 14.5,
+      pixelRatio: window.devicePixelRatio || 1
+  });
+
+  if (map) {
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => map.getViewPort().resize());
+
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+    map.addEventListener('tap', function (evt) {
+        let { lat, lng } = map.screenToGeo(
+            evt.currentPointer.viewportX,
+            evt.currentPointer.viewportY,
+        );
+        let lngField = document.getElementById('longitude');
+        let latField = document.getElementById('latitude');
+
+        lngField.value = lng;
+        latField.value = lat;
+    });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   let searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", function () {
@@ -32,6 +79,10 @@ let addPlaceEle = document.querySelector("#addPlaceModal")
 if (addPlaceEle) {
   addPlaceEle.addEventListener("shown.bs.modal", () => {
     document.querySelector("#diaChi").focus();
+    if (!map_loaded) {
+      loadMap();
+      map_loaded = true;
+    }
   });
 }
 
@@ -541,15 +592,21 @@ async function deleteAccount(id) {
 async function settingAccount(e) {
   e.preventDefault();
 
-  const formData = new FormData(document.getElementById("formAccountSettings"));
-  const data = Object.fromEntries(formData.entries());
+  // const formData = new FormData(document.getElementById("formAccountSettings"));
+  // const data = Object.fromEntries(formData.entries());
 
+  // let res = await fetch('/PHCB-So/profile', {
+  //   method: "PUT",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+  const formData = new FormData(document.getElementById("formAccountSettings"));
+  console.log(formData);
   let res = await fetch('/PHCB-So/profile', {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body:formData,
   });
 
   location.reload();
