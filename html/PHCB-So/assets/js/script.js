@@ -145,6 +145,10 @@ function loadMapEdit() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  let reportChartElm = document.querySelector('#reportChart');
+  if (reportChartElm) countReports();
+  if (reportChartElm) statisticByDistrict(null);
+
   let searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", function () {
     let searchText = searchInput.value.toLowerCase();
@@ -1085,9 +1089,6 @@ async function getCityAndDistrict(lat, lng) {
   }
 }
 
-let reportChartElm = document.querySelector('#reportChart');
-if (reportChartElm) countReports();
-
 async function getNumberReport(ward, district) {
   let countLoc = reportCountListLoc[`${ward}, ${district}`];
   let countAds = reportCountListAds[`${ward}, ${district}`];
@@ -1144,10 +1145,9 @@ async function displayHandleMethod(district) {
   });
 }
 
-if (reportChartElm) statisticByDistrict(null);
-
 function statisticByDistrict(elm) {
   let district = elm ? elm.textContent : "Quận 1";
+  console.log(district)
   let wards = [];
   let locTotal = [];
   let adsTotal = [];
