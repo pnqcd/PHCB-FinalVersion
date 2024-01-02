@@ -1039,7 +1039,8 @@ async function displayHandleMethod(district) {
   });
 }
 
-statisticByDistrict(null);
+let reportChartElm = document.querySelector('#reportChart');
+if (reportChartElm) statisticByDistrict(null);
 
 function statisticByDistrict(elm) {
   let district = elm ? elm.textContent : "Quận 1";
@@ -1088,7 +1089,8 @@ function statisticByDistrict(elm) {
 }
 
 let canvas = document.querySelector("#reportChart");
-let ctx = canvas.getContext('2d');
+let ctx;
+if (canvas) ctx = canvas.getContext('2d');
 let myChart = null;
 
 function barChart(wards, district, locTotal, adsTotal) {
