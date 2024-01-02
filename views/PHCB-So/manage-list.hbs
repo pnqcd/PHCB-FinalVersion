@@ -103,7 +103,7 @@
 
     <!-- Add Place Modal -->
     <div class="modal fade" id="addPlaceModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <form action="/PHCB-So/danh-sach/places" id="addPlaceForm" method="POST" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -147,6 +147,11 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="row">
+                            <div id="chooseAddressOnMap" class="col mb-3">
+
+                            </div>
+                        </div>
                         <div class="row g-2">
                             <div class="col mb-3">
                                 <label for="diaChi" class="form-label">Kinh độ</label>
@@ -156,7 +161,7 @@
                             <div class="col mb-3">
                                 <label for="khuVuc" class="form-label">Vĩ độ</label>
                                 <input type="text" id="latitude" name="latitude" class="form-control" placeholder=""
-                                     />
+                                    />
                             </div>
                         </div>
                         
@@ -559,6 +564,8 @@
         </div>
     </div>
 
+    <div id="testMap"></div>
+
     <div class="container-fluid py-4">
         <div class="row" id="ward-list">
             <div class="col-12">
@@ -673,119 +680,6 @@
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">{{population}}</span>
                                         </td>
-                                        {{!-- <td class="align-middle" id="custom-phuong-1">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"  onclick="openCustomDown(this)" data-toggle="tooltip" data-original-title="Edit user">
-                                                <i class="fa fa-ellipsis-v px-2" aria-hidden="true"></i>
-                                            </a>
-                                            <ul class="customDown" style="display: none;" aria-labelledby="dropdownMenuButton">
-                                                <li class="mb-2 view-detail" onclick="openViewDetail(this)">
-                                                    <a class="customDown-item border-radius-md" href="javascript:;">
-                                                    <div class="d-flex py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="text-sm font-weight-normal mb-1">
-                                                            <span class="font-weight-bold">Xem chi tiết</span>
-                                                        </h6>
-                                                        </div>
-                                                    </div>
-                                                    </a>
-                                                </li>
-
-                                                <li class="mb-2 edit-detail" onlick="openEditDetail(this)">
-                                                    <a class="customDown-item border-radius-md" href="javascript:;">
-                                                    <div class="d-flex py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="text-sm font-weight-normal mb-1">
-                                                            <span class="font-weight-bold">Chỉnh sửa</span>
-                                                        </h6>
-                                                        </div>
-                                                    </div>
-                                                    </a>
-                                                </li>
-
-                                                <li class="delete-detail" onlick="openDeleteDetail(this)">
-                                                    <a class="customDown-item border-radius-md" href="javascript:;">
-                                                    <div class="d-flex py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="text-sm font-weight-normal mb-1">
-                                                            <span class="font-weight-bold">Xoá</span>
-                                                        </h6>
-                                                        </div>
-                                                    </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="modal detail-ward fade" id="staticBackdrop" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <div>
-                                                                <h5 class="modal-title" id="staticBackdropLabel">Xem chi tiết</h5>
-                                                            </div>
-                                                            <button class="btn-close toast-btn" type="button" onclick="closeViewDetail(this)"
-                                                                data-bs-dismiss="modal" aria-label="Close"
-                                                                data-target="infoToast" style="margin-bottom: 0;">
-                                                                <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
-                                                            </button>
-
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <h6>Thông Tin Chung</h6>
-                                                                        <div class="card">
-                                                                            <div class="card-body">
-                                                                                <div
-                                                                                    class="d-flex flex-column justify-content-center">
-                                                                                    <h6
-                                                                                        class="text-sm font-weight-normal mb-1">
-                                                                                        <span class="font-weight-bold">Phường 4, Quận 5</span>
-                                                                                    </h6>
-                                                                                    <h6
-                                                                                        class="text-sm font-weight-normal mb-1">
-                                                                                        <span
-                                                                                            class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
-                                                                                    </h6>
-                                                                                    <h6
-                                                                                        class="text-sm font-weight-normal mb-1">
-                                                                                        <span
-                                                                                            class="font-weight-bold">Mã vùng: </span>72711
-                                                                                    </h6>
-                                                                                    <h6
-                                                                                        class="text-sm font-weight-normal mb-1">
-                                                                                        <span
-                                                                                            class="font-weight-bold">Dân số:
-                                                                                        </span>
-                                                                                        9.455
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                        
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    <div class="col-12">
-                                                                        <div class="card text-white">
-                                                                            <img src="/PHCB-So/assets/img/wards/city.jpeg"
-                                                                                class="card-img" alt="..."
-                                                                                style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
-                                                                            <div class="card-img-overlay">
-                                                                                <h5 class="card-title text-white">
-                                                                                    Phường 4, Quận 5
-                                                                                </h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td> --}}
                                         <td class="align-middle text-center">
                                             <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                                                 data-bs-target="#editWardModal" onclick="showEditWardModal(this)" 

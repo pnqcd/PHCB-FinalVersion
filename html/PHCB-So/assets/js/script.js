@@ -1,3 +1,49 @@
+let map_loaded = false;
+var map;
+function loadMap() {
+  if (map) {
+    map.dispose();
+  }
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+  var defaultLayers = platform.createDefaultLayers(
+      {
+          lg: 'vi'
+      }
+  );
+
+  
+  map = new H.Map(document.getElementById('chooseAddressOnMap'),
+      defaultLayers.vector.normal.map, {
+      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+      zoom: 14.5,
+      pixelRatio: window.devicePixelRatio || 1
+  });
+
+  if (map) {
+  // add a resize listener to make sure that the map occupies the whole container
+  window.addEventListener('resize', () => map.getViewPort().resize());
+
+  var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+  // Create the default UI components
+  var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+  map.addEventListener('tap', function (evt) {
+      let { lat, lng } = map.screenToGeo(
+          evt.currentPointer.viewportX,
+          evt.currentPointer.viewportY,
+      );
+      let lngField = document.getElementById('longitude');
+      let latField = document.getElementById('latitude');
+
+      lngField.value = lng;
+      latField.value = lat;
+  });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   let searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", function () {
@@ -32,6 +78,10 @@ let addPlaceEle = document.querySelector("#addPlaceModal")
 if (addPlaceEle) {
   addPlaceEle.addEventListener("shown.bs.modal", () => {
     document.querySelector("#diaChi").focus();
+    if (!map_loaded) {
+      loadMap();
+      map_loaded = true;
+    }
   });
 }
 
@@ -982,7 +1032,8 @@ async function displayHandleMethod(district) {
   });
 }
 
-statisticByDistrict(null);
+let reportChartElm = document.querySelector('#reportChart');
+if (reportChartElm) statisticByDistrict(null);
 
 function statisticByDistrict(elm) {
   let district = elm ? elm.textContent : "Quận 1";
@@ -1031,7 +1082,8 @@ function statisticByDistrict(elm) {
 }
 
 let canvas = document.querySelector("#reportChart");
-let ctx = canvas.getContext('2d');
+let ctx;
+if (canvas) ctx = canvas.getContext('2d');
 let myChart = null;
 
 function barChart(wards, district, locTotal, adsTotal) {
