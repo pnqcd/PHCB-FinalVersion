@@ -29,6 +29,8 @@ controller.show = async (req, res) => {
       "khuVuc",
       "loaiVT",
       "hinhThuc",
+      "longitude",
+      "latitude",
       "quyHoach",
       "hinhAnh",
       "hinhAnhId",
@@ -187,7 +189,7 @@ controller.show = async (req, res) => {
 };
 
 controller.requestEditPlace = async (req, res) => {
-  let {id, diaChi, khuVuc, loaiVT, hinhThuc, isQuyHoach, liDoChinhSua, hinhAnh, hinhAnhId} = req.body;
+  let {id, diaChi, khuVuc, loaiVT, hinhThuc, longitude, latitude, isQuyHoach, liDoChinhSua, hinhAnh, hinhAnhId} = req.body;
   result = {}
   console.log(hinhAnhId);
   const existingPlace = await models.Requesteditplace.findOne({
@@ -215,6 +217,8 @@ controller.requestEditPlace = async (req, res) => {
         khuVuc, 
         loaiVT, 
         hinhThuc, 
+        longitude,
+        latitude,
         quyHoach: isQuyHoach ? "ĐÃ QUY HOẠCH" : "CHƯA QUY HOẠCH",
         liDoChinhSua,
         hinhAnh: result.secure_url ? result.secure_url : hinhAnh,

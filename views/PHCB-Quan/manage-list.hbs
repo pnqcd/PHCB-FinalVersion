@@ -54,7 +54,7 @@
 
 {{!-- modal request_edit_place --}}
 <div class="modal fade" id="addPlaceModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <form action="/PHCB-Quan/danh-sach/editplace" id="addPlaceForm" method="POST" enctype="multipart/form-data">
       <div class="modal-content">
         <div class="modal-header">
@@ -80,10 +80,23 @@
             </div>
           </div>
           <div class="row g-2">
-            <div class="col mb-3">
+            {{!-- <div class="col mb-3">
               <label for="loaiVTEdit" class="form-label">Loại Vị Trí</label>
               <input type="text" id="loaiVTEdit" name="loaiVT" class="form-control" placeholder="Chợ" />
+            </div> --}}
+            <div class="col mb-3">
+              <label for="loaiVTEdit" class="form-label">Loại vị trí</label>
+              <select name="loaiVT" id="loaiVTEdit" class="form-control select-form-control">
+                <option value="Trung tâm thương mại" selected="selected">Trung tâm thương mại</option>
+                <option value="Chợ">Chợ</option>
+                <option value="Cây xăng">Cây xăng</option>
+                <option value="Nhà chờ xe buýt">Nhà chờ xe buýt</option>
+                <option value="Đất tư nhân/Nhà ở riêng lẻ">Đất tư nhân/Nhà ở riêng lẻ</option>
+                <option value="Đất công/Công viên/Hành lang an toàn giao thông">Đất công/Công viên/Hành lang an toàn
+                  giao thông</option>
+              </select>
             </div>
+
             <div class="col mb-3">
               <label for="hinhThucEdit" class="form-label">Hình Thức</label>
               <select name="hinhThuc" id="hinhThucEdit" class="form-control select-form-control">
@@ -91,6 +104,20 @@
                 <option value="{{name}}" selected="selected">{{name}}</option>
                 {{/each}}
               </select>
+            </div>
+          </div>
+          <div class="row">
+            <div id="chooseAddressOnMap" class="col mb-3">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="longitude" class="form-label">Kinh độ</label>
+              <input type="text" id="longitude" name="longitude" class="form-control" placeholder="" />
+            </div>
+            <div class="col mb-3">
+              <label for="latitude" class="form-label">Vĩ độ</label>
+              <input type="text" id="latitude" name="latitude" class="form-control" placeholder="" />
             </div>
           </div>
           <div class="row">
@@ -508,7 +535,8 @@
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#addPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
                         data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
-                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}"></i>
+                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-longitude="{{longitude}}"
+                        data-latitude="{{latitude}}" data-hinh-anh="{{hinhAnh}}"></i>
 
                     </td>
                   </tr>
@@ -717,7 +745,8 @@
                         data-bs-target="#editAdsModal" onclick="showEditAdsModal(this)" data-id="{{id}}"
                         data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size="{{adSize}}"
                         data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"
-                        data-origin="{{originId}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                        data-origin="{{originId}}" data-image-path="{{imagePath}}"
+                        data-public-image-id="{{publicImageId}}"></i>
                     </td>
                   </tr>
                   {{/each}}
@@ -960,7 +989,8 @@
           <div class="modal add-modal fade" id="addRequest" data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="staticBackdropLabeladd" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-              <form action="/PHCB-Quan/yeu-cau/addrequest" id="addRequestForm" method="POST" enctype="multipart/form-data">
+              <form action="/PHCB-Quan/yeu-cau/addrequest" id="addRequestForm" method="POST"
+                enctype="multipart/form-data">
                 <div class="modal-content">
                   <div class="modal-header">
                     <div class="col-6 px-2">
@@ -1425,7 +1455,8 @@
                     <td>
                       <div class="d-flex px-2">
                         <div>
-                          <img src="\PHCB-Quan\assets\img\report\rpicon.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                          <img src="\PHCB-Quan\assets\img\report\rpicon.jpg"
+                            class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
                         </div>
                         <div class="my-auto">
                           <h6 class="mb-0 text-sm">{{reportlocation}}</h6>

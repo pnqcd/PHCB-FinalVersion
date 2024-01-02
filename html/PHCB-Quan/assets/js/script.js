@@ -1,10 +1,90 @@
+let map_loaded = false;
+var map;
+
+let mapedit_loaded = false;
+var mapedit;
+function loadMap() {
+  if (map) {
+    map.dispose();
+  }
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+  
+  var defaultLayers = platform.createDefaultLayers(
+      {
+          lg: 'vi'
+      }
+  );
+  map = new H.Map(document.getElementById('chooseAddressOnMap'),
+      defaultLayers.vector.normal.map, {
+      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+      zoom: 14.5,
+      pixelRatio: window.devicePixelRatio || 1
+  });
+  if (map) {
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => map.getViewPort().resize());
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+    map.addEventListener('tap', function (evt) {
+        let { lat, lng } = map.screenToGeo(
+            evt.currentPointer.viewportX,
+            evt.currentPointer.viewportY,
+        );
+        let lngField = document.getElementById('longitude');
+        let latField = document.getElementById('latitude');
+
+        lngField.value = lng;
+        latField.value = lat;
+
+        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+        fetch(url)
+          .then(function (response) {
+              return response.json();
+          })
+          .then(function (data) {
+              if (data.items && data.items.length > 0) {
+                  var address = data.items[0].address;
+                  let dcField = document.getElementById('diaChiEdit');
+                  let kvField = document.getElementById('khuVucEdit');
+
+                  var addressParts = address.label.split(',');
+                  dcField.value = addressParts[0].trim();
+                  kvField.value = address.district + ", " + address.city;
+
+              } else {
+                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
+              }
+          })
+          .catch(function (error) {
+              console.error(error);
+          });
+    });
+  }
+}
+
+let addPlaceEle = document.querySelector("#addPlaceModal")
+if (addPlaceEle) {
+  addPlaceEle.addEventListener("shown.bs.modal", () => {
+    document.querySelector("#diaChiEdit").focus();
+    if (!map_loaded) {
+      loadMap();
+      map_loaded = true;
+    }
+  });
+}
 
 let editPlaceEle = document.querySelector("#editPlaceModal");
 
 if (editPlaceEle) {
   editPlaceEle.addEventListener("shown.bs.modal", () => {
-    initializeEditForm();
     document.querySelector("#diaChiEdit").focus();
+    if (!mapedit_loaded) {
+      loadMapEdit();
+      mapedit_loaded = true;
+    }
   });
 }
 
@@ -17,11 +97,83 @@ if (editAdsEle) {
 }
 
 
+function loadMapEdit() {
+  if (mapedit) {
+    mapedit.dispose();
+  }
+
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+  
+  var defaultLayers = platform.createDefaultLayers(
+      {
+          lg: 'vi'
+      }
+  );
+
+  mapedit = new H.Map(document.getElementById('editAddressOnMap'),
+      defaultLayers.vector.normal.map, {
+      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+      zoom: 14.5,
+      pixelRatio: window.devicePixelRatio || 1
+  });
+
+  if (mapedit) {
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => mapedit.getViewPort().resize());
+
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(mapedit));
+
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(mapedit, defaultLayers);
+
+    mapedit.addEventListener('tap', function (evt) {
+        let { lat, lng } = mapedit.screenToGeo(
+            evt.currentPointer.viewportX,
+            evt.currentPointer.viewportY,
+        );
+        let lngEditField = document.getElementById('longitudeEditContinue');
+        let latEditField = document.getElementById('latitudeEditContinue');
+
+        lngEditField.value = lng;
+        latEditField.value = lat;
+
+        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+        fetch(url)
+          .then(function (response) {
+              return response.json();
+          })
+          .then(function (data) {
+              if (data.items && data.items.length > 0) {
+                  var address = data.items[0].address;
+
+                  let dcEditField = document.getElementById('diaChiEditContinue');
+                  let kvEditField = document.getElementById('khuVucEditContinue');
+
+                  var addressParts = address.label.split(',');
+
+                  if (dcEditField) dcEditField.value = addressParts[0].trim();
+                  if (kvEditField) kvEditField.value = address.district + ", " + address.city;
+                  
+              } else {
+                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
+              }
+          })
+          .catch(function (error) {
+              console.error(error);
+          });
+    });
+  }
+}
+
 const loadImg = function (event, Elmid) {
   var Placeimg = document.querySelector(Elmid);
   Placeimg.src = URL.createObjectURL(event.target.files[0]);
   console.log(event.target.files[0]);
 };
+
+
 
 
 // ----------------send email for requesting ads status
@@ -325,6 +477,8 @@ function showEditPlaceModal(btn) {
   document.querySelector("#khuVucEdit").value = btn.dataset.khuVuc;
   document.querySelector("#loaiVTEdit").value = btn.dataset.loaiVt;
   document.querySelector("#hinhThucEdit").value = btn.dataset.hinhThuc;
+  document.querySelector("#longitude").value = btn.dataset.longitude;
+  document.querySelector("#latitude").value = btn.dataset.latitude;
   document.querySelector("#quyHoachEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#imageEditPlace").src = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhA").value = btn.dataset.hinhAnh;
@@ -397,10 +551,10 @@ function showContinueEditPlaceModal(btn) {
   document.querySelector("#khuVucEditContinue").value = btn.dataset.khuVuc;
   document.querySelector("#loaiVTEditContinue").value = btn.dataset.loaiVt;
   document.querySelector("#hinhThucEditContinue").value = btn.dataset.hinhThuc;
+  document.querySelector("#longitudeEditContinue").value = btn.dataset.longitude;
+  document.querySelector("#latitudeEditContinue").value = btn.dataset.latitude;
   document.querySelector("#quyHoachEditContinue").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#imageEditPlaceContinue").src = btn.dataset.hinhAnh;
-  // document.querySelector('#hinhAnhIdPlaceEdit').value = btn.dataset.hinhAnhId;
-  // document.querySelector("#hinhAnhAC").value = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhBC").value = btn.dataset.hinhAnhId;
   document.querySelector("#liDoChinhSuaContinue").value = '';
   // initializeEditForm();

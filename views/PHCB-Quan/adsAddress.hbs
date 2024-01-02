@@ -54,7 +54,8 @@
 
 <div class="modal fade" id="addPlaceModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="/PHCB-Quan/diem-dat-bang-quang-cao/editplace" id="addPlaceForm" method="POST" enctype="multipart/form-data">
+    <form action="/PHCB-Quan/diem-dat-bang-quang-cao/editplace" id="addPlaceForm" method="POST"
+      enctype="multipart/form-data">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
@@ -82,9 +83,21 @@
             </div>
           </div>
           <div class="row g-2">
-            <div class="col mb-3">
+            {{!-- <div class="col mb-3">
               <label for="loaiVTEdit" class="form-label">Loại Vị Trí</label>
               <input type="text" id="loaiVTEdit" name="loaiVT" class="form-control" placeholder="Chợ" />
+            </div> --}}
+            <div class="col mb-3">
+              <label for="loaiVTEdit" class="form-label">Loại vị trí</label>
+              <select name="loaiVT" id="loaiVTEdit" class="form-control select-form-control">
+                <option value="Trung tâm thương mại" selected="selected">Trung tâm thương mại</option>
+                <option value="Chợ">Chợ</option>
+                <option value="Cây xăng">Cây xăng</option>
+                <option value="Nhà chờ xe buýt">Nhà chờ xe buýt</option>
+                <option value="Đất tư nhân/Nhà ở riêng lẻ">Đất tư nhân/Nhà ở riêng lẻ</option>
+                <option value="Đất công/Công viên/Hành lang an toàn giao thông">Đất công/Công viên/Hành lang an toàn
+                  giao thông</option>
+              </select>
             </div>
             <div class="col mb-3">
               <label for="hinhThucEdit" class="form-label">Hình Thức</label>
@@ -93,6 +106,20 @@
                 <option value="{{name}}" selected="selected">{{name}}</option>
                 {{/each}}
               </select>
+            </div>
+          </div>
+          <div class="row">
+            <div id="chooseAddressOnMap" class="col mb-3">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="longitude" class="form-label">Kinh độ</label>
+              <input type="text" id="longitude" name="longitude" class="form-control" placeholder="" />
+            </div>
+            <div class="col mb-3">
+              <label for="latitude" class="form-label">Vĩ độ</label>
+              <input type="text" id="latitude" name="latitude" class="form-control" placeholder="" />
             </div>
           </div>
           <div class="container pt-3 pb-3">
@@ -313,7 +340,8 @@
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#addPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
                         data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
-                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
+                        data-hinh-thuc="{{hinhThuc}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}"
+                        data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
                     </td>
                   </tr>
                   {{/each}}
@@ -337,9 +365,9 @@
                 data-bs-dismiss="modal" aria-label="Close" data-target="infoToast" style="margin-bottom: 0;">
                 <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
               </button> --}}
-              <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal"
-                aria-label="Close" data-target="infoToast" style="margin-bottom: 0;"><i
-                  class="fa fa-times-circle text-dark  fs-4" aria-hidden="true"></i></button>
+              <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+                data-target="infoToast" style="margin-bottom: 0;"><i class="fa fa-times-circle text-dark  fs-4"
+                  aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
               <div class="row g-2">
@@ -355,9 +383,21 @@
                 </div>
               </div>
               <div class="row g-2">
-                <div class="col mb-3">
+                {{!-- <div class="col mb-3">
                   <label for="loaiVTEditContinue" class="form-label">Loại Vị Trí</label>
                   <input type="text" id="loaiVTEditContinue" name="loaiVT" class="form-control" placeholder="Chợ" />
+                </div> --}}
+                <div class="col mb-3">
+                  <label for="loaiVTEditContinue" class="form-label">Loại vị trí</label>
+                  <select name="loaiVT" id="loaiVTEditContinue" class="form-control select-form-control">
+                    <option value="Trung tâm thương mại" selected="selected">Trung tâm thương mại</option>
+                    <option value="Chợ">Chợ</option>
+                    <option value="Cây xăng">Cây xăng</option>
+                    <option value="Nhà chờ xe buýt">Nhà chờ xe buýt</option>
+                    <option value="Đất tư nhân/Nhà ở riêng lẻ">Đất tư nhân/Nhà ở riêng lẻ</option>
+                    <option value="Đất công/Công viên/Hành lang an toàn giao thông">Đất công/Công viên/Hành lang an toàn
+                      giao thông</option>
+                  </select>
                 </div>
                 <div class="col mb-3">
                   <label for="hinhThucEditContinue" class="form-label">Hình Thức</label>
@@ -366,6 +406,20 @@
                     <option value="{{name}}" selected="selected">{{name}}</option>
                     {{/each}}
                   </select>
+                </div>
+              </div>
+              <div class="row">
+                <div id="editAddressOnMap" class="col mb-3">
+                </div>
+              </div>
+              <div class="row g-2">
+                <div class="col mb-3">
+                  <label for="longitudeEditContinue" class="form-label">Kinh độ</label>
+                  <input type="text" id="longitudeEditContinue" name="longitude" class="form-control" placeholder="" />
+                </div>
+                <div class="col mb-3">
+                  <label for="latitudeEditContinue" class="form-label">Vĩ độ</label>
+                  <input type="text" id="latitudeEditContinue" name="latitude" class="form-control" placeholder="" />
                 </div>
               </div>
               <div class="container pt-3 pb-3">
@@ -554,7 +608,8 @@
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#editPlaceModal" onclick="showContinueEditPlaceModal(this)" data-id="{{id}}"
                         data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
-                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
+                        data-hinh-thuc="{{hinhThuc}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}"
+                        data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
                       {{!-- view place detail modal --}}
                       <div class="modal detail-place fade" id="staticBackdropInfo" data-bs-backdrop="static"
                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
@@ -599,7 +654,8 @@
                                 </div>
 
                                 <div class="card bg-dark text-white">
-                                  <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Quan/assets/img/places/place.png{{/if}}"
+                                  <img
+                                    src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Quan/assets/img/places/place.png{{/if}}"
                                     class="card-img" alt="..."
                                     style="height: 200px ;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover;">
                                   <div class="card-img-overlay img-card">
