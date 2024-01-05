@@ -37,8 +37,10 @@ controller.settingAccount = async (req, res) => {
 // route middleware to ensure user is logged in 
 controller.isLoggedIn = async (req, res, next) => {
     if (req.user) {
-        res.locals.user = req.user;
+      res.locals.user = req.user;
+      if (req.user.isWard)
         next();
+      else res.redirect('/');
     } else {
         res.redirect(`/login?reqUrl=${req.originalUrl}`);
     }
