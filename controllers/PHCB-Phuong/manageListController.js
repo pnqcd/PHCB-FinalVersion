@@ -142,7 +142,9 @@ controller.requestEditAds = async (req, res) => {
 controller.isLoggedIn = async (req, res, next) => {
   if (req.user) {
       res.locals.user = req.user;
-      next();
+      if (req.user.isWard)
+        next();
+      else res.redirect('/');
   } else {
       res.redirect(`/login?reqUrl=${req.originalUrl}`);
   }
