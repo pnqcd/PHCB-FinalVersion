@@ -3,6 +3,8 @@ var map;
 
 let mapedit_loaded = false;
 var mapedit;
+
+// choose edit place the first time from map
 function loadMap() {
   if (map) {
     map.dispose();
@@ -96,7 +98,7 @@ if (editAdsEle) {
   });
 }
 
-
+// choose edit place continue from map
 function loadMapEdit() {
   if (mapedit) {
     mapedit.dispose();
@@ -167,13 +169,12 @@ function loadMapEdit() {
   }
 }
 
+// load image
 const loadImg = function (event, Elmid) {
   var Placeimg = document.querySelector(Elmid);
   Placeimg.src = URL.createObjectURL(event.target.files[0]);
   console.log(event.target.files[0]);
 };
-
-
 
 
 // ----------------send email for requesting ads status

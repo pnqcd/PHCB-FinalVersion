@@ -49,14 +49,15 @@
             <div class="card bg-dark">
               <div class="profile-pic">
                 <div class="image-container">
-                  <img id ="imageEditAds" class="imageDisplay" width="100%" height="250px"
+                  <img id="imageEditAds" class="imageDisplay" width="100%" height="250px"
                     style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
                   <label class="btn btn-primary" for="adsfile"
                     style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
                     <span class="glyphicon glyphicon-camera"></span>
                     <span>Đổi hình ảnh</span>
                   </label>
-                  <input id="adsfile" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event, '#imageEditAds')" />
+                  <input id="adsfile" name="ImageUrl" type="file" style="display: none;"
+                    onchange="loadImg(event, '#imageEditAds')" />
                 </div>
               </div>
             </div>
@@ -69,14 +70,17 @@
 
           <div class="row g-2">
             <div class="row mb-3 mt-3">
-              <h6><span>Thời điểm chỉnh sửa: </span>
-                <script>
-                  document.write(new Date().getDate());
-                  document.write('/');
-                  document.write(new Date().getMonth());
-                  document.write('/');
-                  document.write(new Date().getFullYear());
-                </script>
+              <h6 class="text-sm font-weight-normal">
+                <span class="font-weight-bold">Thời điểm xử lý: </span>
+                <span>
+                  <script>
+                    var currentDate = new Date();
+                    var day = currentDate.getDate();
+                    var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
+                    var year = currentDate.getFullYear();
+                    document.write(month + '/' + day + '/' + year);
+                  </script>
+                </span>
               </h6>
             </div>
           </div>
@@ -326,7 +330,8 @@
                         data-bs-target="#editAdsModal" onclick="showEditAdsModal(this)" data-id="{{id}}"
                         data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size="{{adSize}}"
                         data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"
-                        data-origin="{{originId}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                        data-origin="{{originId}}" data-image-path="{{imagePath}}"
+                        data-public-image-id="{{publicImageId}}"></i>
                     </td>
                   </tr>
                   {{/each}}
@@ -391,14 +396,15 @@
                 <div class="card bg-dark">
                   <div class="profile-pic">
                     <div class="image-container">
-                      <img id = "imageEditcontinue"class="imageDisplay" width="100%" height="250px"
+                      <img id="imageEditcontinue" class="imageDisplay" width="100%" height="250px"
                         style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
                       <label class="btn btn-primary" for="editAdsContinue"
                         style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
                         <span class="glyphicon glyphicon-camera"></span>
                         <span>Đổi hình ảnh</span>
                       </label>
-                      <input id="editAdsContinue" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event, '#imageEditcontinue')" />
+                      <input id="editAdsContinue" name="ImageUrl" type="file" style="display: none;"
+                        onchange="loadImg(event, '#imageEditcontinue')" />
                     </div>
                   </div>
                 </div>
@@ -412,14 +418,17 @@
 
               <div class="row g-2">
                 <div class="row mb-3 mt-3">
-                  <h6><span>Thời điểm chỉnh sửa: </span>
-                    <script>
-                      document.write(new Date().getDate());
-                      document.write('/');
-                      document.write(new Date().getMonth());
-                      document.write('/');
-                      document.write(new Date().getFullYear());
-                    </script>
+                  <h6 class="text-sm font-weight-normal">
+                    <span class="font-weight-bold">Thời điểm xử lý: </span>
+                    <span>
+                      <script>
+                        var currentDate = new Date();
+                        var day = currentDate.getDate();
+                        var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
+                        var year = currentDate.getFullYear();
+                        document.write(month + '/' + day + '/' + year);
+                      </script>
+                    </span>
                   </h6>
                 </div>
               </div>
@@ -574,8 +583,7 @@
                           <div class="col-12">
                             <div class="card text-white">
                               <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
-                                class="card-img" alt="..."
-                                width="100%" height="250px"
+                                class="card-img" alt="..." width="100%" height="250px"
                                 style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;">
                             </div>
                           </div>
@@ -635,7 +643,8 @@
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#editAdsModalRequest" onclick="showContinueEditAdsModal(this)" data-id="{{id}}"
                         data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size="{{adSize}}"
-                        data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                        data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"
+                        data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
                     </td>
                   </tr>
                   {{/each}}
@@ -699,9 +708,7 @@
           <div class="row mt-3">
             <div class="col-12">
               <div class="card text-white">
-                <img class="card-img"
-                  alt="..."
-                  width="100%" height="250px"
+                <img class="card-img" alt="..." width="100%" height="250px"
                   style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;">
               </div>
             </div>
@@ -715,7 +722,7 @@
 <script>
   const handleImage = (e) => {
     const file = event.target.files[0];
-  
+
     setFileToBase(file);
   }
   const setFileToBase = (file) => {

@@ -154,14 +154,17 @@
 
           <div class="row g-2">
             <div class="row mb-3 mt-3">
-              <h6><span>Thời điểm chỉnh sửa: </span>
-                <script>
-                  document.write(new Date().getDate());
-                  document.write('/');
-                  document.write(new Date().getMonth());
-                  document.write('/');
-                  document.write(new Date().getFullYear());
-                </script>
+              <h6 class="text-sm font-weight-normal">
+                <span class="font-weight-bold">Thời điểm xử lý: </span>
+                <span>
+                  <script>
+                    var currentDate = new Date();
+                    var day = currentDate.getDate();
+                    var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
+                    var year = currentDate.getFullYear();
+                    document.write(month + '/' + day + '/' + year);
+                  </script>
+                </span>
               </h6>
             </div>
           </div>
@@ -257,14 +260,17 @@
 
           <div class="row g-2">
             <div class="row mb-3 mt-3">
-              <h6><span>Thời điểm chỉnh sửa: </span>
-                <script>
-                  document.write(new Date().getDate());
-                  document.write('/');
-                  document.write(new Date().getMonth());
-                  document.write('/');
-                  document.write(new Date().getFullYear());
-                </script>
+              <h6 class="text-sm font-weight-normal">
+                <span class="font-weight-bold">Thời điểm xử lý: </span>
+                <span>
+                  <script>
+                    var currentDate = new Date();
+                    var day = currentDate.getDate();
+                    var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
+                    var year = currentDate.getFullYear();
+                    document.write(month + '/' + day + '/' + year);
+                  </script>
+                </span>
               </h6>
             </div>
           </div>
@@ -1575,7 +1581,7 @@
                             var day = currentDate.getDate();
                             var month = currentDate.getMonth() + 1; // Adding 1 to get the correct month
                             var year = currentDate.getFullYear();
-                            document.write(day + '/' + month + '/' + year);
+                            document.write(month + '/' + day + '/' + year);
                           </script>
                         </span>
                       </h6>
