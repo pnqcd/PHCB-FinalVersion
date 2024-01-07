@@ -12,6 +12,7 @@ controller.show = async (req, res) => {
       "zipCode",
       "population",
       "imagePath",
+      "imageId"
     ],
     order: [["createdAt", "DESC"]],
   });
@@ -82,29 +83,58 @@ controller.show = async (req, res) => {
 
 controller.addWard = async (req, res) => {
   let {wardName, districtName, zipCode, population} = req.body;
+  let result ={};
   try {
+    if (req.file && req.file.path) {
+      result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'wards'
+      });
+    }
     await models.Ward.create({
       wardName, 
       districtName, 
       zipCode, 
-      population
+      population,
+      imagePath:result.secure_url||'',
+      imageId:result.public_id||'',
     });
     res.redirect("/PHCB-So/danh-sach");
   } catch (error) {
+    if (result.public_id) {
+      await cloudinary.uploader.destroy(result.public_id);
+    }
     res.send("Không thể thêm phường");
     console.error(error);
   }
 }
 
 controller.editWard = async (req, res) => {
-  let {id, wardName, districtName, zipCode, population} = req.body;
+  let {id, wardName, districtName, zipCode, population,imageId} = req.body;
+  let result={};
   try {
-    await models.Ward.update(
-      {wardName, districtName, zipCode, population},
-      {where: {id}}
-    );
+    if (req.file && req.file.path) {
+      result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'wards'
+      });
+    }
+    const updateData = { 
+      wardName, districtName, zipCode, population,
+    };
+
+    if (result.secure_url) {
+      updateData.imagePath = result.secure_url;
+      updateData.imageId = result.public_id;
+    }
+
+    await models.Ward.update(updateData, {where: {id}});
+    if (imageId && result.secure_url) {
+      await cloudinary.uploader.destroy(imageId);
+    }
     res.send("Đã cập nhật phường!");
   } catch (error) {
+    if (result.public_id) {
+      await cloudinary.uploader.destroy(result.public_id);
+    }
     res.send("Không thể cập nhật phường!");
     console.error(error);
   }
@@ -112,10 +142,12 @@ controller.editWard = async (req, res) => {
 
 controller.deleteWard = async (req, res) => {
   let id = isNaN(req.params.id) ? 0 : parseInt(req.params.id);
+  let imageId=req.body.imageId;
   try {
     await models.Ward.destroy(
       {where: {id}}
     );
+    if(imageId) await cloudinary.uploader.destroy(imageId);
     res.send("Đã xoá phường!");
   } catch (error) {
     res.send("Không thể xoá phường!");

@@ -5,7 +5,7 @@
     <!-- Add Ward Modal -->
     <div class="modal fade" id="addWardModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form action="/PHCB-So/danh-sach/wards" id="addWardForm" method="POST">
+            <form action="/PHCB-So/danh-sach/wards" id="addWardForm" method="POST" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="wardModalTitle">
@@ -37,6 +37,24 @@
                                 <input type="text" id="population" name="population" class="form-control" placeholder="12345" />
                             </div>
                         </div>
+                        <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="hinhAnhQuan" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="wardImg" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="wardImg" type="file" name="ImageUrl" style="display: none;" onchange="loadImg(event,'#hinhAnhQuan')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         <div class="text-center badge bg-label-danger" id="errorMessage"></div>
                     </div>
                     <div class="modal-footer">
@@ -55,7 +73,7 @@
     <!-- Edit Ward Modal -->
     <div class="modal fade" id="editWardModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form action="" id="editWardForm" onsubmit="editWard(event)">
+            <form action="" id="editWardForm" onsubmit="editWard(event)" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -85,10 +103,29 @@
                             <input type="text" id="populationEdit" name="population" class="form-control" placeholder="12345" />
                         </div>
                     </div>
+                    <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="hinhAnhQuanEdit" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="wardImgEdit" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="wardImgEdit" type="file" name="ImageUrl" style="display: none;" onchange="loadImg(event,'#hinhAnhQuanEdit')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                     <div class="text-center badge bg-label-danger" id="errorMessage"></div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="id" id="idWard" value="" />
+                    <input type="hidden" name="imageId" id="idWardImageEdit" value="" />
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
                         Đóng
                     </button>
@@ -688,8 +725,8 @@
                                                 data-bs-target="#editWardModal" onclick="showEditWardModal(this)" 
                                                 data-id="{{id}}" data-ward-name="{{wardName}}"
                                                 data-district-name="{{districtName}}" data-zip-code = "{{zipCode}}"
-                                                data-population="{{population}}"></i>
-                                            <i role="button" class="fa fa-trash text-danger delete-btn ward-delete-btn" data-id={{id}}></i>
+                                                data-population="{{population}}" data-image-path="{{imagePath}}" data-image-id="{{imageId}}"></i>
+                                            <i role="button" class="fa fa-trash text-danger delete-btn ward-delete-btn" data-id={{id}} data-image-id={{imageId}}></i>
                                         </td>
                                     </tr>
                                     {{/each}}

@@ -271,6 +271,7 @@ document.querySelectorAll(".user-delete-btn").forEach((btnConfirm) => {
 document.querySelectorAll(".ward-delete-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
     let id = e.target.dataset.id;
+    let imageId=e.target.dataset.imageId;
     const options = {
       title: "Xác nhận xoá",
       type: "danger",
@@ -278,8 +279,8 @@ document.querySelectorAll(".ward-delete-btn").forEach((btnConfirm) => {
       btnCancelText: "Thoát",
       onConfirm: () => {
         // console.log("Confirm");
-        // console.log(id);
-        deleteWard(id);
+        //console.log(imageId);
+        deleteWard(id,imageId);
       },
       onCancel: () => {
         // console.log("Cancel");
@@ -421,11 +422,14 @@ document.querySelectorAll(".account-delete-btn").forEach((btnConfirm) => {
 });
 
 function showEditWardModal(btn) {
+  console.log(btn.dataset);
   document.querySelector("#idWard").value = btn.dataset.id;
   document.querySelector("#wardNameEdit").value = btn.dataset.wardName;
   document.querySelector("#districtNameEdit").value = btn.dataset.districtName;
   document.querySelector("#zipCodeEdit").value = btn.dataset.zipCode;
   document.querySelector("#populationEdit").value = btn.dataset.population;
+  document.querySelector("#hinhAnhQuanEdit").src = btn.dataset.imagePath;
+  document.querySelector("#idWardImageEdit").value = btn.dataset.imageId;
 }
 
 function showEditPlaceModal(btn) {
@@ -542,15 +546,11 @@ async function editWard(e) {
 
   const formData = new FormData(document.getElementById("editWardForm"));
   const data = Object.fromEntries(formData.entries());
-
+  console.log(data);
   let res = await fetch('/PHCB-So/danh-sach/wards', {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body:formData,
   });
-
   location.reload();
 }
 
@@ -559,7 +559,7 @@ async function editPlace(e) {
 
   const formData = new FormData(document.getElementById("editPlaceForm"));
   const data = Object.fromEntries(formData.entries());
-
+  console.log(formData);
   let res = await fetch('/PHCB-So/danh-sach/places', {
     method: "PUT",
     body:formData,
@@ -644,9 +644,13 @@ async function deleteUser(id) {
   location.reload();
 }
 
-async function deleteWard(id) {
+async function deleteWard(id,imageId) {
   let res = await fetch(`/PHCB-So/danh-sach/wards/${id}`, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ imageId: imageId }),
   });
 
   location.reload();

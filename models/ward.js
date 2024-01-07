@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       zipCode: DataTypes.INTEGER,
       population: DataTypes.INTEGER,
       imagePath: DataTypes.STRING,
+      imageId:DataTypes.STRING,
     },
     {
       sequelize,

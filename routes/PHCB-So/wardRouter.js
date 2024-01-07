@@ -5,8 +5,8 @@ const upload = require("../../middlewares/multer");
 
 router.get("/", controller.isLoggedIn, controller.show);
 
-router.post("/wards", controller.addWard);
-router.put("/wards", controller.editWard);
+router.post("/wards",upload.single('ImageUrl'), controller.addWard);
+router.put("/wards",upload.single('ImageUrl'), controller.editWard);
 router.delete("/wards/:id", controller.deleteWard);
 
 router.post("/places",upload.single('ImageUrl'), controller.addPlace);
