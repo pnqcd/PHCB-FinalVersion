@@ -12,17 +12,17 @@ function loadMap() {
   var platform = new H.service.Platform({
     apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
   });
-  
+
   var defaultLayers = platform.createDefaultLayers(
-      {
-          lg: 'vi'
-      }
+    {
+      lg: 'vi'
+    }
   );
   map = new H.Map(document.getElementById('chooseAddressOnMap'),
-      defaultLayers.vector.normal.map, {
-      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
-      zoom: 14.5,
-      pixelRatio: window.devicePixelRatio || 1
+    defaultLayers.vector.normal.map, {
+    center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+    zoom: 14.5,
+    pixelRatio: window.devicePixelRatio || 1
   });
   if (map) {
     // add a resize listener to make sure that the map occupies the whole container
@@ -31,38 +31,38 @@ function loadMap() {
     // Create the default UI components
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     map.addEventListener('tap', function (evt) {
-        let { lat, lng } = map.screenToGeo(
-            evt.currentPointer.viewportX,
-            evt.currentPointer.viewportY,
-        );
-        let lngField = document.getElementById('longitude');
-        let latField = document.getElementById('latitude');
+      let { lat, lng } = map.screenToGeo(
+        evt.currentPointer.viewportX,
+        evt.currentPointer.viewportY,
+      );
+      let lngField = document.getElementById('longitude');
+      let latField = document.getElementById('latitude');
 
-        lngField.value = lng;
-        latField.value = lat;
+      lngField.value = lng;
+      latField.value = lat;
 
-        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
-        fetch(url)
-          .then(function (response) {
-              return response.json();
-          })
-          .then(function (data) {
-              if (data.items && data.items.length > 0) {
-                  var address = data.items[0].address;
-                  let dcField = document.getElementById('diaChiEdit');
-                  let kvField = document.getElementById('khuVucEdit');
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+      fetch(url)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (data.items && data.items.length > 0) {
+            var address = data.items[0].address;
+            let dcField = document.getElementById('diaChiEdit');
+            let kvField = document.getElementById('khuVucEdit');
 
-                  var addressParts = address.label.split(',');
-                  dcField.value = addressParts[0].trim();
-                  kvField.value = address.district + ", " + address.city;
+            var addressParts = address.label.split(',');
+            dcField.value = addressParts[0].trim();
+            kvField.value = address.district + ", " + address.city;
 
-              } else {
-                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
-              }
-          })
-          .catch(function (error) {
-              console.error(error);
-          });
+          } else {
+            alert('Không tìm thấy địa chỉ cho tọa độ này.');
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     });
   }
 }
@@ -107,18 +107,18 @@ function loadMapEdit() {
   var platform = new H.service.Platform({
     apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
   });
-  
+
   var defaultLayers = platform.createDefaultLayers(
-      {
-          lg: 'vi'
-      }
+    {
+      lg: 'vi'
+    }
   );
 
   mapedit = new H.Map(document.getElementById('editAddressOnMap'),
-      defaultLayers.vector.normal.map, {
-      center: { lat: 10.76316473604989, lng: 106.68238541539267 },
-      zoom: 14.5,
-      pixelRatio: window.devicePixelRatio || 1
+    defaultLayers.vector.normal.map, {
+    center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+    zoom: 14.5,
+    pixelRatio: window.devicePixelRatio || 1
   });
 
   if (mapedit) {
@@ -131,40 +131,40 @@ function loadMapEdit() {
     var ui = H.ui.UI.createDefault(mapedit, defaultLayers);
 
     mapedit.addEventListener('tap', function (evt) {
-        let { lat, lng } = mapedit.screenToGeo(
-            evt.currentPointer.viewportX,
-            evt.currentPointer.viewportY,
-        );
-        let lngEditField = document.getElementById('longitudeEditContinue');
-        let latEditField = document.getElementById('latitudeEditContinue');
+      let { lat, lng } = mapedit.screenToGeo(
+        evt.currentPointer.viewportX,
+        evt.currentPointer.viewportY,
+      );
+      let lngEditField = document.getElementById('longitudeEditContinue');
+      let latEditField = document.getElementById('latitudeEditContinue');
 
-        lngEditField.value = lng;
-        latEditField.value = lat;
+      lngEditField.value = lng;
+      latEditField.value = lat;
 
-        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
-        fetch(url)
-          .then(function (response) {
-              return response.json();
-          })
-          .then(function (data) {
-              if (data.items && data.items.length > 0) {
-                  var address = data.items[0].address;
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+      fetch(url)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (data.items && data.items.length > 0) {
+            var address = data.items[0].address;
 
-                  let dcEditField = document.getElementById('diaChiEditContinue');
-                  let kvEditField = document.getElementById('khuVucEditContinue');
+            let dcEditField = document.getElementById('diaChiEditContinue');
+            let kvEditField = document.getElementById('khuVucEditContinue');
 
-                  var addressParts = address.label.split(',');
+            var addressParts = address.label.split(',');
 
-                  if (dcEditField) dcEditField.value = addressParts[0].trim();
-                  if (kvEditField) kvEditField.value = address.district + ", " + address.city;
-                  
-              } else {
-                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
-              }
-          })
-          .catch(function (error) {
-              console.error(error);
-          });
+            if (dcEditField) dcEditField.value = addressParts[0].trim();
+            if (kvEditField) kvEditField.value = address.district + ", " + address.city;
+
+          } else {
+            alert('Không tìm thấy địa chỉ cho tọa độ này.');
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     });
   }
 }
@@ -364,7 +364,7 @@ document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
         onConfirm: () => {
           console.log("Confirm");
           console.log(id);
-          deleteRequest(id,hinhAnhId);
+          deleteRequest(id, hinhAnhId);
         },
         onCancel: () => {
           console.log("Cancel");
@@ -514,6 +514,27 @@ function showHandleMethod(btn) {
   document.querySelector("#reporterphonenumber").textContent = btn.dataset.reporterphonenumber;
   document.querySelector("#reporteremail").textContent = btn.dataset.reporteremail;
   document.querySelector("#typeofreport").textContent = btn.dataset.typeofreport;
+  const originalDate = new Date(btn.dataset.timeadded);
+
+  // Lấy ngày và giờ
+  const formattedDate = originalDate.toLocaleString('en-US', {
+    month: '2-digit', // mm
+    day: '2-digit',   // dd
+    year: 'numeric',
+    hour: '2-digit',   // hh
+    minute: '2-digit', // mm
+    second: '2-digit', // ss
+    timeZoneName: 'short',
+  });
+  document.querySelector("#time_added").textContent = formattedDate;
+  // chỉ lấy ngày
+  // const originalDate = new Date(btn.dataset.timeadded);
+
+  // const formattedDate = `${(originalDate.getMonth() + 1).toString().padStart(2, '0')}/
+  //                     ${originalDate.getDate().toString().padStart(2, '0')}/
+  //                     ${originalDate.getFullYear()}`;
+
+  // document.querySelector("#time_added").textContent = formattedDate;
   document.querySelector("#reportcontent").innerHTML = '<span style="font-size:14px; font-wieght:bold; color:#344767;font-family: Roboto, Helvetica, Arial, sans-serif;">' + btn.dataset.reportcontent + '</>';
   document.querySelector("#handlemethod").value = btn.dataset.handlemethod;
   document.querySelector('#imagepath1').src = btn.dataset.imagepath1;
@@ -590,7 +611,7 @@ function showContinueEditAdsModal(btn) {
 // -------------------------onsubmit() edit
 
 async function editRequest(e) {
-  
+
   e.preventDefault();
 
   const formData = new FormData(document.getElementById("editRequestForm"));
@@ -598,9 +619,9 @@ async function editRequest(e) {
 
   let res = await fetch(`/PHCB-Quan/yeu-cau/editrequest`, {
     method: "PUT",
-    body:formData,
+    body: formData,
   });
-  
+
 
   location.reload();
 }
@@ -613,7 +634,7 @@ async function editPlace(e) {
 
   let res = await fetch('/PHCB-Quan/diem-dat-bang-quang-cao/editplacerequest', {
     method: "PUT",
-    body:formData,
+    body: formData,
   });
 
   location.reload();
@@ -645,7 +666,7 @@ async function editAds(e) {
 
   let res = await fetch('/PHCB-Quan/bang-quang-cao/editadsrequest', {
     method: "PUT",
-    body:formData,
+    body: formData,
   });
 
   location.reload();
@@ -659,7 +680,7 @@ async function settingAccount(e) {
 
   let res = await fetch('/PHCB-Quan/profile', {
     method: "PUT",
-    body:formData,
+    body: formData,
   });
   location.reload();
 }

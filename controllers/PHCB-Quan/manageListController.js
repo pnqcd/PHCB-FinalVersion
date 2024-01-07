@@ -122,7 +122,7 @@ controller.show = async (req, res) => {
 
 
   // report
-  const report = pool.query(`SELECT id, "lat", "lng", "reportername", "typeofreport", "reporteremail", "reporterphonenumber", "reportcontent", "imagepath1", "imagepath2", "locationreport", "adbannerreportid", "handlemethod", "reportlocation", "reportkhuvuc"
+  const report = pool.query(`SELECT id, "lat", "lng", "reportername", "typeofreport", "reporteremail", "reporterphonenumber", "reportcontent", "imagepath1", "imagepath2", "locationreport", "adbannerreportid", "handlemethod", "reportlocation", "reportkhuvuc", "time_added"
         FROM "reports"
         ORDER BY "reportlocation" ASC`
   );
