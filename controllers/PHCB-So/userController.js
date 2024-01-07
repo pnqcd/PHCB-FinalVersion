@@ -92,6 +92,22 @@ controller.checkUsername = async (req, res) => {
   }
 }
 
+controller.checkEmail = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const user = await models.User.findOne({ where: { email } });
+
+    if (user) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 controller.wardsByDistrict = async (req, res) => {
   const { district } = req.query;
   try {

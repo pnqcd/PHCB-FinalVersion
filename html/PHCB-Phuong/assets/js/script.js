@@ -462,6 +462,43 @@ function sendEmailReport(email,tenNguoiBaoCao,hinhThucBaoCao,phone,cachThucXuLy,
   .catch();
 }
 
+function checkUsernameExisted(event) {
+  event.preventDefault();
+
+  let usernameElm = document.querySelector("#username");
+  let username = usernameElm.value;
+
+  fetch('/PHCB-So/tai-khoan/checkUsernameWhenAddAccount?username=' + encodeURIComponent(username))
+    .then(response => response.json())
+    .then(data => {
+      if (data.exists) {
+        usernameElm.setCustomValidity('Tên đăng nhập đã tồn tại');
+      } else {
+        usernameElm.setCustomValidity('');
+      }
+    })
+    .catch(error => console.error(error));
+}
+
+// Check email existed 
+function checkEmailExisted(event) {
+  event.preventDefault();
+
+  let emailElm = document.querySelector("#email");
+  let email = emailElm.value;
+
+  fetch('/PHCB-So/tai-khoan/checkEmailWhenAddEmail?email=' + encodeURIComponent(email))
+    .then(response => response.json())
+    .then(data => {
+      if (data.exists) {
+        emailElm.setCustomValidity('Email đã được sử dụng');
+      } else {
+        emailElm.setCustomValidity('');
+      }
+    })
+    .catch(error => console.error(error));
+}
+
 async function settingAccount(e) {
   e.preventDefault();
 

@@ -43,7 +43,7 @@
               </div>
               <div class="mb-3 col-md-6">
                 <label for="email" class="form-label">E-mail</label>
-                <input class="form-control" type="text" id="email" name="email" value="{{user.email}}"
+                <input class="form-control" type="text" id="email" name="email" value="{{user.email}}" oninput="checkEmailExisted(event)"
                   placeholder="admin@gmail.com" />
               </div>
               <div class="mb-3 col-md-6">
