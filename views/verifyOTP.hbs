@@ -1,0 +1,48 @@
+<div id="main-wrapper" class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0">
+                <div class="card-body p-0">
+                    <div class="row no-gutters">
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="mb-5">
+                                    <h3 class="h4 font-weight-bold text-theme">Xác nhận OTP</h3>
+                                </div>
+                                <h6 class="h5 mb-0">Hãy nhập OPT mà chúng tôi đã gửi qua email của bạn.</h6>
+                                <p class="mt-2 mb-5 {{#if message}}alert-danger danger p-3{{else}}text-muted{{/if}}">{{#if message}}{{message}}{{else}}Lưu ý, mã OTP chỉ có hiệu lục trong vòng 60s, sau 60s vui lòng yêu cầu gửi lại mã.{{/if}}</p>
+                                <form action="/verifyOTP" method="post" enctype="application/x-www-form-urlencoded">
+                                    <div class="form-group mb-5">
+                                        {{!-- <label for="emailForgetPassword">OTP</label> --}}
+                                        <input type="text" class="form-control" id="otp" name="otp" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-theme">Xác nhận</button>
+                                    {{!-- <a href="/forget-password" class="forgot-link float-right text-primary">Gửi lại OTP</a> --}}
+                                    <a href="/forget-password" class="forgot-link float-right text-primary">Gửi lại OTP</a>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-none d-lg-inline-block">
+                            <div class="account-block rounded-right">
+                                <div class="overlay rounded-right"></div>
+                                <div class="account-testimonial">
+                                    <h4 class="text-white mb-4">Ad Management System</h4>
+                                    <p class="lead text-white">"Best investment we made for a long time. Can only
+                                        recommend it for other users."</p>
+                                    <p>- Development Team -</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>

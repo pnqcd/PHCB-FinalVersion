@@ -308,8 +308,6 @@ function sendEmailReport(email, tenNguoiBaoCao, hinhThucBaoCao, phone, cachThucX
     .catch();
 }
 
-
-
 // ---------------------disable nút gửi yêu cầu chỉnh sửa place
 function initializeEditForm() {
   let saveBtn = document.querySelector("#addPlaceForm button[type='submit']");
