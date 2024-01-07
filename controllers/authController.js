@@ -12,7 +12,7 @@ controller.showIndex = (req, res) => {
 }
 
 controller.showLogin = (req, res) => {
-    console.log(req.query.reqUrl);
+    // console.log(req.query.reqUrl);
     let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
 
     if (req.user) {
@@ -28,7 +28,10 @@ controller.showLogin = (req, res) => {
 controller.login = (req, res, next) => { 
     passport.authenticate("local", (err, user, info) => {
         if (err) return next(err);
-        if (!user) return res.redirect("/login");
+        if (!user) return res.render("login", {
+            layout: "auth",
+            message: "Username hoặc mật khẩu không chính xác"
+        });
 
         let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
         req.login(user, (err) => {
