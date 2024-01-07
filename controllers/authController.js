@@ -25,6 +25,19 @@ controller.showLogin = (req, res) => {
     });
 }
 
+controller.showForgetPassword = (req, res) => {
+    let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
+
+    if (req.user) {
+        return res.redirect(reqUrl);
+    }
+
+    res.render("forgetPassword", {
+        layout: "auth",
+        reqUrl, 
+    });
+}
+
 controller.login = (req, res, next) => { 
     passport.authenticate("local", (err, user, info) => {
         if (err) return next(err);
