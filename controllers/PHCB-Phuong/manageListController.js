@@ -57,7 +57,7 @@ controller.show = async (req, res) => {
     
   });
 
-  res.render("PHCB-Phuong/manageList", {
+  res.render("/PHCB-Phuong/manageList", {
     placedetails: res.locals.placedetails.map(detail => ({
       ...detail.toJSON(),
       formattedExpireDay: moment(detail.expireDay).format('MM/DD/YYYY'),
@@ -84,7 +84,7 @@ controller.requestEditPlace = async (req, res) => {
       hinhAnh:result.secure_url,
       hinhAnhId:result.public_id,
     });
-    res.redirect("/manageList");
+    res.redirect("/PHCB-Phuong/manageList");
   } catch (error) {
     res.send("Không thể thêm điểm đặt");
     cloudinary.uploader.destroy(result.secure_url);

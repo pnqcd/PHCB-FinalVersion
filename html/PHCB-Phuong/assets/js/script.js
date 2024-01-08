@@ -141,7 +141,7 @@ function showEditPlaceModal(btn) {
   document.querySelector("#loaiVTEdit").value = btn.dataset.loaiVt;
   document.querySelector("#hinhThucEdit").value = btn.dataset.hinhThuc;
   document.querySelector("#quyHoachEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
-  document.querySelector("#PlaceImageEdit").src=btn.dataset.imagePath;
+  document.querySelector("#PlaceImageEdit").src=btn.dataset.hinhAnh;
 }
 
 function showEditRequestModal(btn) {

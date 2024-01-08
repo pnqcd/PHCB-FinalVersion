@@ -161,7 +161,7 @@
                                   <span class="glyphicon glyphicon-camera"></span>
                                   <span>Đổi hình ảnh</span>
                                 </label>
-                                <input id="fileAdsImg" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event,'AdsImageEdit')" />
+                                <input id="fileAdsImg" name="ImageUrl" type="file" style="display: none;" onchange="loadImg(event,'#AdsImageEdit')" />
                               </div>
                             </div>
                           </div>
@@ -305,7 +305,7 @@
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#fixPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
                         data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
-                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}"></i>
+                        data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}"></i>
                       {{!-- view place detail modal --}}
                       <div class="modal detail-place fade" id="staticBackdropInfo" data-bs-backdrop="static"
                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
@@ -789,7 +789,7 @@
                                             <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                                                 data-bs-target="#editAdsModal" onclick="showEditAdsModal(this)" 
                                                 data-id="{{id}}" data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size = "{{adSize}}"
-                                                data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"></i>
+                                                data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}" data-image-path="{{imagePath}}"></i>
                                             
                                         </td>
                                     </tr>
