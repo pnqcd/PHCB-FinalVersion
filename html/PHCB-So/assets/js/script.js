@@ -493,7 +493,8 @@ function showRequestEditPlaceModal(btn) {
   document.querySelector("#quyHoachRequestEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#liDoRequestEditPlace").value = btn.dataset.liDoChinhSua;
   if (btn.dataset.hinhAnh) document.querySelector("#hinhAnhRequestEdit").src = btn.dataset.hinhAnh;
-  document.querySelector("#idWardImageEditRequest").value = btn.dataset.hinhAnhId;
+  document.querySelector("#wardImageEditRequest").value = btn.dataset.hinhAnh;
+  document.querySelector("#wardImageIdEditRequest").value = btn.dataset.hinhAnhId;
 
 }
 
@@ -515,9 +516,10 @@ function showRequestLicenseAdsModal(btn) {
   if (btn.dataset.hinhAnh) document.querySelector("#hinhAnhRequestLicenseAds").src = btn.dataset.hinhAnh;
   document.querySelector("#idAdsImageLicenseRequest").value = btn.dataset.hinhAnhId;
 
-  if (btn.dataset.hinhAnh) document.querySelector('#hinhAnhBQC img').src = hinhAnh;
+  // if (btn.dataset.hinhAnh) document.querySelector('#hinhAnhBQC img').src = btn.dataset.hinhAnh;
   
   // if approved then disable button 
+  console.log(btn.dataset.tinhTrang);
   if (btn.dataset.tinhTrang != "Chờ phê duyệt") {
     document.querySelectorAll(".btn-phe-duyet").forEach((button) => {
       button.disabled = true;

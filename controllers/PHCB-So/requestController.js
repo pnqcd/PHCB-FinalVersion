@@ -82,21 +82,24 @@ controller.requestEditAds = async (req, res) => {
 }
 
 controller.requestEditPlace = async (req, res) => {
+    console.log("helloo");
     const client = await pool.connect();
 
-    let {id, placeId, diaChiRequest, khuVucRequest, loaiVtRequest, hinhThucRequest, isQuyHoach, handlePlaceEditRequest} = req.body;
+    let {id, placeId, diaChiRequest, khuVucRequest, loaiVtRequest, hinhThucRequest, isQuyHoach, handlePlaceEditRequest, hinhAnh, hinhAnhId} = req.body;
 
     try {
         if (handlePlaceEditRequest == "Phê duyệt") {
             const updateQuery = `UPDATE "Places"
-                                SET "diaChi" = $1, "khuVuc" = $2, "loaiVT" = $3, "hinhThuc" = $4, "quyHoach" = $5
-                                WHERE id = $6`;
+                                SET "diaChi" = $1, "khuVuc" = $2, "loaiVT" = $3, "hinhThuc" = $4, "quyHoach" = $5, "hinhAnh" = $6, "hinhAnhId" = $7
+                                WHERE id = $8`;
             await client.query(updateQuery, [
                 diaChiRequest,
                 khuVucRequest,
                 loaiVtRequest,
                 hinhThucRequest,
                 isQuyHoach ? "ĐÃ QUY HOẠCH" : "CHƯA QUY HOẠCH",
+                hinhAnh,
+                hinhAnhId,
                 placeId
             ]);
             res.send("Đã cập nhật điểm đặt!");
