@@ -194,7 +194,7 @@
                                                     <input type="text" id="diaChiAdsRequestEdit" name="diaChiAdsRequest" class="form-control" readonly />
                                                 </div>
                                                 <div class="col mb-3">
-                                                    <label for="khuVucAdsRequestEdit" class="form-label">Địa chỉ</label>
+                                                    <label for="khuVucAdsRequestEdit" class="form-label">Khu vực</label>
                                                     <input type="text" id="khuVucAdsRequestEdit" name="khuVucAdsRequest" class="form-control" readonly />
                                                 </div>
                                             </div>
@@ -433,7 +433,7 @@
                                                     <div class="card bg-dark">
                                                         <div class="profile-pic">
                                                             <div class="image-container" id="hinhAnhBQC">
-                                                                <img src="/PHCB-So/assets/img/ads/ads.jpeg" id="output" width="100%" height="250px"
+                                                                <img src="/PHCB-So/assets/img/ads/ads.jpeg" id="hinhAnhRequestLicenseAds" width="100%"
                                                                     style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;" />
                                                                 {{!-- <label class="btn btn-primary" for="file"
                                                                     style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
@@ -450,6 +450,7 @@
                                                 <input type="hidden" name="id" id="idAdsLicenseRequest" value="" />
                                                 <input type="hidden" name="placeId" id="placeIdAdsLicenseRequest" value="" />
                                                 <input type="hidden" name="licenseState" id="licenseState" value="" />
+                                                <input type="hidden" name="imageId" id="idAdsImageLicenseRequest" value="" />
                                                 <button type="button" class="btn btn-outline-secondary btn-phe-duyet" onclick="notAproveAds(event)">
                                                     KHÔNG PHÊ DUYỆT
                                                 </button>
@@ -476,9 +477,11 @@
                                     <tr>
                                         <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
                                             data-bs-toggle="modal" data-bs-target="#requestLicenseAdsModal" onclick="showRequestLicenseAdsModal(this)" 
-                                            data-id="{{id}}" data-place-id="{{placeId}}" data-cong-ty="{{congTy}}" data-dia-chi-cong-ty="{{diaChiCongTy}}" data-dien-thoai="{{dienThoai}}" 
-                                            data-email="{{email}}" data-dia-chi="{{diaChi}}" data-noi-dung = "{{noiDungQC}}" data-ten-bang-quang-cao="{{tenBangQuangCao}}" data-tinh-trang="{{tinhTrang}}"
-                                            data-kich-thuoc="{{kichThuoc}}" data-so-luong="{{soLuong}}" data-ngay-bat-dau="{{ngayBatDau}}" data-ngay-ket-thuc="{{ngayKetThuc}}" data-hinh-anh="{{hinhAnh}}">
+                                            data-id="{{id}}" data-place-id="{{placeId}}" data-cong-ty="{{congTy}}" data-dia-chi-cong-ty="{{diaChiCongTy}}" 
+                                            data-dien-thoai="{{dienThoai}}" data-email="{{email}}" data-dia-chi="{{diaChi}}" data-noi-dung = "{{noiDungQC}}" 
+                                            data-ten-bang-quang-cao="{{tenBangQuangCao}}" data-tinh-trang="{{tinhTrang}}" data-kich-thuoc="{{kichThuoc}}" 
+                                            data-so-luong="{{soLuong}}" data-ngay-bat-dau="{{ngayBatDau}}" data-ngay-ket-thuc="{{ngayKetThuc}}" 
+                                            data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}">
                                             <div class="d-flex px-2">
                                                 <div>
                                                     <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-So/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">

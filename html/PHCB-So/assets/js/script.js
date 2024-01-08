@@ -493,7 +493,7 @@ function showRequestEditPlaceModal(btn) {
   document.querySelector("#quyHoachRequestEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#liDoRequestEditPlace").value = btn.dataset.liDoChinhSua;
   if (btn.dataset.hinhAnh) document.querySelector("#hinhAnhRequestEdit").src = btn.dataset.hinhAnh;
-  document.querySelector("#idWardImageEditRequest").src = btn.dataset.hinhAnhId;
+  document.querySelector("#idWardImageEditRequest").value = btn.dataset.hinhAnhId;
 
 }
 
@@ -512,6 +512,8 @@ function showRequestLicenseAdsModal(btn) {
   document.querySelector("#ngayBatDau").value = btn.dataset.ngayBatDau;
   document.querySelector("#ngayKetThuc").value = btn.dataset.ngayKetThuc;
   document.querySelector("#licenseState").value = btn.dataset.tinhTrang;
+  if (btn.dataset.hinhAnh) document.querySelector("#hinhAnhRequestLicenseAds").src = btn.dataset.hinhAnh;
+  document.querySelector("#idAdsImageLicenseRequest").value = btn.dataset.hinhAnhId;
 
   if (btn.dataset.hinhAnh) document.querySelector('#hinhAnhBQC img').src = hinhAnh;
   
