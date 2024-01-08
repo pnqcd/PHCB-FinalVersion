@@ -13,8 +13,8 @@ router.post("/places",upload.single('ImageUrl'), controller.addPlace);
 router.put("/places",upload.single('ImageUrl'), controller.editPlace);
 router.delete("/places/:id", controller.deletePlace);
 
-router.post("/ads", controller.addAds);
-router.put("/ads", controller.editAds);
+router.post("/ads",upload.single('ImageUrl'), controller.addAds);
+router.put("/ads",upload.single('ImageUrl'), controller.editAds);
 router.delete("/ads/:id", controller.deleteAds);
 
 router.post("/adstype", controller.addAdstype);

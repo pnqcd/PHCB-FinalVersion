@@ -394,6 +394,24 @@
                                 <input type="text" id="expireDay" name="expireDay" class="form-control" placeholder="MM/DD/YYYY" oninput="checkValidDate(this, event)" required/>
                             </div>
                         </div>
+                        <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="hinhAnhAds" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="AdsImg" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="AdsImg" type="file" name="ImageUrl" style="display: none;" onchange="loadImg(event,'#hinhAnhAds')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         <div class="text-center badge bg-label-danger" id="errorMessage"></div>
                     </div>
                     <div class="modal-footer">
@@ -412,7 +430,7 @@
     <!-- Edit Ads Modal -->
     <div class="modal fade" id="editAdsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form action="" id="editAdsForm" onsubmit="editAds(event)">
+            <form action="" id="editAdsForm" onsubmit="editAds(event)" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -452,10 +470,29 @@
                             <input type="text" id="expireDayEdit" name="expireDay" class="form-control" placeholder="Quảng cáo thương mại" oninput="checkValidDate(this, event)"/>
                         </div>
                     </div>
+                    <div class="container pt-3">
+                            <div class="card bg-dark">
+                              <div class="profile-pic">
+                                <div class="image-container">
+                                  <img
+                                    src=""
+                                    id="hinhAnhAdsEdit" width="100%" height="250px"
+                                    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover; position: relative; border-radius:5px;"
+                                  />
+                                  <label class="btn btn-primary" for="AdsImgEdit" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Đổi hình ảnh</span>
+                                  </label>
+                                  <input id="AdsImgEdit" type="file" name="ImageUrl" style="display: none;" onchange="loadImg(event,'#hinhAnhAdsEdit')" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                     <div class="text-center badge bg-label-danger" id="errorMessage"></div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="id" id="idAds" value="" />
+                    <input type="hidden" name="publicImageId" id="imgAdsIdEdit" value="" />
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
                         Đóng
                     </button>
@@ -1000,8 +1037,8 @@
                                             <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                                                 data-bs-target="#editAdsModal" onclick="showEditAdsModal(this)" 
                                                 data-id="{{id}}" data-ad-name="{{adName}}" data-dia-chi="{{Place.diaChi}}" data-ad-size = "{{adSize}}"
-                                                data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}"></i>
-                                            <i role="button" class="fa fa-trash text-danger delete-btn ads-delete-btn" data-id={{id}}></i>
+                                                data-ad-quantity="{{adQuantity}}" data-expire-day="{{formattedExpireDay}}" data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}"></i>
+                                            <i role="button" class="fa fa-trash text-danger delete-btn ads-delete-btn" data-id={{id}} data-public-image-id={{publicImageId}}></i>
                                         </td>
                                     </tr>
                                     {{/each}}

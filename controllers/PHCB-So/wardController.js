@@ -241,6 +241,7 @@ controller.deletePlace = async (req, res) => {
 
 controller.addAds = async (req, res) => {
   let {adName, diaChiAds, adSize, adQuantity, expireDay} = req.body;
+  let result ={};
 
   const parsedDate = moment(expireDay, 'MM/DD/YYYY', true);
   const isValidDate = parsedDate.isValid();
@@ -257,22 +258,33 @@ controller.addAds = async (req, res) => {
   let placeId = adsPlace.getDataValue("id");
 
   try {
+    if (req.file && req.file.path) {
+      result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'ads'
+      });
+    }
     await models.Placedetail.create({
       placeId: placeId,
       adName, 
       adSize, 
       adQuantity, 
       expireDay, 
+      imagePath:result.secure_url||'',
+      publicImageId:result.public_id||'',
     });
     res.redirect("/PHCB-So/danh-sach/#ads-list");
   } catch (error) {
+    if (result.public_id) {
+      await cloudinary.uploader.destroy(result.public_id);
+    }
     res.send("Không thể thêm bảng QC");
     console.error(error);
   }
 }
 
 controller.editAds = async (req, res) => {
-  let {id, adName, diaChiAds, adSize, adQuantity, expireDay} = req.body;
+  let {id, adName, diaChiAds, adSize, adQuantity, expireDay,publicImageId} = req.body;
+  let result ={};
 
   const parsedDate = moment(expireDay, 'MM/DD/YYYY', true);
   const isValidDate = parsedDate.isValid();
@@ -289,18 +301,34 @@ controller.editAds = async (req, res) => {
   let placeId = adsPlace.getDataValue("id");
 
   try {
-    await models.Placedetail.update(
-      { 
-        placeId: placeId,
+    if (req.file && req.file.path) {
+      result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'ads'
+      });
+    }
+    const updateData = { 
+      placeId: placeId,
         adName, 
         adSize, 
         adQuantity, 
         expireDay,
-      },
-      {where: {id}}
-    );
+    };
+
+    if (result.secure_url) {
+      updateData.imagePath = result.secure_url;
+      updateData.publicImageId = result.public_id;
+    }
+
+    await models.Placedetail.update(updateData, {where: {id}});
+
+    if (publicImageId && result.secure_url) {
+      await cloudinary.uploader.destroy(publicImageId);
+    }
     res.send("Đã cập nhật bảng QC!");
   } catch (error) {
+    if (result.public_id) {
+      await cloudinary.uploader.destroy(result.public_id);
+    }
     res.send("Không thể cập nhật bảng QC!");
     console.error(error);
   }
@@ -308,10 +336,12 @@ controller.editAds = async (req, res) => {
 
 controller.deleteAds = async (req, res) => {
   let id = isNaN(req.params.id) ? 0 : parseInt(req.params.id);
+  let publicImageId=req.body.publicImageId;
   try {
     await models.Placedetail.destroy(
       {where: {id}}
     );
+    if(publicImageId) await cloudinary.uploader.destroy(publicImageId);
     res.send("Đã xoá bảng QC!");
   } catch (error) {
     res.send("Không thể xoá bảng QC!");

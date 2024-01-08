@@ -324,6 +324,7 @@ document.querySelectorAll(".place-delete-btn").forEach((btnConfirm) => {
 document.querySelectorAll(".ads-delete-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
     let id = e.target.dataset.id;
+    let publicImageId=e.target.dataset.publicImageId;
     const options = {
       title: "Xác nhận xoá",
       type: "danger",
@@ -332,7 +333,7 @@ document.querySelectorAll(".ads-delete-btn").forEach((btnConfirm) => {
       onConfirm: () => {
         // console.log("Confirm");
         // console.log(id);
-        deleteAds(id);
+        deleteAds(id,publicImageId);
       },
       onCancel: () => {
         // console.log("Cancel");
@@ -453,6 +454,8 @@ function showEditAdsModal(btn) {
   document.querySelector("#adSizeEdit").value = btn.dataset.adSize;
   document.querySelector("#adQuantityEdit").value = btn.dataset.adQuantity;
   document.querySelector("#expireDayEdit").value = btn.dataset.expireDay;
+  document.querySelector("#hinhAnhAdsEdit").src = btn.dataset.imagePath;
+  document.querySelector("#imgAdsIdEdit").value = btn.dataset.publicImageId;
 }
 
 function showEditAdstypeModal(btn) {
@@ -576,10 +579,7 @@ async function editAds(e) {
 
   let res = await fetch('/PHCB-So/danh-sach/ads', {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body:formData,
   });
 
   location.reload();
@@ -668,9 +668,13 @@ async function deletePlace(id,hinhAnhId) {
   location.reload();
 }
 
-async function deleteAds(id) {
+async function deleteAds(id,publicImageId) {
   let res = await fetch(`/PHCB-So/danh-sach/ads/${id}`, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ publicImageId: publicImageId }),
   });
 
   location.reload();
