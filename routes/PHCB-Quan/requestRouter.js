@@ -8,6 +8,8 @@ router.get("/", controller.isLoggedIn, controller.show);
 router.post("/addrequest",upload.single('ImageUrl'), controller.addRequest);
 router.put("/editrequest",upload.single('ImageUrl'), controller.editRequest);
 router.delete("/deleterequest/:id", controller.deleteRequest);
+router.post("/editads",upload.single('ImageUrl'), controller.requestEditAds);
+
 
 // router.put("/request",controller.editRequest);
 // router.delete("/request/:id", controller.deleteRequest);
