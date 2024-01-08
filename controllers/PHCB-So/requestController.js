@@ -46,19 +46,21 @@ controller.show = async (req, res) => {
 controller.requestEditAds = async (req, res) => {
     const client = await pool.connect();
 
-    let {id, originId, placeId, adNameRequest, adSizeRequest, adQuantityRequest, expireDayRequest, handleAdsEditRequest} = req.body;
+    let {id, originId, placeId, adNameRequest, adSizeRequest, adQuantityRequest, expireDayRequest, handleAdsEditRequest, imagePath, publicImageId} = req.body;
 
     try {
         if (handleAdsEditRequest == "Phê duyệt") {
             const updateQuery = `UPDATE "Placedetails"
-                                SET "placeId" = $1, "adName" = $2, "adSize" = $3, "adQuantity" = $4, "expireDay" = $5
-                                WHERE id = $6`;
+                                SET "placeId" = $1, "adName" = $2, "adSize" = $3, "adQuantity" = $4, "expireDay" = $5, "imagePath" = $6, "publicImageId" = $7
+                                WHERE id = $8`;
             await client.query(updateQuery, [
                 placeId,
                 adNameRequest,
                 adSizeRequest,
                 adQuantityRequest,
                 expireDayRequest,
+                imagePath,
+                publicImageId,
                 originId
             ]);
             res.send("Đã cập nhật bảng QC!");

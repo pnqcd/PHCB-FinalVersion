@@ -480,7 +480,8 @@ function showRequestEditAdsModal(btn) {
   document.querySelector("#expireDayRequestEdit").value = btn.dataset.expireDay;
   document.querySelector("#liDoRequestEditAds").value = btn.dataset.liDoChinhSua;
   if (btn.dataset.imagePath) document.querySelector("#hinhAnhRequestEditAds").src = btn.dataset.imagePath;
-  document.querySelector("#idAdsImageEditRequest").value = btn.dataset.publicImageId;
+  document.querySelector("#adsImageEditRequest").value = btn.dataset.imagePath;
+  document.querySelector("#adsImageIdEditRequest").value = btn.dataset.publicImageId;
 }
 
 function showRequestEditPlaceModal(btn) {
