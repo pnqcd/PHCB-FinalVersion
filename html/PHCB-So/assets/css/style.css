@@ -81,7 +81,8 @@
 /* .modal-lg {
     max-width: 500px;
 } */
-#requestLicenseAdsModal .modal-lg {
+/* #requestLicenseAdsModal  */
+.modal-lg {
     max-width: 700px;
 }
 

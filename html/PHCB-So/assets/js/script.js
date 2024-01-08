@@ -479,6 +479,8 @@ function showRequestEditAdsModal(btn) {
   document.querySelector("#adQuantityRequestEdit").value = btn.dataset.adQuantity;
   document.querySelector("#expireDayRequestEdit").value = btn.dataset.expireDay;
   document.querySelector("#liDoRequestEditAds").value = btn.dataset.liDoChinhSua;
+  if (btn.dataset.imagePath) document.querySelector("#hinhAnhRequestEditAds").src = btn.dataset.imagePath;
+  document.querySelector("#idAdsImageEditRequest").value = btn.dataset.publicImageId;
 }
 
 function showRequestEditPlaceModal(btn) {
@@ -490,7 +492,7 @@ function showRequestEditPlaceModal(btn) {
   document.querySelector("#hinhThucRequestEdit").value = btn.dataset.hinhThuc;
   document.querySelector("#quyHoachRequestEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#liDoRequestEditPlace").value = btn.dataset.liDoChinhSua;
-  document.querySelector("#hinhAnhRequestEdit").src = btn.dataset.hinhAnh;
+  if (btn.dataset.hinhAnh) document.querySelector("#hinhAnhRequestEdit").src = btn.dataset.hinhAnh;
   document.querySelector("#idWardImageEditRequest").src = btn.dataset.hinhAnhId;
 
 }
@@ -926,7 +928,7 @@ function showOriginPlaceDetail(elm, event) {
         document.querySelector("#loaiVtRequestEdit").value = data.originPlace[0].loaiVT;
         document.querySelector("#hinhThucRequestEdit").value = data.originPlace[0].hinhThuc;
         document.querySelector("#quyHoachRequestEdit").checked = data.originPlace[0].quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
-        document.querySelector("#hinhAnhRequestEdit").src = data.originPlace[0].hinhAnh;
+        if (data.originPlace[0].hinhAnh) document.querySelector("#hinhAnhRequestEdit").src = data.originPlace[0].hinhAnh;
       })
       .catch(error => console.error(error));
   } else { // show requested details
@@ -939,7 +941,7 @@ function showOriginPlaceDetail(elm, event) {
         document.querySelector("#loaiVtRequestEdit").value = data.requestPlace[0].loaiVT;
         document.querySelector("#hinhThucRequestEdit").value = data.requestPlace[0].hinhThuc;
         document.querySelector("#quyHoachRequestEdit").checked = data.requestPlace[0].quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
-        document.querySelector("#hinhAnhRequestEdit").src = data.requestPlace[0].hinhAnh;
+        if (data.requestPlace[0].hinhAnh) document.querySelector("#hinhAnhRequestEdit").src = data.requestPlace[0].hinhAnh;
       })
       .catch(error => console.error(error));
   }
@@ -960,6 +962,7 @@ function showOriginAdsDetail(elm, event) {
         document.querySelector("#adSizeRequestEdit").value = data.originAds[0].adSize;
         document.querySelector("#adQuantityRequestEdit").value = data.originAds[0].adQuantity;
         document.querySelector("#expireDayRequestEdit").value = data.originAds[0].expireDay;
+        if (data.originAds[0].imagePath) document.querySelector("#hinhAnhRequestEditAds").src = data.originAds[0].imagePath;
       })
       .catch(error => console.error(error));
   } else { // show requested details
@@ -973,6 +976,7 @@ function showOriginAdsDetail(elm, event) {
         document.querySelector("#adSizeRequestEdit").value = data.requestAds[0].adSize;
         document.querySelector("#adQuantityRequestEdit").value = data.requestAds[0].adQuantity;
         document.querySelector("#expireDayRequestEdit").value = data.requestAds[0].expireDay;
+        if (data.requestAds[0].imagePath) document.querySelector("#hinhAnhRequestEditAds").src = data.requestAds[0].imagePath;
       })
       .catch(error => console.error(error));
   }
