@@ -57,7 +57,7 @@ controller.show = async (req, res) => {
     
   });
 
-  res.render("/PHCB-Phuong/manageList", {
+  res.render("PHCB-Phuong/manageList", {
     placedetails: res.locals.placedetails.map(detail => ({
       ...detail.toJSON(),
       formattedExpireDay: moment(detail.expireDay).format('MM/DD/YYYY'),

@@ -19,21 +19,21 @@
                     style="background-color: transparent; color:transparent; border:none ; outline: none; box-shadow: none;"
                     disabled><i class="fa-solid fa-plus pe-1"></i>Add</button>
                 </div>
-                <div class="col-6">
+                {{!-- <div class="col-6">
                   <li class="nav-item dropdown pe-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0 text-center" id="dropdownMenuButton"
                       data-bs-toggle="dropdown" aria-expanded="false">
-                      <button class="btn bg-gradient-success mb-0 me-4 toast-btn btn-outline-white" type="button" data-target="infoToast"
-                        ><i
+                      <button class="btn btn mb-0 me-4 toast-btn" type="button" data-target="infoToast"
+                        style="color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
                           class="fa-solid fa-sort"></i></button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-1 py-1" aria-labelledby="dropdownMenuButton">
                       <li>
                         <a class="dropdown-item text-center" href="javascript:;"
                           onclick="sortTable('reportlocation', 'tableReport')">
-                          <button class="btn btn-outline-info w-100" type="button"
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
                             data-target="infoToast"
-                            ><i
+                            style="font-size: 11px; height: 30px;margin-bottom:0px; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
                               class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
                           </button>
                         </a>
@@ -41,9 +41,9 @@
                       <li>
                         <a class="dropdown-item text-center" href="javascript:;"
                           onclick="sortTable('reportername', 'tableReport')">
-                          <button class="btn btn-outline-info w-100" type="button"
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
                             data-target="infoToast"
-                            ><i
+                            style="font-size: 11px; height: 30px;margin-bottom:0px;color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)"><i
                               class="fa-solid fa-arrow-up-a-z pe-1"></i>Tên người gửi
                           </button>
                         </a>
@@ -51,16 +51,54 @@
                       <li>
                         <a class="dropdown-item text-center" href="javascript:;"
                           onclick="sortTable('typeofreport', 'tableReport')">
-                          <button class="btn btn-outline-info w-100" type="button"
+                          <button class="btn btn w-100 d-flex align-items-center justify-content-center" type="button"
                             data-target="infoToast"
-                            >
-                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức
+                            style="font-size: 11px; height: 30px; margin-bottom: 0; color: rgb(8, 8, 65); background-color:rgb(202, 224, 248)">
+                            <i class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức báo cáo
                           </button>
                         </a>
                       </li>
                     </ul>
                   </li>
-                </div>
+                </div> --}}
+                <div class="col-6">
+                                        <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                                            <a href="javascript:;" class="nav-link text-body p-0 text-center"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn bg-gradient-success mb-0 me-4 toast-btn btn-outline-white"
+                                                    type="button" data-target="infoToast"><i
+                                                        class="fa-solid fa-sort"></i></button>
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end px-1 py-1"
+                                                aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('reportlocation', 'tableReport')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Địa chỉ
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('reportername', 'tableReport')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Tên người gửi
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-center" href="javascript:;" onclick="sortTable('typeofreport', 'tableReport')">
+                                                        <button class="btn btn-outline-info w-100" type="button"
+                                                            data-target="infoToast"><i
+                                                                class="fa-solid fa-arrow-up-a-z pe-1"></i>Hình thức
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                          
+                                            </ul>
+                                        </li>
+                                    </div>
               </div>
             </div>
           </div>
@@ -82,12 +120,12 @@
                 </thead>
                 <tbody>
                   {{#each reports}}
-                  <tr data-reportlocation="{{reportlocation}}" data-reportername="{{reportername}}"
+                  <tr data-phuong = "{{reportkhuvuc}}" data-reportlocation="{{reportlocation}}" data-reportername="{{reportername}}"
                     data-typeofreport="{{typeofreport}}">
                     <td>
                       <div class="d-flex px-2">
                         <div>
-                          <img src="{{#if imagepath1}}{{imagepath1}}{{else}}\PHCB-Phuong\assets\img\report\rpicon.jpg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
+                          <img src="\PHCB-Phuong\assets\img\report\rpicon.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
                         </div>
                         <div class="my-auto">
                           <h6 class="mb-0 text-sm">{{reportlocation}}</h6>
@@ -118,7 +156,7 @@
                         data-reporterphonenumber="{{reporterphonenumber}}" data-reporteremail="{{reporteremail}}"
                         data-reportcontent="{{{reportcontent}}}" data-handlemethod="{{handlemethod}}"
                         data-reportlocation="{{reportlocation}}" data-imagepath1="{{imagepath1}} "
-                        data-imagepath2="{{imagepath2}}"></i>
+                        data-imagepath2="{{imagepath2}}" data-timeadded="{{time_added}}"></i>
 
                       <i role="button" class="fa-solid fa-envelope text-info email-report-btn" data-id="{{id}}"
                         data-reportername="{{reportername}}" data-typeofreport="{{typeofreport}}"
@@ -185,6 +223,10 @@
                     <h6 class="text-sm font-weight-normal mb-1">
                       <span class="font-weight-bold">Hình thức báo cáo: </span>
                       <span class="span-content" id="typeofreport"></span>
+                    </h6>
+                    <h6 class="text-sm font-weight-normal mb-1">
+                      <span class="font-weight-bold">Thời gian báo cáo: </span>
+                      <span class="span-content" id="time_added"></span>
                     </h6>
                     <h6 class="text-sm font-weight-normal mb-1">
                       <span class="font-weight-bold">Nội dung báo cáo: </span>

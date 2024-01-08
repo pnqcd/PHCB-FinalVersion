@@ -379,7 +379,28 @@ function showHandleMethod(btn) {
   document.querySelector("#reporterphonenumber").textContent = btn.dataset.reporterphonenumber;
   document.querySelector("#reporteremail").textContent = btn.dataset.reporteremail;
   document.querySelector("#typeofreport").textContent = btn.dataset.typeofreport;
-  document.querySelector("#reportcontent").innerHTML  = '<span style="font-size:14px; font-wieght:bold; color:#344767;font-family: Roboto, Helvetica, Arial, sans-serif;">' + btn.dataset.reportcontent + '</>';
+  const originalDate = new Date(btn.dataset.timeadded);
+
+  // Lấy ngày và giờ
+  const formattedDate = originalDate.toLocaleString('en-US', {
+    month: '2-digit', // mm
+    day: '2-digit',   // dd
+    year: 'numeric',
+    hour: '2-digit',   // hh
+    minute: '2-digit', // mm
+    second: '2-digit', // ss
+    timeZoneName: 'short',
+  });
+  document.querySelector("#time_added").textContent = formattedDate;
+  // chỉ lấy ngày
+  // const originalDate = new Date(btn.dataset.timeadded);
+
+  // const formattedDate = `${(originalDate.getMonth() + 1).toString().padStart(2, '0')}/
+  //                     ${originalDate.getDate().toString().padStart(2, '0')}/
+  //                     ${originalDate.getFullYear()}`;
+
+  // document.querySelector("#time_added").textContent = formattedDate;
+  document.querySelector("#reportcontent").innerHTML = '<span style="font-size:14px; font-wieght:bold; color:#344767;font-family: Roboto, Helvetica, Arial, sans-serif;">' + btn.dataset.reportcontent + '</>';
   document.querySelector("#handlemethod").value = btn.dataset.handlemethod;
   document.querySelector('#imagepath1').src = btn.dataset.imagepath1;
   document.querySelector('#imagepath2').src = btn.dataset.imagepath2;
@@ -412,13 +433,12 @@ function showHandleMethod(btn) {
 }
 
 async function editReport(e) {
-  console.log("ok");
   e.preventDefault();
 
   const formData = new FormData(document.getElementById("handleMethodForm"));
   const data = Object.fromEntries(formData.entries());
 
-  let res = await fetch('/reports/handle-report', {
+  let res = await fetch('/PHCB-Phuong/reports/handle-report', {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
