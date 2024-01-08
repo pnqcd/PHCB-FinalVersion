@@ -781,7 +781,7 @@ function openCustomDown(elm) {
     elm.parentElement.querySelector('.customDown').style.display = "none";
 }
 
-function openViewDetail(elm, wardName, districtName, zipCode, population) {
+function openViewDetail(elm, wardName, districtName, zipCode, population, imagePath) {
   // let div = document.createElement('div');
   // div.classList.add('modal-backdrop', 'fade', 'show');
   // document.body.appendChild(div);
@@ -795,6 +795,8 @@ function openViewDetail(elm, wardName, districtName, zipCode, population) {
   modal.querySelector('.detail-card :nth-child(1) span').textContent = wardName + ", " + districtName;
   modal.querySelector('.detail-card :nth-child(3) .span-content').textContent = zipCode;
   modal.querySelector('.detail-card :nth-child(4) .span-content').textContent = population;
+  modal.querySelector('.ward-detail-image :nth-child(1)').src = imagePath;
+
 }
 
 

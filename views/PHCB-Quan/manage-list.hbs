@@ -351,8 +351,8 @@
                         </div>
                         <div class="row mt-3">
                           <div class="col-12">
-                            <div class="card text-white">
-                              <img src="/PHCB-Quan/assets/img/city.jpeg" class="card-img" alt="..."
+                            <div class="card text-white ward-detail-image">
+                              <img src="" class="card-img" alt="..."
                                 style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
                               <div class="card-img-overlay">
                                 <h5 class="card-title text-white">
@@ -383,7 +383,7 @@
                   {{#each wards}}
                   <tr>
                     <td data-bs-toggle="modal" data-bs-target="#viewWardDetailModal"
-                      onclick="openViewDetail(this, '{{wardName}}', '{{districtName}}', '{{zipCode}}', '{{population}}')"
+                      onclick="openViewDetail(this, '{{wardName}}', '{{districtName}}', '{{zipCode}}', '{{population}}', '{{imagePath}}')"
                       style="cursor: pointer;">
                       <div class="d-flex px-2 py-1">
                         <div>
