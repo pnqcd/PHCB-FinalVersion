@@ -16,7 +16,7 @@
                         <div class="table-responsive p-0">
                             <!-- Detail Request Edit Place Modal -->
                             <div class="modal fade" id="requestEditPlaceModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <form action="" id="requestEditPlaceForm" onsubmit="requestEditPlace(event)">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -60,6 +60,15 @@
                                                     <input type="text" id="liDoRequestEditPlace" name="liDoRequest" class="form-control" readonly/>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-12 mb-3">
+                                                    <div class="card text-white">
+                                                        <img src="/PHCB-So/assets/img/places/place.png" id="hinhAnhRequestEdit"
+                                                            class="card-img" alt="..."
+                                                            style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row g-2">
                                                 <div class="col mb-3">
                                                     <label for="handlePlaceEditRequest" class="form-label">Xử lý yêu cầu</label>
@@ -69,7 +78,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-3">
                                                 <div class="col mb-0">
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" onchange="showOriginPlaceDetail(this, event)">
@@ -82,6 +91,7 @@
                                         <div class="modal-footer">
                                             <input type="hidden" name="id" id="idPlaceEditRequest" value="" />
                                             <input type="hidden" name="placeId" id="placeIdPlaceEditRequest" value="" />
+                                            <input type="hidden" name="hinhAnhId" id="idWardImageEditRequest" value="" />
                                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
                                                 Đóng
                                             </button>
@@ -111,7 +121,8 @@
                                         <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
                                             data-bs-toggle="modal" data-bs-target="#requestEditPlaceModal" onclick="showRequestEditPlaceModal(this)" 
                                             data-id="{{id}}" data-place-id="{{placeId}}" data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" 
-                                            data-loai-vt = "{{loaiVT}}" data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-li-do-chinh-sua="{{liDoChinhSua}}">
+                                            data-loai-vt = "{{loaiVT}}" data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" 
+                                            data-li-do-chinh-sua="{{liDoChinhSua}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}">
                                             <div class="d-flex px-2">
                                                 <div>
                                                     <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-So/assets/img/places/place.png{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
@@ -157,7 +168,7 @@
                         <div class="table-responsive p-0">
                             <!-- Detail Request Edit Ads Modal -->
                             <div class="modal fade" id="requestEditAdsModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <form action="" id="requestEditAdsForm" onsubmit="requestEditAds(event)">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -203,6 +214,15 @@
                                                     <input type="text" id="liDoRequestEditAds" name="liDoRequest" class="form-control" readonly/>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-12 mb-3">
+                                                    <div class="card text-white">
+                                                        <img src="/PHCB-So/assets/img/ads/ads.jpeg" id="hinhAnhRequestEditAds"
+                                                            class="card-img" alt="..."
+                                                            style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row g-2">
                                                 <div class="col mb-3">
                                                     <label for="handleAdsEditRequest" class="form-label">Xử lý yêu cầu</label>
@@ -226,6 +246,7 @@
                                             <input type="hidden" name="id" id="idAdsEditRequest" value="" />
                                             <input type="hidden" name="placeId" id="placeIdAdsEditRequest" value="" />
                                             <input type="hidden" name="originId" id="originIdAdsEditRequest" value="" />
+                                            <input type="hidden" name="imageId" id="idAdsImageEditRequest" value="" />
                                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeBtnEdit">
                                                 Đóng
                                             </button>
@@ -256,7 +277,8 @@
                                             data-bs-toggle="modal" data-bs-target="#requestEditAdsModal" onclick="showRequestEditAdsModal(this)" 
                                             data-id="{{id}}" data-origin-id="{{originId}}" data-place-id="{{placeId}}" data-ad-name="{{adName}}" 
                                             data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-ad-size = "{{adSize}}"
-                                            data-ad-quantity="{{adQuantity}}" data-expire-day="{{expireDay}}" data-li-do-chinh-sua="{{liDoChinhSua}}">
+                                            data-ad-quantity="{{adQuantity}}" data-expire-day="{{expireDay}}" data-li-do-chinh-sua="{{liDoChinhSua}}"
+                                            data-image-path="{{imagePath}}" data-public-image-id="{{publicImageId}}">
                                             <div class="d-flex px-2">
                                                 <div>
                                                     <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-So/assets/img/ads/ads.jpeg{{/if}}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">

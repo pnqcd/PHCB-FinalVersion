@@ -5,15 +5,15 @@ const pool = require("../../database/database");
 controller.show = async (req, res) => {
     const client = await pool.connect();
 
-    const editAdsQuery = client.query(`SELECT r.id, r."placeId", r."originId", r."adName", p."diaChi", p."khuVuc", r."adSize", r."adQuantity", r."expireDay", r."imagePath", r."liDoChinhSua" 
+    const editAdsQuery = client.query(`SELECT r.id, r."placeId", r."originId", r."adName", p."diaChi", p."khuVuc", r."adSize", r."adQuantity", r."expireDay", r."imagePath", r."publicImageId", r."liDoChinhSua" 
         FROM "Requesteditads" r JOIN "Places" p ON r."placeId" = p.id 
         ORDER BY r."createdAt" DESC`);
 
-    const editPlaceQuery = client.query(`SELECT id, "placeId", "diaChi", "khuVuc", "loaiVT", "hinhThuc", "hinhAnh", "quyHoach", "liDoChinhSua"
+    const editPlaceQuery = client.query(`SELECT id, "placeId", "diaChi", "khuVuc", "loaiVT", "hinhThuc", "hinhAnh", "hinhAnhId", "quyHoach", "liDoChinhSua"
         FROM "Requesteditplaces" 
         ORDER BY "createdAt" DESC`);
 
-    const adsLicenseQuery = client.query(`SELECT r.id, r."congTy", r."diaChiCongTy", r."dienThoai", r.email, r."placeId", p."diaChi", r."tenBangQuangCao", r."noiDungQC", r."kichThuoc", r."soLuong", r."hinhAnh", r."ngayBatDau", r."ngayKetThuc", r."tinhTrang"
+    const adsLicenseQuery = client.query(`SELECT r.id, r."congTy", r."diaChiCongTy", r."dienThoai", r.email, r."placeId", p."diaChi", r."tenBangQuangCao", r."noiDungQC", r."kichThuoc", r."soLuong", r."hinhAnh", r."hinhAnhId", r."ngayBatDau", r."ngayKetThuc", r."tinhTrang"
         FROM "Requestads" r JOIN "Places" p ON r."placeId" = p.id
         ORDER BY r."createdAt" DESC`);
 
