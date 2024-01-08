@@ -490,6 +490,9 @@ function showRequestEditPlaceModal(btn) {
   document.querySelector("#hinhThucRequestEdit").value = btn.dataset.hinhThuc;
   document.querySelector("#quyHoachRequestEdit").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#liDoRequestEditPlace").value = btn.dataset.liDoChinhSua;
+  document.querySelector("#hinhAnhRequestEdit").src = btn.dataset.hinhAnh;
+  document.querySelector("#idWardImageEditRequest").src = btn.dataset.hinhAnhId;
+
 }
 
 function showRequestLicenseAdsModal(btn) {
@@ -923,6 +926,7 @@ function showOriginPlaceDetail(elm, event) {
         document.querySelector("#loaiVtRequestEdit").value = data.originPlace[0].loaiVT;
         document.querySelector("#hinhThucRequestEdit").value = data.originPlace[0].hinhThuc;
         document.querySelector("#quyHoachRequestEdit").checked = data.originPlace[0].quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
+        document.querySelector("#hinhAnhRequestEdit").src = data.originPlace[0].hinhAnh;
       })
       .catch(error => console.error(error));
   } else { // show requested details
@@ -935,6 +939,7 @@ function showOriginPlaceDetail(elm, event) {
         document.querySelector("#loaiVtRequestEdit").value = data.requestPlace[0].loaiVT;
         document.querySelector("#hinhThucRequestEdit").value = data.requestPlace[0].hinhThuc;
         document.querySelector("#quyHoachRequestEdit").checked = data.requestPlace[0].quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
+        document.querySelector("#hinhAnhRequestEdit").src = data.requestPlace[0].hinhAnh;
       })
       .catch(error => console.error(error));
   }
