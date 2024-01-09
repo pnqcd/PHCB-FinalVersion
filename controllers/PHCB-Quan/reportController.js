@@ -30,23 +30,11 @@ controller.show = async (req, res) => {
           const address = data.items[0].address;
           const title = address.label;
           const content = title.replace(/, Hồ Chí Minh, Việt Nam$/, '');
-          // const matches = content.match(/(Phường[^,]+),([^,]+)$/);
           const zone = address.district + ", " + address.city;
-          // Update the reportlocation field in the database
           await pool.query(
             `UPDATE "reports" SET "reportlocation" = $1, "reportkhuvuc" = $2 WHERE id = $3`,
             [content, zone, report.id]
           );
-          // if (matches && matches.length === 3) {
-          //   const phuong = matches[1].trim();
-          //   const quan = matches[2].trim();
-    
-          //   // Update the reportkhuvuc field in the database
-          //   await pool.query(
-          //     `UPDATE "reports" SET "reportkhuvuc" = $1 WHERE id = $2`,
-          //     [`${phuong}, ${quan}`, report.id]
-          //   );
-          // }
         }
       } else if (response.status === 401) {
         console.error("Unauthorized. Please check your HERE API key and permissions.");
