@@ -1,3 +1,172 @@
+var InfoBubble;
+const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasExample'));
+const dataAdDetailsInnerHTML = document.getElementById('rightSidePanelBody');
+
+var groupReportMarker
+var report
+var airports
+var defaultTheme
+var isLocationReport = false
+var currentLocation = -1;
+var currentReportMarkerData;
+
+function detailAdButtonClicked(placeID) {
+  offcanvas.show()
+
+  var popupInformationInnerHTML = "";
+  currentLocation = placeID
+  dataAdDetailsInnerHTML.innerHTML = "";
+
+  fetch('/PHCB-Phuong/homepage/get-place')
+    .then(response => response.json())
+    .then(data => {
+      var placeDetails = data.placeDetails;
+
+      console.log(placeDetails)
+
+      const groupAdDetail = {}
+      placeDetails.forEach(pds => {
+          const key = `${pds.adbannerid}`
+
+          if (!groupAdDetail[key])
+              groupAdDetail[key] = {
+                  id: pds.id,
+                  diaChi: pds.diaChi,
+                  khuVuc: pds.khuVuc,
+                  loaiVT: pds.loaiVT,
+                  hinhThuc: pds.hinhThuc,
+                  hinhAnh: pds.hinhAnh,
+                  quyHoach: pds.quyHoach,
+                  latitude: pds.latitude,
+                  longitude: pds.longitude,
+                  placeId: pds.placeId,
+                  adName: pds.adName,
+                  adSize: pds.adSize,
+                  adQuantity: pds.adQuantity,
+                  expireDay: pds.expireDay,
+                  imagePath: pds.imagePath,
+                  adBannerId: pds.adbannerid,
+                  reports: []
+              }
+
+          groupAdDetail[key].reports.push({
+              reportid: pds.reportid,
+              lat: pds.lat,
+              lng: pds.lng,
+              reportername: pds.reportername,
+              typeofreport: pds.typeofreport,
+              reporteremail: pds.reporteremail,
+              reporterphonenumber: pds.reporterphonenumber,
+              reportcontent: pds.reportcontent,
+              imagepath1: pds.imagepath1,
+              imagepath2: pds.imagepath2,
+              locationreport: pds.locationreport,
+              adbannerreportid: pds.adbannerreportid,
+              handlemethod: pds.handlemethod
+          });
+      })
+
+      placeDetails = Object.values(groupAdDetail)
+      placeDetailsTmp = placeDetails
+
+      console.log("Place details...")
+      console.log(placeDetails)
+
+      for (let i = 0; i < placeDetails.length; i++) {
+          var jsDate = new Date(placeDetails[i].expireDay);
+          var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+          var formattedDate = jsDate.toLocaleDateString('vi-VN', options);
+          console.log(placeDetails[i].reports)
+
+          popupInformationInnerHTML += !placeDetails[i].reports[0].reportid ?
+              `<div class="place-detail-information">
+                  <b>${placeDetails[i].adName}</b>
+                  <p>${placeDetails[i].diaChi} - ${placeDetails[i].khuVuc}</p>
+                  <p>Kích thước: ${placeDetails[i].adSize}</p>
+                  <p>Số lượng: <b>${placeDetails[i].adQuantity}</b></p>
+                  <p>Hình thức: <b>${placeDetails[i].hinhThuc}</b></p>
+                  <p>Phân loại: <b>${placeDetails[i].loaiVT}</b></p>
+                  <div class="placeDetailsButtonContainer">
+                      <a class="placeDetailsButton" href="${placeDetails[i].imagePath}" data-lightbox="detail-pano-${placeDetails[i].id}" data-title="Ngày hết hạn: ${formattedDate}">
+                          <img src="./assets/img/icon_info.png" width="25px" height="25px">
+                      </a>
+                  
+                      <!--<div style="border: 2px solid #dc4f52; border-radius: 3px;">
+                      <button class="placeDetailsButton textWithImageButton" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
+                          <span>
+                              <img src="./assets/img/icon_warning.png" width="25px" height="25px" style="margin-right: 6px; alt="no image">
+                          </span>
+                          BÁO CÁO VI PHẠM
+                      </button>-->
+
+                      <div class="d-grid gap-2" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
+                          <button type="button" class="btn btn-danger">Báo cáo vi phạm</button>
+                      </div>
+
+                      </div>
+                  </div>
+              </div>` :
+              `<div class="place-detail-information">
+                  <b>${placeDetails[i].adName}</b>
+                  <p>${placeDetails[i].diaChi} - ${placeDetails[i].khuVuc}</p>
+                  <p>Kích thước: ${placeDetails[i].adSize}</p>
+                  <p>Số lượng: <b>${placeDetails[i].adQuantity}</b></p>
+                  <p>Hình thức: <b>${placeDetails[i].hinhThuc}</b></p>
+                  <p>Phân loại: <b>${placeDetails[i].loaiVT}</b></p>
+                  <div class="placeDetailsButtonContainer">
+                      <div>
+                          <a class="placeDetailsButton" href="${placeDetails[i].imagePath}" data-lightbox="detail-pano-${placeDetails[i].id}" data-title="Ngày hết hạn: ${formattedDate}">
+                              <img src="./assets/img/icon_info.png" width="25px" height="25px">
+                          </a>
+                          
+                          <img src="./assets/img/clipboard.svg" width="25px" height="25px" onclick="showReportBottomDialogFromAdBannerDetail(${i})" data-bs-toggle="collapse" href="#collapseReports${i}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                      </div>
+
+                      <!--<div style="border: 2px solid #dc4f52; border-radius: 3px;">
+                          <button class="placeDetailsButton textWithImageButton" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
+                              <span>
+                                  <img src="./assets/img/icon_warning.png" width="25px" height="25px" style="margin-right: 6px; alt="no image">
+                              </span>
+                              BÁO CÁO VI PHẠM
+                          </button>
+                      </div> -->
+                      <div class="d-grid gap-2" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
+                          <button type="button" class="btn btn-danger">Báo cáo vi phạm</button>
+                      </div>
+                  </div>
+
+              <div class="collapse" id="collapseReports${i}" style="margin-top: 5px;" >
+                  <div class="card card-body">
+                      <div id="carouselExampleIndicators${i}" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+                          <div class="carousel-indicators" id="indicator-carousel-report${i}">                                       
+                          </div>
+                          <div class="carousel-inner" id="inner-carousel-report${i}">
+                          </div>
+                          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators${i}" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators${i}" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>`;
+      }
+
+      if (popupInformationInnerHTML == "")
+          dataAdDetailsInnerHTML.innerHTML = `<p>Chưa có bảng quảng cáo nào!</p>`;
+      else
+          dataAdDetailsInnerHTML.innerHTML = popupInformationInnerHTML;
+      // console.log(dataAdDetailsInnerHTML.innerHTML);
+    })
+    .catch(error => {
+      console.error('Error fetching wards:', error);
+    });
+}
+
 function loadMap() {
   var platform = new H.service.Platform({
     apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
@@ -25,35 +194,35 @@ function loadMap() {
     // Create the default UI components
     var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-    map.addEventListener('tap', function (evt) {
-        let { lat, lng } = map.screenToGeo(
-            evt.currentPointer.viewportX,
-            evt.currentPointer.viewportY,
-        );
-        let lngField = document.getElementById('longitude');
-        let latField = document.getElementById('latitude');
+    // map.addEventListener('tap', function (evt) {
+    //     let { lat, lng } = map.screenToGeo(
+    //         evt.currentPointer.viewportX,
+    //         evt.currentPointer.viewportY,
+    //     );
+    //     let lngField = document.getElementById('longitude');
+    //     let latField = document.getElementById('latitude');
 
-        lngField.value = lng;
-        latField.value = lat;
+    //     lngField.value = lng;
+    //     latField.value = lat;
 
-        const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
-        fetch(url)
-          .then(function (response) {
-              return response.json();
-          })
-          .then(function (data) {
-              if (data.items && data.items.length > 0) {
-                  var address = data.items[0].address;
+    //     const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+    //     fetch(url)
+    //       .then(function (response) {
+    //           return response.json();
+    //       })
+    //       .then(function (data) {
+    //           if (data.items && data.items.length > 0) {
+    //               var address = data.items[0].address;
 
                   
-              } else {
-                  alert('Không tìm thấy địa chỉ cho tọa độ này.');
-              }
-          })
-          .catch(function (error) {
-              console.error(error);
-          });
-    });
+    //           } else {
+    //               alert('Không tìm thấy địa chỉ cho tọa độ này.');
+    //           }
+    //       })
+    //       .catch(function (error) {
+    //           console.error(error);
+    //       });
+    // });
   }
 
   var CUSTOM_THEME = {
@@ -104,7 +273,6 @@ function loadMap() {
                 <p>${data.diaChi}, ${data.khuVuc}</p>
                 <b><i>${data.quyHoach}</i></b>
                 <img class="img-place" src="${data.hinhAnh}" style="width: 220px; margin-top: 10px;">
-                <!--<button class='detailedAdSign' onclick="detailAdButtonClicked('${data.id}')">Chi tiết</button>-->
                 <div class="d-grid gap-2">
                     <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="detailAdButtonClicked('${data.id}')">Chi tiết</button>
                 </div>
@@ -160,7 +328,7 @@ function loadMap() {
 
     clusteringLayer = new H.map.layer.ObjectLayer(clusteredDataProvider)
     map.addLayer(clusteringLayer)
-}
+  }
 
   function addInfoBubble(map) {
     var group = new H.map.Group();
