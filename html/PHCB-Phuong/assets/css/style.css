@@ -119,7 +119,7 @@
 
 .dropdown-menu {
     width: 200px; 
-  }
+}
 
 .form-select {
     width: 100%;
@@ -127,16 +127,23 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     height: 110px;
-  }
+}
 
 .form-select option:checked {
     background-color: #007bff; 
     color: #fff; 
-  }
+}
 
 .slide-image{
     height:300px;   
     object-fit: cover;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
+}
+
+#listMapContainer {
+    height: 550px;
+    width: 100%;
+    border: 1px solid #cdced0;
+    cursor: pointer;
 }
