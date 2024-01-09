@@ -147,3 +147,25 @@
     border: 1px solid #cdced0;
     cursor: pointer;
 }
+
+.place-detail-information {
+    display: block;
+    height: auto;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+    padding: 10px;
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    margin-top: 10px;
+}
+
+.placeDetailsButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.placeDetailsButton {
+    background-color: inherit;
+    cursor: pointer;
+}

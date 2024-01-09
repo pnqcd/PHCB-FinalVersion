@@ -7,7 +7,7 @@ controller.show = (req, res)=>{
 };
 
 controller.getPlace = (req, res) => {
-    // let { ward, district } = req.body;
+    // let { ward, district } = req.query;
     let ward = req.user.wardUnit;
     let district = req.user.districtUnit;
     // console.log(ward);

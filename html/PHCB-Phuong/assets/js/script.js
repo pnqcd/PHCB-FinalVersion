@@ -17,12 +17,12 @@ function detailAdButtonClicked(placeID) {
   currentLocation = placeID
   dataAdDetailsInnerHTML.innerHTML = "";
 
-  fetch('/PHCB-Phuong/homepage/get-place')
+  fetch('/PHCB-Phuong/homepage/get-ad-details/' + placeID)
     .then(response => response.json())
     .then(data => {
       var placeDetails = data.placeDetails;
 
-      console.log(placeDetails)
+      // console.log(placeDetails)
 
       const groupAdDetail = {}
       placeDetails.forEach(pds => {
@@ -69,8 +69,8 @@ function detailAdButtonClicked(placeID) {
       placeDetails = Object.values(groupAdDetail)
       placeDetailsTmp = placeDetails
 
-      console.log("Place details...")
-      console.log(placeDetails)
+      // console.log("Place details...")
+      // console.log(placeDetails)
 
       for (let i = 0; i < placeDetails.length; i++) {
           var jsDate = new Date(placeDetails[i].expireDay);
@@ -91,14 +91,6 @@ function detailAdButtonClicked(placeID) {
                           <img src="./assets/img/icon_info.png" width="25px" height="25px">
                       </a>
                   
-                      <!--<div style="border: 2px solid #dc4f52; border-radius: 3px;">
-                      <button class="placeDetailsButton textWithImageButton" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
-                          <span>
-                              <img src="./assets/img/icon_warning.png" width="25px" height="25px" style="margin-right: 6px; alt="no image">
-                          </span>
-                          BÁO CÁO VI PHẠM
-                      </button>-->
-
                       <div class="d-grid gap-2" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
                           <button type="button" class="btn btn-danger">Báo cáo vi phạm</button>
                       </div>
@@ -120,18 +112,6 @@ function detailAdButtonClicked(placeID) {
                           </a>
                           
                           <img src="./assets/img/clipboard.svg" width="25px" height="25px" onclick="showReportBottomDialogFromAdBannerDetail(${i})" data-bs-toggle="collapse" href="#collapseReports${i}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                      </div>
-
-                      <!--<div style="border: 2px solid #dc4f52; border-radius: 3px;">
-                          <button class="placeDetailsButton textWithImageButton" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
-                              <span>
-                                  <img src="./assets/img/icon_warning.png" width="25px" height="25px" style="margin-right: 6px; alt="no image">
-                              </span>
-                              BÁO CÁO VI PHẠM
-                          </button>
-                      </div> -->
-                      <div class="d-grid gap-2" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
-                          <button type="button" class="btn btn-danger">Báo cáo vi phạm</button>
                       </div>
                   </div>
 
