@@ -1,3 +1,8 @@
+const loadImg = function (event, Elmid) {
+  var Placeimg = document.querySelector(Elmid);
+  Placeimg.src = URL.createObjectURL(event.target.files[0]);
+  console.log(event.target.files[0]);
+};
 let map_loaded = false;
 var map_added;
 
@@ -573,11 +578,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
 });
 // load image
-const loadImg = function (event, Elmid) {
-  var Placeimg = document.querySelector(Elmid);
-  Placeimg.src = URL.createObjectURL(event.target.files[0]);
-  console.log(event.target.files[0]);
-};
+
 
 
 // ----------------send email for requesting ads status
@@ -1205,32 +1206,18 @@ function openViewDetail(elm, wardName, districtName, zipCode, population, imageP
 
 
 function openViewAdsDetail(elm, adName, diaChi, khuVuc, adSize, adQuantity, expireDay, imagePath) {
-  // let div = document.createElement('div');
-  // div.classList.add('modal-backdrop', 'fade', 'show');
-  // document.body.appendChild(div);
-
-  // let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  // ancElm.classList.add('show');
-  // elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-ads').style.display = "block";
   let modal = document.querySelector("#viewAdsDetailModal");
-
   modal.querySelector('.detail-card :nth-child(1) span').textContent = adName;
   modal.querySelector('.detail-card :nth-child(2) .span-content').textContent = diaChi + ", " + khuVuc;
   modal.querySelector('.detail-card :nth-child(3) .span-content').textContent = adSize;
   modal.querySelector('.detail-card :nth-child(4) .span-content').textContent = adQuantity;
   modal.querySelector('.detail-card :nth-child(5) .span-content').textContent = expireDay;
-
-  if (imagePath) modal.querySelector('img').src = imagePath;
+  // modal.querySelector('.card-img').src = imagePath;
+  if (imagePath) modal.querySelector('.card-img').src = imagePath;
+  else modal.querySelector('.card-img').src = "/PHCB-Quan/assets/img/ads/ads.jpeg";
 }
 
 function openViewAdsDetailEdit(elm, adName, diaChi, khuVuc, adSize, adQuantity, expireDay, imagePath) {
-  // let div = document.createElement('div');
-  // div.classList.add('modal-backdrop', 'fade', 'show');
-  // document.body.appendChild(div);
-
-  // let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  // ancElm.classList.add('show');
-  // elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-ads').style.display = "block";
   let modal = document.querySelector("#viewAdsDetailModalEdit");
 
   modal.querySelector('.detail-card :nth-child(1) span').textContent = adName;
@@ -1238,8 +1225,8 @@ function openViewAdsDetailEdit(elm, adName, diaChi, khuVuc, adSize, adQuantity, 
   modal.querySelector('.detail-card :nth-child(3) .span-content').textContent = adSize;
   modal.querySelector('.detail-card :nth-child(4) .span-content').textContent = adQuantity;
   modal.querySelector('.detail-card :nth-child(5) .span-content').textContent = expireDay;
-  modal.querySelector('.card-img').src = imagePath;
-
+  if (imagePath) modal.querySelector('.card-img').src = imagePath;
+  else modal.querySelector('.card-img').src = "/PHCB-Quan/assets/img/ads/ads.jpeg";
 }
 
 function openViewRequestDetail(elm, congTy,

@@ -689,7 +689,7 @@
                         <div class="row mt-3">
                           <div class="col-12">
                             <div class="card text-white">
-                              <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-Quan/assets/img/ads/ads.jpeg{{/if}}"
+                              <img
                                 class="card-img" alt="..."
                                 style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
                             </div>
@@ -723,7 +723,7 @@
                     data-diaChi="{{Place.diaChi}}">
                     <td data-bs-toggle="modal" data-bs-target="#viewAdsDetailModal"
                       style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"
-                      onclick="openViewAdsDetail(this, '{{adName}}', '{{Place.diaChi}}', '{{Place.khuVuc}}', '{{adSize}}', '{{adQuantity}}', '{{formattedExpireDay}}', '{{formattedExpireDay}}')">
+                      onclick="openViewAdsDetail(this, '{{adName}}', '{{Place.diaChi}}', '{{Place.khuVuc}}', '{{adSize}}', '{{adQuantity}}', '{{formattedExpireDay}}','{{imagePath}}')">
                       <div class="d-flex px-2">
                         <div>
                           <img src="{{#if imagePath}}{{imagePath}}{{else}}/PHCB-So/assets/img/ads/ads.jpeg{{/if}}"
