@@ -160,7 +160,7 @@ controller.showOriginAdsDetail = async (req, res) => {
         const { adsId } = req.query;
         if (adsId) {
             client = await pool.connect();
-            const results = await client.query(`SELECT d."adName", p."diaChi", p."khuVuc", d."adSize", d."adQuantity", d."expireDay" 
+            const results = await client.query(`SELECT d."adName", p."diaChi", p."khuVuc", d."adSize", d."adQuantity", d."expireDay", d."imagePath", d."publicImageId"
                         FROM "Placedetails" d JOIN "Places" p ON d."placeId" = p.id 
                         WHERE d.id = $1`, [adsId]);
             let formattedResults = results.rows.map(row => ({
@@ -173,7 +173,7 @@ controller.showOriginAdsDetail = async (req, res) => {
         const { requestId } = req.query;
         if (requestId) {
             client = await pool.connect();
-            const results = await client.query(`SELECT r."adName", p."diaChi", p."khuVuc", r."adSize", r."adQuantity", r."expireDay" 
+            const results = await client.query(`SELECT r."adName", p."diaChi", p."khuVuc", r."adSize", r."adQuantity", r."expireDay", r."imagePath", r."publicImageId"
                         FROM "Requesteditads" r JOIN "Places" p ON r."placeId" = p.id 
                         WHERE r.id = $1`, [requestId]);
             let formattedResults = results.rows.map(row => ({
@@ -194,16 +194,16 @@ controller.showOriginAdsDetail = async (req, res) => {
 }
 
 controller.approveAds = async (req, res) => {
-    let {id, placeId, tenBangQuangCao, kichThuoc, soLuong, ngayKetThuc} = req.body;
+    let {id, placeId, tenBangQuangCao, kichThuoc, soLuong, ngayKetThuc, hinhAnh, hinhAnhId} = req.body;
 
     let client;
 
     try {
         client = await pool.connect();
 
-        const insertQuery = `INSERT INTO "Placedetails" ("placeId", "adName", "adSize", "adQuantity", "expireDay", "createdAt", "updatedAt")
-                            VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`;
-        await client.query(insertQuery, [placeId, tenBangQuangCao, kichThuoc, soLuong, ngayKetThuc]);
+        const insertQuery = `INSERT INTO "Placedetails" ("placeId", "adName", "adSize", "adQuantity", "expireDay", "imagePath", "publicImageId", "createdAt", "updatedAt")
+                            VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`;
+        await client.query(insertQuery, [placeId, tenBangQuangCao, kichThuoc, soLuong, ngayKetThuc, hinhAnh, hinhAnhId]);
         
         const updateQuery = `UPDATE "Requestads"
                             SET "tinhTrang" = $1
