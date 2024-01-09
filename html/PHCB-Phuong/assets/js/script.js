@@ -390,7 +390,7 @@ function loadMap() {
     .catch(error => {
       console.error('Error fetching wards:', error);
     });
-}
+  }
 
   addInfoBubble(map);
 }

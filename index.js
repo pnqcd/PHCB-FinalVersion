@@ -104,12 +104,13 @@ app.use('/PHCB-So/change-password', require('./routes/PHCB-So/passwordRouter'));
 // }))
 
 // PHCB Quan
-app.get('/PHCB-Quan', (req, res) => res.redirect('/PHCB-Quan/danh-sach'));
+app.get('/PHCB-Quan', (req, res) => res.redirect('/PHCB-Quan/homepage'));
 app.use('/PHCB-Quan/danh-sach', require('./routes/PHCB-Quan/manageListRouter'));
 app.use('/PHCB-Quan/yeu-cau', require('./routes/PHCB-Quan/requestRouter'));
 app.use('/PHCB-Quan/bao-cao', require('./routes/PHCB-Quan/reportRouter'));
 app.use('/PHCB-Quan/diem-dat-bang-quang-cao', require('./routes/PHCB-Quan/adsAddressRouter'));
 app.use('/PHCB-Quan/bang-quang-cao', require('./routes/PHCB-Quan/adsManageRouter'));
+app.use('/PHCB-Quan/homepage', require('./routes/PHCB-Quan/showmapRouter'));
 app.use('/PHCB-Quan/profile',require('./routes/PHCB-Quan/profileRouter'));
 app.use('/PHCB-Quan/change-password',require('./routes/PHCB-Quan/changePasswordRouter'));
 
