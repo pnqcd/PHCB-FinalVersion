@@ -180,12 +180,6 @@ function detailAdButtonClicked(placeID) {
                       <a class="placeDetailsButton" href="${placeDetails[i].imagePath}" data-lightbox="detail-pano-${placeDetails[i].id}" data-title="Ngày hết hạn: ${formattedDate}">
                           <img src="./assets/img/icon_info.png" width="25px" height="25px">
                       </a>
-                  
-                      <div class="d-grid gap-2" onclick="onReportAdBannerClicked(${placeDetails[i].latitude}, ${placeDetails[i].longitude}, false, ${placeDetails[i].adBannerId})">
-                          <button type="button" class="btn btn-danger">Báo cáo vi phạm</button>
-                      </div>
-
-                      </div>
                   </div>
               </div>` :
               `<div class="place-detail-information">
