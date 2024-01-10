@@ -32,7 +32,7 @@ controller.addRequest = async (req, res) => {
     ngayBatDau,
     ngayKetThuc,
   } = req.body;
-  result={}
+  let result={};
 
   const ngayBatDauDate = moment(ngayBatDau, 'MM/DD/YYYY', true);
   const ngayKetThucDate = moment(ngayKetThuc, 'MM/DD/YYYY', true);
@@ -149,12 +149,40 @@ controller.show= async (req,res)=>{
         ],
         order: [["createdAt", "DESC"]],
       });
+
+      res.locals.placedetails = await models.Placedetail.findAll({
+        include: [{
+          model: models.Place,
+          attributes: [
+            "diaChi",
+            "khuVuc"
+          ],
+        }],
+        attributes: [
+          "id",
+          "adName",
+          "adSize",
+          "adQuantity",
+          "expireDay",
+          "imagePath",
+          "publicImageId",
+        ],
+        where: {
+          '$Place.khuVuc$':`${req.user.wardUnit}, ${req.user.districtUnit}`
+        },
+        order: [[models.Place, "createdAt", "DESC"]],
+        
+      });
     
       res.render("PHCB-Phuong/requests",{
         requests: res.locals.requests.map(detail => ({...detail.toJSON(),
           formattedNgayBatDau: moment(detail.ngayBatDau).format('MM/DD/YYYY'),
           formattedNgayKetThuc: moment(detail.ngayKetThuc).format('MM/DD/YYYY'),
         })), 
+        placedetails: res.locals.placedetails.map(detail => ({
+          ...detail.toJSON(),
+          formattedExpireDay: moment(detail.expireDay).format('MM/DD/YYYY'),
+        })),
         layout:"PHCB-Phuong/layout"
       });
 };

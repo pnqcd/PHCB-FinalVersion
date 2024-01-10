@@ -118,6 +118,7 @@ app.use('/PHCB-Quan/change-password',require('./routes/PHCB-Quan/changePasswordR
 app.get('/PHCB-Phuong', (req, res) => res.redirect('/PHCB-Phuong/homepage'));
 app.use('/PHCB-Phuong/homepage',require('./routes/PHCB-Phuong/homepageRouter'));
 app.use('/PHCB-Phuong/manageList',require('./routes/PHCB-Phuong/manageListRouter'));
+app.use('/PHCB-Phuong/manageAds',require('./routes/PHCB-Phuong/manageAdsRouter'));
 app.use('/PHCB-Phuong/reports',require('./routes/PHCB-Phuong/reportsRouter'));
 app.use('/PHCB-Phuong/requests',require('./routes/PHCB-Phuong/requestsRouter'));
 app.use('/PHCB-Phuong/profile',require('./routes/PHCB-Phuong/profileRouter'));
