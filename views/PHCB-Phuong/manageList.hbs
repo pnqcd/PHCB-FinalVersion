@@ -180,7 +180,7 @@
                   {{#each places}}
                   <tr data-phuong="{{khuVuc}}" data-diaChi="{{diaChi}}" data-khuVuc="{{khuVuc}}"
                     data-loaiVT="{{loaiVT}}" data-hinhThuc="{{hinhThuc}}">
-                    <td 
+                    <td data-bs-toggle="modal" data-bs-target="#viewDetailPlace"
                       onclick="openViewPlaceDetail(this, '{{diaChi}}', '{{khuVuc}}', '{{loaiVT}}', '{{hinhThuc}}', '{{quyHoach}}','{{hinhAnh}}')"
                       style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;">
                       <div class="d-flex px-2">
@@ -213,66 +213,7 @@
                         data-bs-target="#fixPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
                         data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
                         data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
-                      {{!-- view place detail modal --}}
-                      <div class="modal detail-place fade" id="staticBackdropInfo" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title fw-bold" id="staticBackdropLabelInfo">
-                                Điểm Đặt Bảng Quảng Cáo</h5>
-                              <div class="col-1 px-4">
-                                <button class="btn-close toast-btn" type="button" onclick="closeViewDetailPlace(this)"
-                                  data-bs-dismiss="modal" aria-label="Close" data-target="infoToast"
-                                  style="margin-bottom: 0;">
-                                  <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="modal-body">
-                              <div class="container-fluid">
-                                <div class="card mb-3">
-                                  <div class="card-body" style="text-align: left;">
-                                    <div class="d-flex flex-column justify-content-center detail-card">
-                                      <h6 class="text-info mb-3"
-                                        style="text-align: left;word-wrap: break-word; white-space: normal;"></h6>
-                                      <h6 class="text-sm font-weight-normal mb-1">
-                                        <span class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
-                                      </h6>
-                                      <h6 class="text-sm font-weight-normal mb-1">
-                                        <span class="font-weight-bold">Loại vị trí: </span>
-                                        <span class="span-content"></span>
-                                      </h6>
-                                      <h6 class="text-sm font-weight-normal mb-1">
-                                        <span class="font-weight-bold">Hình thức: </span>
-                                        <span class="span-content"></span>
-                                      </h6>
-                                      <h6 class="text-sm font-weight-normal mb-1">
-                                        <span class="font-weight-bold">Tình trạng: </span>
-                                        <span class="span-content"></span>
-                                      </h6>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div class="card bg-dark text-white">
-                                  <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Phuong/assets/img/stt2.png{{/if}}"
-                                    class="card-img" alt="..."
-                                    style="height: 200px ;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover;">
-                                  <div class="card-img-overlay img-card">
-                                
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer" style="justify-content: space-around;">
                       
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end-->
                       
                     </td>
                   </tr>
@@ -364,7 +305,7 @@
                   {{#each requesteditplaces}}
                   <tr data-phuong="{{khuVuc}}" data-diaChi="{{diaChi}}" data-khuVuc="{{khuVuc}}"
                     data-loaiVT="{{loaiVT}}" data-hinhThuc="{{hinhThuc}}">
-                    <td 
+                    <td data-bs-toggle="modal" data-bs-target="#viewPlaceDetailModalEdit"
                       onclick="openViewPlaceDetailEdit(this, '{{diaChi}}', '{{khuVuc}}', '{{loaiVT}}', '{{hinhThuc}}', '{{quyHoach}}','{{hinhAnh}}','{{liDoChinhSua}}')"
                       style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;">
                       <div class="d-flex px-2">
@@ -391,7 +332,113 @@
                     <td class="align-middle text-center">
                       <i class="fa {{#if_eq quyHoach "ĐÃ QUY HOẠCH"}}fa-check-circle text-success {{else}}
                         fa-times-circle text-danger {{/if_eq}}" aria-hidden="true"></i>
-                         {{!-- view place detail modal --}}
+                         
+                    </td>
+                    
+                      
+                      
+                    
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+
+          
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {{> PHCB-Phuong/footer}}
+
+
+                      <!--end-->
+
+<script>
+  const handleImage = (e) =>{
+        const file = event.target.files[0];
+
+        setFileToBase(file);
+    }
+    const setFileToBase = (file) =>{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        console.log(reader);
+    }
+    
+</script>
+</main>
+
+ 
+
+ {{!-- view place detail modal --}}
+                      <div class="modal detail-place fade" id="viewDetailPlace" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title fw-bold" id="staticBackdropLabelInfo">
+                                Điểm Đặt Bảng Quảng Cáo</h5>
+                              <div class="col-1 px-4">
+                                <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+          data-target="infoToast" style="margin-bottom: 0;">
+          <i class="fa fa-times-circle text-danger  fs-4" aria-hidden="true"></i>
+        </button>
+                              </div>
+                            </div>
+                            <div class="modal-body">
+                              <div class="container-fluid">
+                                <div class="card mb-3">
+                                  <div class="card-body" style="text-align: left;">
+                                    <div class="d-flex flex-column justify-content-center detail-card">
+                                      <h6 class="text-info mb-3"
+                                        style="text-align: left;word-wrap: break-word; white-space: normal;"></h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Khu vực: </span> TP Hồ Chí Minh, Việt Nam
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Loại vị trí: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Hình thức: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Tình trạng: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="card bg-dark text-white">
+                                  <img src="{{#if hinhAnh}}{{hinhAnh}}{{else}}/PHCB-Phuong/assets/img/stt2.png{{/if}}"
+                                    class="card-img" alt="..."
+                                    style="height: 200px ;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; object-fit: cover;">
+                                  <div class="card-img-overlay img-card">
+                                
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer" style="justify-content: space-around;">
+                      
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--end-->
+
+
+
+
+{{!-- view place detail edit modal --}}
                       <div class="modal detail-place-edit fade" id="viewPlaceDetailModalEdit" data-bs-backdrop="static"
                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelInfo"
                         aria-hidden="true">
@@ -401,11 +448,10 @@
                               <h5 class="modal-title fw-bold" id="staticBackdropLabelInfo">
                                 Chi tiết chỉnh sửa</h5>
                               <div class="col-1 px-4">
-                                <button class="btn-close toast-btn" type="button" onclick="closeViewDetailPlaceEdit(this)"
-                                  data-bs-dismiss="modal" aria-label="Close" data-target="infoToast"
-                                  style="margin-bottom: 0;">
-                                  <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
-                                </button>
+                                <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+          data-target="infoToast" style="margin-bottom: 0;">
+          <i class="fa fa-times-circle text-danger  fs-4" aria-hidden="true"></i>
+        </button>
                               </div>
                             </div>
                             <div class="modal-body">
@@ -451,44 +497,3 @@
                           </div>
                         </div>
                       </div>
-                    </td>
-                    
-                      
-                      
-                    
-                  </tr>
-                  {{/each}}
-                </tbody>
-              </table>
-            </div>
-          </div>
-         
-
-          
-
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  {{> PHCB-Phuong/footer}}
-
-
-                      <!--end-->
-
-<script>
-  const handleImage = (e) =>{
-        const file = event.target.files[0];
-
-        setFileToBase(file);
-    }
-    const setFileToBase = (file) =>{
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        console.log(reader);
-    }
-    
-</script>
-</main>
-
- 

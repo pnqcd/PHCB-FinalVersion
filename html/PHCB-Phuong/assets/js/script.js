@@ -615,13 +615,9 @@ if (editPlaceEle) {
 }
 
 function openViewAdsDetail(elm, adName, diaChi, khuVuc, adSize, adQuantity, expireDay, imagePath) {
-  let div = document.createElement('div');
-  div.classList.add('modal-backdrop', 'fade', 'show');
-  document.body.appendChild(div);
 
-  let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  ancElm.classList.add('show');
-  elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-ads').style.display = "block";
+  let ancElm = document.querySelector('#viewAdsDetail');
+  
 
   ancElm.querySelector('.detail-card :nth-child(1) span').textContent = adName;
   ancElm.querySelector('.detail-card :nth-child(2) .span-content').textContent = diaChi + ", " + khuVuc;
@@ -708,13 +704,8 @@ function openViewAdsDetailEdit(elm, adName, diaChi, khuVuc, adSize, adQuantity, 
 }
 
 function openViewPlaceDetailEdit(elm, diaChi, khuVuc, loaiVT, hinhThuc, quyHoach,hinhAnh,liDoChinhSua) {
-  let div = document.createElement('div');
-  div.classList.add('modal-backdrop', 'fade', 'show');
-  document.body.appendChild(div);
-
-  let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  ancElm.classList.add('show');
-  elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-place-edit').style.display = "block";
+  
+  let ancElm = document.querySelector('#viewPlaceDetailModalEdit')
 
   ancElm.querySelector('.detail-card :nth-child(1)').textContent = diaChi + ", " + khuVuc;
   ancElm.querySelector('.detail-card :nth-child(3) .span-content').textContent = loaiVT;
@@ -733,13 +724,8 @@ function openCustomDown(elm) {
 
 
 function openViewPlaceDetail(elm, diaChi, khuVuc, loaiVT, hinhThuc, quyHoach, hinhAnh) {
-  let div = document.createElement('div');
-  div.classList.add('modal-backdrop', 'fade', 'show');
-  document.body.appendChild(div);
 
-  let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  ancElm.classList.add('show');
-  elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-place').style.display = "block";
+  let ancElm = document.querySelector('#viewDetailPlace');
 
   ancElm.querySelector('.detail-card :nth-child(1)').textContent = diaChi + ", " + khuVuc;
   ancElm.querySelector('.detail-card :nth-child(3) .span-content').textContent = loaiVT;
@@ -747,7 +733,6 @@ function openViewPlaceDetail(elm, diaChi, khuVuc, loaiVT, hinhThuc, quyHoach, hi
   ancElm.querySelector('.detail-card :nth-child(5) .span-content').textContent = quyHoach;
 
   if (hinhAnh) ancElm.querySelector('img').src = hinhAnh;
-
 }
 
 
@@ -768,13 +753,10 @@ function openViewRequestDetail(elm,congTy,
   ngayBatDau,
   ngayKetThuc,
   tinhTrang,hinhAnh) {
-  let div = document.createElement('div');
-  div.classList.add('modal-backdrop', 'fade', 'show');
-  document.body.appendChild(div);
 
-  let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  ancElm.classList.add('show');
-  elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-request').style.display = "block";
+
+  let ancElm = document.querySelector('#chiTietYeuCau');
+  
   ancElm.querySelector('.tinhTrangRequest').textContent=tinhTrang;
   // if (tinhTrang="Chờ phê duyệt") {
   //   ancElm.querySelector('.tinhTrangRequest').classList.add('text-warning');
