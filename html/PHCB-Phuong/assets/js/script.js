@@ -1,3 +1,114 @@
+document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
+  btnConfirm.addEventListener("click", (e) => {
+    let id = e.target.dataset.id;
+    let hinhAnhId=e.target.dataset.hinhAnhId;
+    console.log(hinhAnhId);
+    const options = {
+      title: "Bạn có chắc chắn xoá yêu cầu này?",
+      type: "danger",
+      btnOkText: "Xoá",
+      btnCancelText: "Thoát",
+      onConfirm: () => {
+        console.log("Confirm");
+        console.log(id);
+        deleteRequest(id, hinhAnhId);
+      },
+      onCancel: () => {
+        console.log("Cancel");
+      },
+    };
+    const {
+      el,
+      content,
+      options: confirmedOptions,
+    } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
+  });
+});
+
+document.querySelectorAll(".email-report-btn").forEach((btnConfirm) => {
+  btnConfirm.addEventListener("click", (e) => {
+    let tenNguoiBaoCao=e.target.dataset.reportername;
+    let hinhThucBaoCao = e.target.dataset.typeofreport;
+    let phone = e.target.dataset.reporterphonenumber;
+    let email = e.target.dataset.reporteremail;
+    let cachThucXuLy = e.target.dataset.handlemethod;
+    let noiDungBaoCao = e.target.dataset.reportcontent;
+    let diaDiem=e.target.dataset.reportlocation;
+    console.log(email);
+
+    const options = {
+      title: `Gửi email`,
+      type: "info",
+      btnOkText: "Gửi",
+      btnCancelText: "Thoát",
+      onConfirm: () => {
+        console.log("Confirm");
+        sendEmailReport(email,tenNguoiBaoCao,hinhThucBaoCao,phone,cachThucXuLy,noiDungBaoCao,diaDiem);
+      },
+      onCancel: () => {
+        console.log("Cancel");
+      },
+    };
+    const {
+      el,
+      content,
+      options: confirmedOptions,
+    } = bs5dialog.confirm(`Bạn có muốn gửi kết quả đến email: ${email} `, options);
+  });
+});
+
+document.querySelectorAll(".email-request-btn").forEach((btnConfirm) => {
+  btnConfirm.addEventListener("click", (e) => {
+    let email=e.target.dataset.email;
+    let tinhTrang = e.target.dataset.tinhTrang;
+    let diaChi = e.target.dataset.diaChi;
+    let khuVuc = e.target.dataset.khuVuc;
+    let tenBangQuangCao = e.target.dataset.tenBangQuangCao;
+    let noiDungQC = e.target.dataset.noiDungQC;
+    let kichThuoc=e.target.dataset.kichThuoc;
+    let soLuong = e.target.dataset.soLuong;
+    let ngayBatDau = e.target.dataset.ngayBatDau;
+    let ngayKetThuc = e.target.dataset.ngayKetThuc;
+    console.log(email);
+
+    const options = {
+      title: `Gửi email`,
+      type: "info",
+      btnOkText: "Gửi",
+      btnCancelText: "Thoát",
+      onConfirm: () => {
+        console.log("Confirm");
+        sendEmail(email,tinhTrang,diaChi,khuVuc,tenBangQuangCao,noiDungQC,soLuong,kichThuoc,ngayBatDau,ngayKetThuc);
+      },
+      onCancel: () => {
+        console.log("Cancel");
+      },
+    };
+    const {
+      el,
+      content,
+      options: confirmedOptions,
+    } = bs5dialog.confirm(`Bạn có muốn gửi kết quả đến email: ${email} `, options);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  let searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", function () {
+    let searchText = searchInput.value.toLowerCase();
+    let tableRows = document.querySelectorAll("tbody tr");
+    tableRows.forEach((row) => {
+      let rowText = row.textContent.toLowerCase();
+      if (rowText.includes(searchText)) {
+        row.style.display = ""; // Show the row if it matches the search
+      } else {
+        row.style.display = "none"; // Hide the row if it doesn't match
+      }
+    });
+  });
+});
+
 tinymce.init({
   selector: 'textarea#message',
   plugins: 'lists link image table code help wordcount'
@@ -476,99 +587,9 @@ document.addEventListener("DOMContentLoaded", function () {
   
 });
 
-document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
-  btnConfirm.addEventListener("click", (e) => {
-    let id = e.target.dataset.id;
-    let hinhAnhId=e.target.dataset.hinhAnhId;
-    console.log(hinhAnhId);
-    const options = {
-      title: "Bạn có chắc chắn xoá yêu cầu này?",
-      type: "danger",
-      btnOkText: "Xoá",
-      btnCancelText: "Thoát",
-      onConfirm: () => {
-        console.log("Confirm");
-        console.log(id);
-        deleteRequest(id, hinhAnhId);
-      },
-      onCancel: () => {
-        console.log("Cancel");
-      },
-    };
-    const {
-      el,
-      content,
-      options: confirmedOptions,
-    } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
-  });
-});
 
-document.querySelectorAll(".email-report-btn").forEach((btnConfirm) => {
-  btnConfirm.addEventListener("click", (e) => {
-    let tenNguoiBaoCao=e.target.dataset.reportername;
-    let hinhThucBaoCao = e.target.dataset.typeofreport;
-    let phone = e.target.dataset.reporterphonenumber;
-    let email = e.target.dataset.reporteremail;
-    let cachThucXuLy = e.target.dataset.handlemethod;
-    let noiDungBaoCao = e.target.dataset.reportcontent;
-    let diaDiem=e.target.dataset.reportlocation;
-    console.log(email);
 
-    const options = {
-      title: `Gửi email`,
-      type: "info",
-      btnOkText: "Gửi",
-      btnCancelText: "Thoát",
-      onConfirm: () => {
-        console.log("Confirm");
-        sendEmailReport(email,tenNguoiBaoCao,hinhThucBaoCao,phone,cachThucXuLy,noiDungBaoCao,diaDiem);
-      },
-      onCancel: () => {
-        console.log("Cancel");
-      },
-    };
-    const {
-      el,
-      content,
-      options: confirmedOptions,
-    } = bs5dialog.confirm(`Bạn có muốn gửi kết quả đến email: ${email} `, options);
-  });
-});
 
-document.querySelectorAll(".email-request-btn").forEach((btnConfirm) => {
-  btnConfirm.addEventListener("click", (e) => {
-    let email=e.target.dataset.email;
-    let tinhTrang = e.target.dataset.tinhTrang;
-    let diaChi = e.target.dataset.diaChi;
-    let khuVuc = e.target.dataset.khuVuc;
-    let tenBangQuangCao = e.target.dataset.tenBangQuangCao;
-    let noiDungQC = e.target.dataset.noiDungQC;
-    let kichThuoc=e.target.dataset.kichThuoc;
-    let soLuong = e.target.dataset.soLuong;
-    let ngayBatDau = e.target.dataset.ngayBatDau;
-    let ngayKetThuc = e.target.dataset.ngayKetThuc;
-    console.log(email);
-
-    const options = {
-      title: `Gửi email`,
-      type: "info",
-      btnOkText: "Gửi",
-      btnCancelText: "Thoát",
-      onConfirm: () => {
-        console.log("Confirm");
-        sendEmail(email,tinhTrang,diaChi,khuVuc,tenBangQuangCao,noiDungQC,soLuong,kichThuoc,ngayBatDau,ngayKetThuc);
-      },
-      onCancel: () => {
-        console.log("Cancel");
-      },
-    };
-    const {
-      el,
-      content,
-      options: confirmedOptions,
-    } = bs5dialog.confirm(`Bạn có muốn gửi kết quả đến email: ${email} `, options);
-  });
-});
 
 
 async function deleteRequest(id,hinhAnhId) {
@@ -1104,3 +1125,4 @@ function checkPasswordMatch(event) {
     confirmPassword.setCustomValidity('');
   }
 }
+
