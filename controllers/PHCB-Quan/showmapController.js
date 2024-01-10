@@ -34,7 +34,6 @@ controller.getPlace = (req, res) => {
   (error, results) => {
       if (error) {
           res.status(500).json({ error });
-          console.log("loi roi")
           console.error(error);
       } else {
           res.json({ place: results.rows });
@@ -81,11 +80,25 @@ controller.getAdDetails = (req, res) => {
       , (error, results) => {
           if (error) {
               res.status(500).json({ error });
-              console.log("loi roi")
-          } else {
+              console.error(error);
+            } else {
               res.json({ placeDetails: results.rows });
           }
       });
+};
+
+controller.getReport = (req, res) => {
+    let district = req.user.districtUnit;
+    pool.query(`select * from reports 
+        where locationreport = true 
+        and reportkhuvuc LIKE $1`, [`%${district}`], (error, results) => {
+            if (error) {
+                res.status(500).json({ error });
+                console.error("error")
+            } else {
+                res.json({ report: results.rows });
+            }
+    });
 };
 
 controller.isLoggedIn = async (req, res, next) => {

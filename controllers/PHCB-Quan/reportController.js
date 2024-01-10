@@ -12,41 +12,39 @@ controller.show = async (req, res) => {
   try {
     const [reportResult] = await Promise.all([report]);
     res.locals.reports = reportResult.rows;
-    // Replace this line with your actual HERE API key
+        // Replace this line with your actual HERE API key
     // const apiKey = "ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU";
-    const apiKey = "C_monOk25e39iLpYuDPsSnx8KVWlnvKdYdaAaNeYzl4";
+    // const apiKey = "C_monOk25e39iLpYuDPsSnx8KVWlnvKdYdaAaNeYzl4";
 
-    for (const report of res.locals.reports) {
-      const lat = report.lat; // replace with the actual latitude value
-      const lng = report.lng; // replace with the actual longitude value
+    // for (const report of res.locals.reports) {
+    //   const lat = report.lat; // replace with the actual latitude value
+    //   const lng = report.lng; // replace with the actual longitude value
 
-      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=${apiKey}`;
+    //   const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=${apiKey}`;
 
-      const response = await fetch(url);
+    //   const response = await fetch(url);
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          const address = data.items[0].address;
-          const title = address.label;
-          const content = title.replace(/, Hồ Chí Minh, Việt Nam$/, '');
-          const zone = address.district + ", " + address.city;
-          await pool.query(
-            `UPDATE "reports" SET "reportlocation" = $1, "reportkhuvuc" = $2 WHERE id = $3`,
-            [content, zone, report.id]
-          );
-        }
-      } else if (response.status === 401) {
-        console.error("Unauthorized. Please check your HERE API key and permissions.");
-      } else {
-        console.error(`Error fetching data from HERE API. Status: ${response.status}`);
-      }
-    }
-
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     if (data.items && data.items.length > 0) {
+    //       const address = data.items[0].address;
+    //       const title = address.label;
+    //       const content = title.replace(/, Hồ Chí Minh, Việt Nam$/, '');
+    //       const zone = address.district + ", " + address.city;
+    //       await pool.query(
+    //         `UPDATE "reports" SET "reportlocation" = $1, "reportkhuvuc" = $2 WHERE id = $3`,
+    //         [content, zone, report.id]
+    //       );
+    //     }
+    //   } else if (response.status === 401) {
+    //     console.error("Unauthorized. Please check your HERE API key and permissions.");
+    //   } else {
+    //     console.error(`Error fetching data from HERE API. Status: ${response.status}`);
+    //   }
+    // }
     res.locals.reports = res.locals.reports.filter(report =>
       report.reportlocation.includes(req.user.districtUnit)
     );
-
 
     res.locals.places = await models.Place.findAll({
       attributes: [
