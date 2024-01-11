@@ -75,9 +75,9 @@
     background-color: var(--bs-dropdown-link-hover-bg);
 }
 
-.detail-ward .modal-lg, .detail-place .modal-lg {
+/* .detail-ward .modal-lg, .detail-place .modal-lg {
     max-width: 500px;
-}
+} */
 
 .card-header .btn {
     margin-bottom: 10px;
