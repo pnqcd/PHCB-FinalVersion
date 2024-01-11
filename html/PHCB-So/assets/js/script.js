@@ -146,8 +146,10 @@ function loadMapEdit() {
 
 document.addEventListener("DOMContentLoaded", function () {
   let reportChartElm = document.querySelector('#reportChart');
-  if (reportChartElm) countReports();
-  if (reportChartElm) statisticByDistrict(null);
+  // if (reportChartElm) countReports();
+  // if (reportChartElm) statisticByDistrict(null);
+  countReports();
+  statisticByDistrict(null);
 
   let searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", function () {
@@ -1161,6 +1163,7 @@ async function displayHandleMethod(district) {
     // console.log(report.id);
     let addressParts = report.reportlocation.split(',');
     let reportDistrict = addressParts[addressParts.length - 1].trim();
+    if (!district) return true;
     return reportDistrict == district;
   });
   // console.log(filteredReports);
@@ -1171,7 +1174,7 @@ async function displayHandleMethod(district) {
   filteredReports.forEach(report => {
     let row = document.createElement('tr');
     row.innerHTML = `
-      <td style="cursor: pointer; max-width: 160px; overflow: hidden; text-overflow: ellipsis;">
+      <td style="cursor: pointer; max-width: 250px; overflow: hidden; text-overflow: ellipsis;">
         <div class="d-flex px-2">
           <div>
             <img src="${report.imagepath1 ? report.imagepath1 : '/PHCB-So/assets/img/ads/ads.jpeg'}" class="avatar avatar-sm me-3 border-radius-lg" alt="spotify">
@@ -1194,8 +1197,9 @@ async function displayHandleMethod(district) {
 }
 
 function statisticByDistrict(elm) {
-  let district = elm ? elm.textContent : "Quận 1";
-  console.log(district)
+  // let district = elm ? elm.textContent : "Quận 1";
+  let district = elm ? elm.textContent : "";
+  // console.log(district)
   let wards = [];
   let locTotal = [];
   let adsTotal = [];
