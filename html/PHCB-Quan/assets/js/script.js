@@ -6,6 +6,60 @@ const loadImg = function (event, Elmid) {
   console.log(event.target.files[0]);
 };
 
+document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
+  btnConfirm.addEventListener("click", (e) => {
+    if (e.target.dataset.tinhTrang == "Chờ phê duyệt" || e.target.dataset.tinhTrang == "Không phê duyệt") {
+      let id = e.target.dataset.id;
+      let hinhAnhId = e.target.dataset.hinhAnhId;
+      // console.log(hinhAnhId);
+      const options = {
+        title: "Bạn có chắc chắn xoá yêu cầu này?",
+        type: "danger",
+        btnOkText: "Xoá",
+        btnCancelText: "Thoát",
+        onConfirm: () => {
+          console.log("Confirm");
+          console.log(id);
+          deleteRequest(id, hinhAnhId);
+        },
+        onCancel: () => {
+          console.log("Cancel");
+        },
+      };
+      const {
+        el,
+        content,
+        options: confirmedOptions,
+      } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
+    } else {
+      // let id = e.target.dataset.id;
+      const options = {
+        title: "Bạn không thể xóa yêu cầu quảng cáo đã được phê duyệt",
+        type: "warning",
+        btnCancelText: "Thoát",
+        btnOkText: "Ok",
+        // onCancel: () => {
+        //   console.log("Cancel");
+        // },
+      };
+      const {
+      } = bs5dialog.confirm("", options);
+    }
+  });
+});
+
+
+async function deleteRequest(id, hinhAnhId) {
+  let res = await fetch(`/PHCB-Quan/yeu-cau/deleterequest/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ hinhAnhId: hinhAnhId }),
+  });
+  location.reload();
+}
+
 // send email
 document.querySelectorAll(".email-request-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
@@ -836,59 +890,7 @@ function checkFormChanges(currentValues) {
   saveBtn.disabled = !isFormChanged;
 }
 
-document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
-  btnConfirm.addEventListener("click", (e) => {
-    if (e.target.dataset.tinhTrang == "Chờ phê duyệt" || e.target.dataset.tinhTrang == "Không phê duyệt") {
-      let id = e.target.dataset.id;
-      let hinhAnhId = e.target.dataset.hinhAnhId;
-      // console.log(hinhAnhId);
-      const options = {
-        title: "Bạn có chắc chắn xoá yêu cầu này?",
-        type: "danger",
-        btnOkText: "Xoá",
-        btnCancelText: "Thoát",
-        onConfirm: () => {
-          console.log("Confirm");
-          console.log(id);
-          deleteRequest(id, hinhAnhId);
-        },
-        onCancel: () => {
-          console.log("Cancel");
-        },
-      };
-      const {
-        el,
-        content,
-        options: confirmedOptions,
-      } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
-    } else {
-      // let id = e.target.dataset.id;
-      const options = {
-        title: "Bạn không thể xóa yêu cầu quảng cáo đã được phê duyệt",
-        type: "warning",
-        btnCancelText: "Thoát",
-        btnOkText: "Ok",
-        // onCancel: () => {
-        //   console.log("Cancel");
-        // },
-      };
-      const {
-      } = bs5dialog.confirm("", options);
-    }
-  });
-});
 
-
-async function deleteRequest(id, hinhAnhId) {
-  let res = await fetch(`/PHCB-Quan/yeu-cau/deleterequest/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ hinhAnhId: hinhAnhId }),
-  });
-  location.reload();
-}
 
 // ---------------------disable gửi yêu cầu button
 // function initializeEditForm_ads() {
