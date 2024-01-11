@@ -526,6 +526,10 @@ function showRequestLicenseAdsModal(btn) {
     document.querySelectorAll(".btn-phe-duyet").forEach((button) => {
       button.disabled = true;
     })
+  } else {
+    document.querySelectorAll(".btn-phe-duyet").forEach((button) => {
+      button.disabled = false;
+    })
   }
 }
 

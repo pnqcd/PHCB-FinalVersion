@@ -72,7 +72,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             secure: false, // if true only transmit cookie over https 
-            maxAge: 10 * 60 * 1000, // 10 minutes
+            maxAge: 20 * 60 * 1000, // 10 minutes
         }
     })
 )
