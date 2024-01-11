@@ -8,7 +8,7 @@ const loadImg = function (event, Elmid) {
 
 document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
-    if (e.target.dataset.tinhTrang == "Chờ phê duyệt" || e.target.dataset.tinhTrang == "Không phê duyệt") {
+    if (e.target.dataset.tinhTrang == "Chờ phê duyệt") {
       let id = e.target.dataset.id;
       let hinhAnhId = e.target.dataset.hinhAnhId;
       // console.log(hinhAnhId);
@@ -31,7 +31,7 @@ document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
         content,
         options: confirmedOptions,
       } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
-    } else {
+    } else if (e.target.dataset.tinhTrang == "Đã phê duyệt") {
       // let id = e.target.dataset.id;
       const options = {
         title: "Bạn không thể xóa yêu cầu quảng cáo đã được phê duyệt",
@@ -44,7 +44,21 @@ document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
       };
       const {
       } = bs5dialog.confirm("", options);
+    }else {
+      // let id = e.target.dataset.id;
+      const options = {
+        title: "Bạn không thể xóa yêu cầu quảng cáo không được phê duyệt",
+        type: "warning",
+        btnCancelText: "Thoát",
+        btnOkText: "Ok",
+        // onCancel: () => {
+        //   console.log("Cancel");
+        // },
+      };
+      const {
+      } = bs5dialog.confirm("", options);
     }
+
   });
 });
 

@@ -1,27 +1,47 @@
 document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
-    let id = e.target.dataset.id;
-    let hinhAnhId=e.target.dataset.hinhAnhId;
-    console.log(hinhAnhId);
-    const options = {
-      title: "Bạn có chắc chắn xoá yêu cầu này?",
-      type: "danger",
-      btnOkText: "Xoá",
-      btnCancelText: "Thoát",
-      onConfirm: () => {
-        console.log("Confirm");
-        console.log(id);
-        deleteRequest(id, hinhAnhId);
-      },
-      onCancel: () => {
-        console.log("Cancel");
-      },
-    };
-    const {
-      el,
-      content,
-      options: confirmedOptions,
-    } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
+    if (e.target.dataset.tinhTrang == "Chờ phê duyệt") {
+      let id = e.target.dataset.id;
+      let hinhAnhId = e.target.dataset.hinhAnhId;
+      const options = {
+        title: "Bạn có chắc chắn xoá yêu cầu này?",
+        type: "danger",
+        btnOkText: "Xoá",
+        btnCancelText: "Thoát",
+        onConfirm: () => {
+          console.log("Confirm");
+          console.log(id);
+          deleteRequest(id, hinhAnhId);
+        },
+        onCancel: () => {
+          console.log("Cancel");
+        },
+      };
+      const {
+        el,
+        content,
+        options: confirmedOptions,
+      } = bs5dialog.confirm("Bạn có chắc chắn xoá yêu cầu này?", options);
+    } else if (e.target.dataset.tinhTrang == "Đã phê duyệt") {
+      const options = {
+        title: "Bạn không thể xóa yêu cầu quảng cáo đã được phê duyệt",
+        type: "warning",
+        btnCancelText: "Thoát",
+        btnOkText: "Ok",
+      };
+      const {
+      } = bs5dialog.confirm("", options);
+    }else {
+      const options = {
+        title: "Bạn không thể xóa yêu cầu quảng cáo không được phê duyệt",
+        type: "warning",
+        btnCancelText: "Thoát",
+        btnOkText: "Ok",
+      };
+      const {
+      } = bs5dialog.confirm("", options);
+    }
+
   });
 });
 
