@@ -1,3 +1,85 @@
+// mapp
+let map_loaded = false;
+var map_added;
+
+let mapedit_loaded = false;
+var mapedit;
+
+// choose edit place the first time from map
+function loadMap2() {
+  if (map_added) {
+    map_added.dispose();
+  }
+  var platform = new H.service.Platform({
+    apikey: "ynWfufabHmDYZyjIEMBK7fPyoxCd_l8vcgyiuu9PXYU"
+  });
+
+  var defaultLayers = platform.createDefaultLayers(
+    {
+      lg: 'vi'
+    }
+  );
+  map_added = new H.Map(document.getElementById('chooseAddressOnMap'),
+    defaultLayers.vector.normal.map, {
+    center: { lat: 10.76316473604989, lng: 106.68238541539267 },
+    zoom: 14.5,
+    pixelRatio: window.devicePixelRatio || 1
+  });
+  if (map_added) {
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => map_added.getViewPort().resize());
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map_added));
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(map_added, defaultLayers);
+    map_added.addEventListener('tap', function (evt) {
+      let { lat, lng } = map_added.screenToGeo(
+        evt.currentPointer.viewportX,
+        evt.currentPointer.viewportY,
+      );
+      let lngField = document.getElementById('longitude');
+      let latField = document.getElementById('latitude');
+
+      lngField.value = lng;
+      latField.value = lat;
+
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU`;
+      fetch(url)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (data.items && data.items.length > 0) {
+            var address = data.items[0].address;
+            let dcField = document.getElementById('diaChiEdit');
+            let kvField = document.getElementById('khuVucEdit');
+
+            var addressParts = address.label.split(',');
+            dcField.value = addressParts[0].trim();
+            kvField.value = address.district + ", " + address.city;
+
+          } else {
+            alert('Không tìm thấy địa chỉ cho tọa độ này.');
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    });
+  }
+}
+let editPlaceEle = document.querySelector("#fixPlaceModal");
+
+if (editPlaceEle) {
+  editPlaceEle.addEventListener("shown.bs.modal", () => {
+    document.querySelector("#diaChiEdit").focus();
+    if (!mapedit_loaded) {
+      loadMap2();
+      mapedit_loaded = true;
+    }
+  });
+}
+
+
 document.querySelectorAll(".delete-request-btn").forEach((btnConfirm) => {
   btnConfirm.addEventListener("click", (e) => {
     if (e.target.dataset.tinhTrang == "Chờ phê duyệt") {
@@ -128,6 +210,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+
+
 
 tinymce.init({
   selector: 'textarea#message',
@@ -611,7 +696,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 async function deleteRequest(id,hinhAnhId) {
   let res = await fetch(`/PHCB-Phuong/requests/request/${id}`, {
     method: "DELETE",
@@ -623,16 +707,6 @@ async function deleteRequest(id,hinhAnhId) {
   location.reload();
 }
 
-
-
-let editPlaceEle = document.querySelector("#editPlaceModal");
-
-if (editPlaceEle) {
-  editPlaceEle.addEventListener("shown.bs.modal", () => {
-    initializeEditForm();
-    document.querySelector("#diaChiEdit").focus();
-  });
-}
 
 function openViewAdsDetail(elm, adName, diaChi, khuVuc, adSize, adQuantity, expireDay, imagePath) {
 
@@ -658,6 +732,8 @@ function showEditPlaceModal(btn) {
   document.querySelector("#PlaceImageEdit").src=btn.dataset.hinhAnh;
   document.querySelector("#PlaceImgEdit").value=btn.dataset.hinhAnh;
   document.querySelector("#PlaceImgIdEdit").value=btn.dataset.hinhAnhId;
+  document.querySelector("#longitude").value = btn.dataset.longitude;
+  document.querySelector("#latitude").value = btn.dataset.latitude;
   
 
 }
@@ -739,6 +815,7 @@ function openViewPlaceDetailEdit(elm, diaChi, khuVuc, loaiVT, hinhThuc, quyHoach
   ancElm.querySelector('.detail-card :nth-child(3) .span-content').textContent = loaiVT;
   ancElm.querySelector('.detail-card :nth-child(4) .span-content').textContent = hinhThuc;
   ancElm.querySelector('.detail-card :nth-child(5) .span-content').textContent = quyHoach;
+  ancElm.querySelector('.detail-card :nth-child(6) .span-content').textContent = liDoChinhSua;
 
   if (hinhAnh) ancElm.querySelector('img').src = hinhAnh;
 }

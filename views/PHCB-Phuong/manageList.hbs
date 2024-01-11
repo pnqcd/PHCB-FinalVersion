@@ -1,16 +1,16 @@
 {{!-- modal request_edit_place --}}
 <div class="modal fade" id="fixPlaceModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <form action="/PHCB-Phuong/manageList/editplace" id="addPlaceForm" method="POST" enctype="multipart/form-data">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
             Chỉnh Sửa Thông Tin Điểm Đặt Bảng Quảng Cáo
           </h5>
-          <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal"
-            aria-label="Close" data-target="infoToast" style="margin-bottom: 0;">
-            <i class="fa fa-times text-dark  fs-4" aria-hidden="true"></i>
-          </button>
+          <button class="btn-close toast-btn" type="button" data-bs-dismiss="modal" aria-label="Close"
+          data-target="infoToast" style="margin-bottom: 0;">
+          <i class="fa fa-times-circle text-danger  fs-4" aria-hidden="true"></i>
+        </button>
         </div>
         <div class="modal-body">
           <div class="row g-2">
@@ -51,6 +51,20 @@
                 <label class="form-check-label badge bg-label-primary" for="quyHoachEdit">Quy
                   Hoạch</label>
               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="chooseAddressOnMap" class="col mb-3">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="longitude" class="form-label">Kinh độ</label>
+              <input type="text" id="longitude" name="longitude" class="form-control" placeholder="" />
+            </div>
+            <div class="col mb-3">
+              <label for="latitude" class="form-label">Vĩ độ</label>
+              <input type="text" id="latitude" name="latitude" class="form-control" placeholder="" />
             </div>
           </div>
           
@@ -211,7 +225,7 @@
                     <td class="align-middle text-center">
                       <i role="button" class="fa fa-pen-to-square text-info me-3" data-bs-toggle="modal"
                         data-bs-target="#fixPlaceModal" onclick="showEditPlaceModal(this)" data-id="{{id}}"
-                        data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}"
+                        data-dia-chi="{{diaChi}}" data-khu-vuc="{{khuVuc}}" data-loai-vt="{{loaiVT}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}"
                         data-hinh-thuc="{{hinhThuc}}" data-quy-hoach="{{quyHoach}}" data-hinh-anh="{{hinhAnh}}" data-hinh-anh-id="{{hinhAnhId}}"></i>
                       
                       
@@ -474,6 +488,10 @@
                                       </h6>
                                       <h6 class="text-sm font-weight-normal mb-1">
                                         <span class="font-weight-bold">Tình trạng: </span>
+                                        <span class="span-content"></span>
+                                      </h6>
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                        <span class="font-weight-bold">Lý do chỉnh sửa: </span>
                                         <span class="span-content"></span>
                                       </h6>
                                       

@@ -315,3 +315,10 @@
 .modal-lg {
     max-width: 700px;
 }
+
+#chooseAddressOnMap, #editAddressOnMap {
+    height: 300px;
+    width: 100%;
+    border: 1px solid #cdced0;
+    cursor: pointer;
+}
