@@ -1169,7 +1169,7 @@ async function displayHandleMethod(district) {
   // console.log(filteredReports);
 
   let tbody = document.querySelector('#reportsTable tbody');
-  tbody.innerHTML = '';
+  if (tbody) tbody.innerHTML = '';
 
   filteredReports.forEach(report => {
     let row = document.createElement('tr');
