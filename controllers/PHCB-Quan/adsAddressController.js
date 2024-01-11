@@ -85,18 +85,17 @@ controller.show = async (req, res) => {
 controller.requestEditPlace = async (req, res) => {
   let {id, diaChi, khuVuc, loaiVT, hinhThuc, longitude, latitude, isQuyHoach, liDoChinhSua, hinhAnh, hinhAnhId} = req.body;
   result = {}
-  console.log(hinhAnhId);
-  const existingPlace = await models.Requesteditplace.findOne({
-    where: {
-      placeId: id,
-    },
-  });
+  // const existingPlace = await models.Requesteditplace.findOne({
+  //   where: {
+  //     placeId: id,
+  //   },
+  // });
   try {
-    if (existingPlace) {
-      // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
-      res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa điểm đặt bảng quảng cáo");
-    }
-    else {
+    // if (existingPlace) {
+    //   // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
+    //   res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa điểm đặt bảng quảng cáo");
+    // }
+    // else {
       // const result = await cloudinary.uploader.upload(req.file.path,{
       //   folder:'places'
       // });
@@ -119,7 +118,7 @@ controller.requestEditPlace = async (req, res) => {
         hinhAnhId: result.public_id ? result.public_id : hinhAnhId,
       });
       res.redirect("/PHCB-Quan/diem-dat-bang-quang-cao");
-    }
+    // }
   } catch (error) {
     if (result.public_id) {
       await cloudinary.uploader.destroy(result.public_id);

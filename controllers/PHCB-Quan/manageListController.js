@@ -130,46 +130,46 @@ controller.show = async (req, res) => {
   res.locals.reports = reportResult.rows;
   // Replace this line with your actual HERE API key
   // const apiKey = "ylfzo_XrCL0wFOWqMdk89chLwml3by9ZPi5U6J-S3EU";
-  const apiKey = "C_monOk25e39iLpYuDPsSnx8KVWlnvKdYdaAaNeYzl4";
+  // const apiKey = "C_monOk25e39iLpYuDPsSnx8KVWlnvKdYdaAaNeYzl4";
 
-  for (const report of res.locals.reports) {
-    const lat = report.lat; // replace with the actual latitude value
-    const lng = report.lng; // replace with the actual longitude value
+  // for (const report of res.locals.reports) {
+  //   const lat = report.lat; // replace with the actual latitude value
+  //   const lng = report.lng; // replace with the actual longitude value
 
-    const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=${apiKey}`;
+  //   const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${lng}&lang=vi-VN&apiKey=${apiKey}`;
 
-    const response = await fetch(url);
+  //   const response = await fetch(url);
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.items && data.items.length > 0) {
-        const address = data.items[0].address;
-        const title = address.label;
-        const content = title.replace(/, Hồ Chí Minh, Việt Nam$/, '');
-        // const matches = content.match(/(Phường[^,]+),([^,]+)$/);
-        const zone = address.district + ", " + address.city;
-        // Update the reportlocation field in the database
-        await pool.query(
-          `UPDATE "reports" SET "reportlocation" = $1, "reportkhuvuc" = $2 WHERE id = $3`,
-          [content, zone, report.id]
-        );
-        // if (matches && matches.length === 3) {
-        //   const phuong = matches[1].trim();
-        //   const quan = matches[2].trim();
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     if (data.items && data.items.length > 0) {
+  //       const address = data.items[0].address;
+  //       const title = address.label;
+  //       const content = title.replace(/, Hồ Chí Minh, Việt Nam$/, '');
+  //       // const matches = content.match(/(Phường[^,]+),([^,]+)$/);
+  //       const zone = address.district + ", " + address.city;
+  //       // Update the reportlocation field in the database
+  //       await pool.query(
+  //         `UPDATE "reports" SET "reportlocation" = $1, "reportkhuvuc" = $2 WHERE id = $3`,
+  //         [content, zone, report.id]
+  //       );
+  //       // if (matches && matches.length === 3) {
+  //       //   const phuong = matches[1].trim();
+  //       //   const quan = matches[2].trim();
 
-        //   // Update the reportkhuvuc field in the database
-        //   await pool.query(
-        //     `UPDATE "reports" SET "reportkhuvuc" = $1 WHERE id = $2`,
-        //     [`${phuong}, ${quan}`, report.id]
-        //   );
-        // }
-      }
-    } else if (response.status === 401) {
-      console.error("Unauthorized. Please check your HERE API key and permissions.");
-    } else {
-      console.error(`Error fetching data from HERE API. Status: ${response.status}`);
-    }
-  }
+  //       //   // Update the reportkhuvuc field in the database
+  //       //   await pool.query(
+  //       //     `UPDATE "reports" SET "reportkhuvuc" = $1 WHERE id = $2`,
+  //       //     [`${phuong}, ${quan}`, report.id]
+  //       //   );
+  //       // }
+  //     }
+  //   } else if (response.status === 401) {
+  //     console.error("Unauthorized. Please check your HERE API key and permissions.");
+  //   } else {
+  //     console.error(`Error fetching data from HERE API. Status: ${response.status}`);
+  //   }
+  // }
 
   res.locals.reports = res.locals.reports.filter(report =>
     report.reportlocation.includes(req.user.districtUnit));
@@ -192,17 +192,17 @@ controller.requestEditPlace = async (req, res) => {
   let {id, diaChi, khuVuc, loaiVT, hinhThuc, longitude, latitude, isQuyHoach, liDoChinhSua, hinhAnh, hinhAnhId} = req.body;
   result = {}
   console.log(hinhAnhId);
-  const existingPlace = await models.Requesteditplace.findOne({
-    where: {
-      placeId: id,
-    },
-  });
+  // const existingPlace = await models.Requesteditplace.findOne({
+  //   where: {
+  //     placeId: id,
+  //   },
+  // });
   try {
-    if (existingPlace) {
-      // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
-      res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa điểm đặt bảng quảng cáo");
-    }
-    else {
+    // if (existingPlace) {
+    //   // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
+    //   res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa điểm đặt bảng quảng cáo");
+    // }
+    // else {
       // const result = await cloudinary.uploader.upload(req.file.path,{
       //   folder:'places'
       // });
@@ -225,7 +225,7 @@ controller.requestEditPlace = async (req, res) => {
         hinhAnhId: result.public_id ? result.public_id : hinhAnhId,
       });
       res.redirect("/PHCB-Quan/diem-dat-bang-quang-cao");
-    }
+    // }
   } catch (error) {
     if (result.public_id) {
       await cloudinary.uploader.destroy(result.public_id);
@@ -239,11 +239,11 @@ controller.requestEditPlace = async (req, res) => {
 controller.requestEditAds = async (req, res) => {
   let { id, adName, diaChiAds, adSize, adQuantity, expireDay, liDoChinhSua, imagePath, publicImageId} = req.body;
   result = {}
-  const existingPlace = await models.Requesteditads.findOne({
-    where: {
-      originId: id,
-    },
-  });
+  // const existingPlace = await models.Requesteditads.findOne({
+  //   where: {
+  //     originId: id,
+  //   },
+  // });
 
   const parsedDate = moment(expireDay, 'MM/DD/YYYY', true);
   const isValidDate = parsedDate.isValid();
@@ -261,12 +261,11 @@ controller.requestEditAds = async (req, res) => {
 
   try {
     
-    if (existingPlace) {
-      // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
-      res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa bảng quảng cáo");
-    }
-    
-    else {
+    // if (existingPlace) {
+    //   // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
+    //   res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa bảng quảng cáo");
+    // }
+    // else {
       if (req.file && req.file.path) {
         result = await cloudinary.uploader.upload(req.file.path, {
           folder: 'ads'
@@ -284,7 +283,7 @@ controller.requestEditAds = async (req, res) => {
         publicImageId:result.public_id ? result.public_id : publicImageId,
       });
       res.redirect("/PHCB-Quan/bang-quang-cao");
-    }
+    // }
   } catch (error) {
     if (result.public_id) {
       await cloudinary.uploader.destroy(result.public_id);

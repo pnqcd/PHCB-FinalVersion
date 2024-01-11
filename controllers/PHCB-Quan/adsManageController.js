@@ -126,11 +126,11 @@ controller.show = async (req, res) => {
 controller.requestEditAds = async (req, res) => {
   let { id, adName, diaChiAds, adSize, adQuantity, expireDay, liDoChinhSua, imagePath, publicImageId} = req.body;
   result = {}
-  const existingPlace = await models.Requesteditads.findOne({
-    where: {
-      originId: id,
-    },
-  });
+  // const existingPlace = await models.Requesteditads.findOne({
+  //   where: {
+  //     originId: id,
+  //   },
+  // });
 
   const parsedDate = moment(expireDay, 'MM/DD/YYYY', true);
   const isValidDate = parsedDate.isValid();
@@ -148,12 +148,12 @@ controller.requestEditAds = async (req, res) => {
 
   try {
     
-    if (existingPlace) {
-      // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
-      res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa bảng quảng cáo");
-    }
+    // if (existingPlace) {
+    //   // Nếu id đã tồn tại, có thể xử lý thông báo hoặc chuyển hướng
+    //   res.send("Vui lòng chỉnh sửa thêm ở danh sách yêu cầu chỉnh sửa bảng quảng cáo");
+    // }
     
-    else {
+    // else {
       if (req.file && req.file.path) {
         result = await cloudinary.uploader.upload(req.file.path, {
           folder: 'ads'
@@ -171,7 +171,7 @@ controller.requestEditAds = async (req, res) => {
         publicImageId:result.public_id ? result.public_id : publicImageId,
       });
       res.redirect("/PHCB-Quan/bang-quang-cao");
-    }
+    // }
   } catch (error) {
     if (result.public_id) {
       await cloudinary.uploader.destroy(result.public_id);

@@ -1,5 +1,4 @@
 // load image
-
 const loadImg = function (event, Elmid) {
   var Placeimg = document.querySelector(Elmid);
   Placeimg.src = URL.createObjectURL(event.target.files[0]);
@@ -205,7 +204,7 @@ function sendEmailReport(email, tenNguoiBaoCao, hinhThucBaoCao, phone, cachThucX
     .catch();
 }
 
-// mapp
+// map
 let map_loaded = false;
 var map_added;
 
@@ -614,15 +613,11 @@ function detailAdButtonClicked(placeID) {
 function showReportBottomDialog(data, lat, lng) {
   data = JSON.parse(data)
   offcanvas.show()
-
-  // console.log(data)
-
   dataAdDetailsInnerHTML.innerHTML = ""
 
   let locationReportDetail = "";
 
   data.forEach(obj => {
-      // reportername, reporteremail, reporterphonenumber, typeofreport, reportcontent, imagepath1, imagepath2
       locationReportDetail +=
           (obj.handlemethod != "" && obj.handlemethod != null) ?
 
@@ -663,18 +658,13 @@ function loadNewMap() {
   });
 
   if (map) {
-    // add a resize listener to make sure that the map occupies the whole container
     window.addEventListener('resize', () => map.getViewPort().resize());
-
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-    // Create the default UI components
     var ui = H.ui.UI.createDefault(map, defaultLayers);
   }
 
   var CUSTOM_THEME = {
     getClusterPresentation: function (cluster) {
-        //Keep the default theme for clusters
         var clusterMarker = defaultTheme.getClusterPresentation.call(defaultTheme, cluster);
         return clusterMarker;
     },
@@ -693,21 +683,13 @@ function loadNewMap() {
         <circle cx="15" cy="15" r="14" fill="${iconColor}" stroke="${strokeColor}" stroke-width="3"/>
         <text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="13" font-family="Arial">QC</text>
       </svg>`
-
-        // Get a reference to data object our noise points
-        // Create a marker for the noisePoint
         var noiseMarker = new H.map.Marker(noisePoint.getPosition(), {
-            // Use min zoom from a noise point
-            // to show it correctly at certain zoom levels:
             min: noisePoint.getMinZoom(),
             icon: new H.map.Icon(iconUrl, {
                 size: { w: 20, h: 20 },
                 anchor: { x: 10, y: 10 }
             })
         });
-
-        // Link a data from the point to the marker
-        // to make it accessible inside onMarkerClick
         noiseMarker.setData(
             `<div class="place-info">
                 <b>${data.hinhThuc}</b>
@@ -723,10 +705,8 @@ function loadNewMap() {
 
         noiseMarker.addEventListener('tap', function (evt) {
             InfoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                // read custom data
                 content: evt.target.getData()
             });
-            // show info bubble
             ui.addBubble(InfoBubble);
         }, false);
 
@@ -741,8 +721,6 @@ function loadNewMap() {
     const icon = new H.map.Icon(iconUrl);
 
     let reportMarker = new H.map.Marker(coordinate, { icon: icon });
-    // add custom data to the marker
-    // marker.setData(html);
     reportMarker.setData(data)
     group.addObject(reportMarker);
   }
@@ -757,7 +735,6 @@ function loadNewMap() {
             eps: 20,
             minWeight: 2
         },
-        // theme: customTheme
     })
 
     defaultTheme = clusteredDataProvider.getTheme();
@@ -775,19 +752,15 @@ function loadNewMap() {
 
     group.addEventListener('tap', function (evt) {
         InfoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-            // read custom data
             content: evt.target.getData()
         });
-        // show info bubble
         ui.addBubble(InfoBubble);
     }, false);
 
     fetch('/PHCB-Quan/homepage/get-place')
     .then(response => response.json())
     .then(data => {
-      // var place = data.place;
       var airports = data.place;
-      // console.log(airports);
       startClustering(map, airports);
     })
     .catch(error => {
@@ -797,11 +770,8 @@ function loadNewMap() {
 
   function getReportMarker(map) {
     groupReportMarker = new H.map.Group();
-
     map.addObject(groupReportMarker);
-
     groupReportMarker.addEventListener('tap', function (evt) {
-      // console.log(evt.target)
       showReportBottomDialog(JSON.stringify(evt.target.getData()), evt.target.a.lat, evt.target.a.lng);
   }, false);
 
@@ -857,95 +827,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
 });
 
-// load image
-
-
-
-// ----------------send email for requesting ads status
-
-
-// ---------------------disable nút gửi yêu cầu chỉnh sửa place
-function initializeEditForm() {
-  let saveBtn = document.querySelector("#addPlaceForm button[type='submit']");
-  saveBtn.disabled = true;
-
-  // Lưu giá trị hiện tại của các ô input
-  let currentValues = {
-    diaChi: document.querySelector("#diaChiEdit").value,
-    khuVuc: document.querySelector("#khuVucEdit").value,
-    loaiVT: document.querySelector("#loaiVTEdit").value,
-    hinhThuc: document.querySelector("#hinhThucEdit").value,
-    quyHoach: document.querySelector("#quyHoachEdit").checked,
-  };
-
-  // Sự kiện input cho các ô input
-  document.querySelectorAll("#addPlaceForm input").forEach((input) => {
-    input.addEventListener("input", () => {
-      checkFormChanges(currentValues);
-    });
-  });
-}
-
-// Hàm kiểm tra sự thay đổi và cập nhật trạng thái của nút "Lưu"
-function checkFormChanges(currentValues) {
-  let saveBtn = document.querySelector("#addPlaceForm button[type='submit']");
-  let isFormChanged = false;
-
-  // So sánh giá trị hiện tại với giá trị ban đầu
-  if (currentValues.diaChi !== document.querySelector("#diaChiEdit").value ||
-    currentValues.khuVuc !== document.querySelector("#khuVucEdit").value ||
-    currentValues.loaiVT !== document.querySelector("#loaiVTEdit").value ||
-    currentValues.hinhThuc !== document.querySelector("#hinhThucEdit").value ||
-    currentValues.quyHoach !== document.querySelector("#quyHoachEdit").checked) {
-    isFormChanged = true;
-  }
-
-  // Cập nhật trạng thái của nút "Lưu"
-  saveBtn.disabled = !isFormChanged;
-}
-
-
-
-// ---------------------disable gửi yêu cầu button
-// function initializeEditForm_ads() {
-//   let saveBtn = document.querySelector("#editAdsForm button[type='submit']");
-//   saveBtn.disabled = true;
-
-//   let currentValues = {
-//     diaChi: document.querySelector("#adNameEdit").value,
-//     khuVuc: document.querySelector("#adSizeEdit").value,
-//     loaiVT: document.querySelector("#diaChiAdsEdit").value,
-//     hinhThuc: document.querySelector("#adQuantityEdit").value,
-//     quyHoach: document.querySelector("#expireDayEdit").value,
-//   };
-
-//   document.querySelectorAll("#editAdsForm input").forEach((input) => {
-//     input.addEventListener("input", () => {
-//       checkFormChanges_ads(currentValues);
-//     });
-//   });
-// }
-
-// function checkFormChanges_ads(currentValues) {
-//   let saveBtn = document.querySelector("#editAdsForm button[type='submit']");
-//   let isFormChanged = false;
-
-//   if (currentValues.diaChi !== document.querySelector("#adNameEdit").value ||
-//     currentValues.khuVuc !== document.querySelector("#adSizeEdit").value ||
-//     currentValues.loaiVT !== document.querySelector("#diaChiAdsEdit").value ||
-//     currentValues.hinhThuc !== document.querySelector("#adQuantityEdit").value ||
-//     currentValues.quyHoach !== document.querySelector("#expireDayEdit").value) {
-//     isFormChanged = true;
-//   }
-
-//   saveBtn.disabled = !isFormChanged;
-// }
-
-
 function showEditRequestModal(btn) {
-
   let modal = document.querySelector("#editRequestModal");
-
   modal.querySelector("#idRequest").value = btn.dataset.id;
   modal.querySelector("#congTYEditRequest").value = btn.dataset.congTy;
   modal.querySelector("#diaChiCongTyEditRequest").value = btn.dataset.diaChiCongTy;
@@ -983,22 +866,10 @@ function showEditPlaceModal(btn) {
   document.querySelector("#imageEditPlace").src = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhA").value = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhB").value = btn.dataset.hinhAnhId;
-
   document.querySelector("#liDoChinhSua").value = '';
-
-  // initializeEditForm();
 }
 
 function openViewPlaceDetail(btn) {
-  // let div = document.createElement('div');
-  // div.classList.add('modal-backdrop', 'fade', 'show');
-  // document.body.appendChild(div);
-
-  // let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  // ancElm.classList.add('show');
-  // elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-place').style.display = "block";
-
-  // if (hinhAnh) ancElm.querySelector('img').src = hinhAnh;
   document.querySelector("#idPlaceDT").textContent = btn.dataset.id;
   document.querySelector("#diaChiVaKhuVucDT").textContent = btn.dataset.diaChi + ", " + btn.dataset.khuVuc;
   document.querySelector("#loaiVTDT").textContent = btn.dataset.loaiVt;
@@ -1026,14 +897,6 @@ function showHandleMethod(btn) {
     timeZoneName: 'short',
   });
   document.querySelector("#time_added").textContent = formattedDate;
-  // chỉ lấy ngày
-  // const originalDate = new Date(btn.dataset.timeadded);
-
-  // const formattedDate = `${(originalDate.getMonth() + 1).toString().padStart(2, '0')}/
-  //                     ${originalDate.getDate().toString().padStart(2, '0')}/
-  //                     ${originalDate.getFullYear()}`;
-
-  // document.querySelector("#time_added").textContent = formattedDate;
   document.querySelector("#reportcontent").innerHTML = '<span style="font-size:14px; font-wieght:bold; color:#344767;font-family: Roboto, Helvetica, Arial, sans-serif;">' + btn.dataset.reportcontent + '</>';
   document.querySelector("#handlemethod").value = btn.dataset.handlemethod;
   document.querySelector('#imagepath1').src = btn.dataset.imagepath1;
@@ -1058,9 +921,6 @@ function showHandleMethod(btn) {
     document.querySelector('.status :nth-child(1) .span-content').style.color = "red";
     xulybutton.removeAttribute('disabled');
   }
-  // if ((btn.dataset.imagepath1 == "uploads/NULL" &&  btn.dataset.imagepath2 == "uploads/NULL")) {
-  //   document.querySelector('#hinhAnhSlide').style.display = "none";
-  // }
   console.log(btn.dataset.imagepath1);
   console.log(btn.dataset.imagepath2);
 
@@ -1078,7 +938,6 @@ function showContinueEditPlaceModal(btn) {
   document.querySelector("#imageEditPlaceContinue").src = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhBC").value = btn.dataset.hinhAnhId;
   document.querySelector("#liDoChinhSuaContinue").value = btn.dataset.liDoChinhSua;
-  // initializeEditForm();
 }
 
 function showEditAdsModal(btn) {
@@ -1108,7 +967,6 @@ function showContinueEditAdsModal(btn) {
 }
 
 // -------------------------onsubmit() edit
-
 async function editRequest(e) {
 
   e.preventDefault();
@@ -1283,14 +1141,6 @@ function openCustomDown(elm) {
 }
 
 function openViewDetail(elm, wardName, districtName, zipCode, population, imagePath) {
-  // let div = document.createElement('div');
-  // div.classList.add('modal-backdrop', 'fade', 'show');
-  // document.body.appendChild(div);
-
-  // let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-
-  // ancElm.classList.add('show');
-  // elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-ward').style.display = "block";
   let modal = document.querySelector("#viewWardDetailModal");
 
   modal.querySelector('.detail-card :nth-child(1) span').textContent = wardName + ", " + districtName;
@@ -1309,7 +1159,6 @@ function openViewAdsDetail(elm, adName, diaChi, khuVuc, adSize, adQuantity, expi
   modal.querySelector('.detail-card :nth-child(3) .span-content').textContent = adSize;
   modal.querySelector('.detail-card :nth-child(4) .span-content').textContent = adQuantity;
   modal.querySelector('.detail-card :nth-child(5) .span-content').textContent = expireDay;
-  // modal.querySelector('.card-img').src = imagePath;
   if (imagePath) modal.querySelector('.card-img').src = imagePath;
   else modal.querySelector('.card-img').src = "/PHCB-Quan/assets/img/ads/ads.jpeg";
 }
@@ -1343,13 +1192,6 @@ function openViewRequestDetail(elm, congTy,
   ngayKetThuc,
   tinhTrang,
   hinhAnh) {
-  // let div = document.createElement('div');
-  // div.classList.add('modal-backdrop', 'fade', 'show');
-  // document.body.appendChild(div);
-
-  // let ancElm = elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal');
-  // ancElm.classList.add('show');
-  // elm.parentElement.parentElement.parentElement.parentElement.querySelector('.modal.detail-request').style.display = "block";
   let modal = document.querySelector("#viewRequestAdsDetailModal");
 
   modal.querySelector('#tinhTrang').textContent = tinhTrang;
