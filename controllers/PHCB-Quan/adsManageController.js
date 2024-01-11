@@ -83,6 +83,7 @@ controller.show = async (req, res) => {
       "expireDay",
       "imagePath",
       "publicImageId",
+      "liDoChinhSua"
     ],
     where: {
       '$Place.khuVuc$': {

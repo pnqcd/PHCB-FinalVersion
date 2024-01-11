@@ -62,6 +62,7 @@ controller.show = async (req, res) => {
       "quyHoach",
       "hinhAnh",
       "hinhAnhId",
+      "liDoChinhSua"
     ],
     where: {
       khuVuc: {

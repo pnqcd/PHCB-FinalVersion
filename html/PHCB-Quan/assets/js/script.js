@@ -1077,7 +1077,7 @@ function showContinueEditPlaceModal(btn) {
   document.querySelector("#quyHoachEditContinue").checked = btn.dataset.quyHoach == "ĐÃ QUY HOẠCH" ? true : false;
   document.querySelector("#imageEditPlaceContinue").src = btn.dataset.hinhAnh;
   document.querySelector("#hinhAnhBC").value = btn.dataset.hinhAnhId;
-  document.querySelector("#liDoChinhSuaContinue").value = '';
+  document.querySelector("#liDoChinhSuaContinue").value = btn.dataset.liDoChinhSua;
   // initializeEditForm();
 }
 
@@ -1103,7 +1103,7 @@ function showContinueEditAdsModal(btn) {
   document.querySelector("#expireDayEditContinue").value = btn.dataset.expireDay;
   document.querySelector("#imageEditcontinue").src = btn.dataset.imagePath;
   document.querySelector('#publicImageIdEditAds').value = btn.dataset.publicImageId;
-  document.querySelector("#liDoChinhSuaContinue").value = '';
+  document.querySelector("#liDoChinhSuaContinue").value = btn.dataset.liDoChinhSua;
 
 }
 
