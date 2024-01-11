@@ -75,9 +75,9 @@
     background-color: var(--bs-dropdown-link-hover-bg);
 }
 
-.detail-ward .modal-lg, .detail-place .modal-lg {
+/* .detail-ward .modal-lg, .detail-place .modal-lg {
     max-width: 500px;
-}
+} */
 
 .card-header .btn {
     margin-bottom: 10px;
@@ -128,9 +128,9 @@
   }
 
 
-  .detail-ward .modal-lg, .detail-place .modal-lg, .detail-ads .modal-lg {
+  /* .detail-ward .modal-lg, .detail-place .modal-lg, .detail-ads .modal-lg {
     max-width: 500px;
-}
+} */
 
 .add-modal .modal-lg{
     max-width: auto;
@@ -336,4 +336,12 @@
 
 .formbold-btn:hover {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modal-lg {
+    max-width: 700px;
+}
+
+.sidenav {
+    z-index: 1049 !important;
 }
