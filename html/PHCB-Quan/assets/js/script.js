@@ -960,13 +960,10 @@ function showEditRequestModal(btn) {
   modal.querySelector("#ngayKetThucEditRequest").value = btn.dataset.ngayKetThuc;
   modal.querySelector("#editRequestImg").src = btn.dataset.hinhAnh;
   modal.querySelector('#hinhAnhIdRequest').value = btn.dataset.hinhAnhId;
-  // modal.querySelector('#changeOrNot').value = isImageChanged();
-  // console.log(isImageChanged());
-  // if(isImageChanged)
 
   var chinhsuaBT = modal.querySelector("#chinhsuabutton");
 
-  if (tinhTrang === "Đã phê duyệt" || tinhTrang === "Không phê duyệt") {
+  if (btn.dataset.tinhTrang === "Đã phê duyệt" || btn.dataset.tinhTrang === "Không phê duyệt") {
     chinhsuaBT.disabled = true;
   } else {
     chinhsuaBT.disabled = false;
