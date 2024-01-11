@@ -678,6 +678,14 @@ function showEditRequestModal(btn) {
   document.querySelector("#ngayKetThucEditRequest").value = btn.dataset.ngayKetThuc;
   document.querySelector('#editRequestImg').src=btn.dataset.hinhAnh;
   document.querySelector('#hinhAnhIdRequest').value=btn.dataset.hinhAnhId;
+
+  var chinhsuaBT = modal.querySelector("#chinhsuabutton");
+
+  if (btn.dataset.tinhTrang === "Đã phê duyệt" || btn.dataset.tinhTrang === "Không phê duyệt") {
+    chinhsuaBT.disabled = true;
+  } else {
+    chinhsuaBT.disabled = false;
+  }
   
 }
 
